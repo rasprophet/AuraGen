@@ -17,16 +17,24 @@
     </linearGradient>
 
     <filter id="glow" filterUnits="userSpaceOnUse" x="-60" y="-60" width="540" height="420">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b1"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="b2"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="24" result="b3"/>
-      <feFlood flood-color="#F5B800" result="gold"/>
-      <feComposite in="gold" in2="b3" operator="in" result="halo"/>
+      <!-- tight hot core -->
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="a1"/>
+      <feFlood flood-color="#FFE27A"/>
+      <feComposite in2="a1" operator="in" result="core"/>
+      <!-- bright bloom -->
+      <feGaussianBlur in="SourceAlpha" stdDeviation="12" result="a2"/>
+      <feComponentTransfer in="a2" result="a2b"><feFuncA type="linear" slope="1.8"/></feComponentTransfer>
+      <feFlood flood-color="#FFC21A"/>
+      <feComposite in2="a2b" operator="in" result="bloom"/>
+      <!-- wide light spill -->
+      <feGaussianBlur in="SourceAlpha" stdDeviation="30" result="a3"/>
+      <feComponentTransfer in="a3" result="a3b"><feFuncA type="linear" slope="2.2"/></feComponentTransfer>
+      <feFlood flood-color="#F5B000"/>
+      <feComposite in2="a3b" operator="in" result="spill"/>
       <feMerge>
-        <feMergeNode in="halo"/>
-        <feMergeNode in="b2"/>
-        <feMergeNode in="b2"/>
-        <feMergeNode in="b1"/>
+        <feMergeNode in="spill"/>
+        <feMergeNode in="bloom"/>
+        <feMergeNode in="core"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
@@ -42,7 +50,7 @@
     <!-- Halo lightens slightly where it crosses the midlines -->
     <mask id="midline-lighten" maskUnits="userSpaceOnUse" x="-60" y="-60" width="540" height="420">
       <rect x="-60" y="-60" width="540" height="420" fill="#fff"/>
-      <g fill="#000" fill-opacity="0.3" filter="url(#soft)">
+      <g fill="#000" fill-opacity="0.15" filter="url(#soft)">
         <rect x="118" y="144" width="54" height="32" rx="6"/>
         <rect x="296" y="144" width="80" height="32" rx="6"/>
       </g>
@@ -54,8 +62,8 @@
 
   <style>
     .aura { fill: #F4F6FA; }
-    .base  { fill: none; stroke: url(#gold); stroke-width: 13; opacity: .95; }
-    .glint { fill: none; stroke: #FFCC1F; stroke-width: 13; stroke-linecap: round;
+    .base  { fill: none; stroke: url(#gold); stroke-width: 13; }
+    .glint { fill: none; stroke: #FFD84A; stroke-width: 13; stroke-linecap: round;
              stroke-dasharray: 16 34; animation: spin 3s linear infinite; }
     @keyframes spin { to { stroke-dashoffset: -100; } }
     @media (prefers-reduced-motion: reduce) { .glint { animation: none; } }
@@ -64,7 +72,7 @@
   <rect width="420" height="420" rx="72" fill="#0E1A22"/>
   <g transform="translate(-7 60)">
   <!-- Halo: back half -->
-  <g filter="url(#glow)" opacity="0.85"><g clip-path="url(#back-half)">
+  <g filter="url(#glow)"><g clip-path="url(#back-half)">
     <use href="#ring" class="base"/>
     <use href="#ring" class="glint"/>
   </g></g>
