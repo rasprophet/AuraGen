@@ -44,20 +44,20 @@
     </filter>
 
     <!-- Back half of the halo (behind the letters) / front half (over them) -->
-    <clipPath id="back-half"><rect x="-60" y="-60" width="540" height="218.4"/></clipPath>
-    <clipPath id="front-half"><rect x="-60" y="158.4" width="540" height="201.6"/></clipPath>
+    <clipPath id="back-half"><rect x="-60" y="-60" width="540" height="218.8"/></clipPath>
+    <clipPath id="front-half"><rect x="-60" y="158.8" width="540" height="201.2"/></clipPath>
 
     <!-- Halo lightens slightly where it crosses the midlines -->
     <mask id="midline-lighten" maskUnits="userSpaceOnUse" x="-60" y="-60" width="540" height="420">
       <rect x="-60" y="-60" width="540" height="420" fill="#fff"/>
       <g fill="#000" fill-opacity="0.15" filter="url(#soft)">
         <rect x="101.2" y="162.4" width="60.0" height="21.3" rx="6"/>
-        <rect x="296.2" y="153.1" width="80.5" height="22.1" rx="6"/>
+        <rect x="296.2" y="153.1" width="80.5" height="23.9" rx="6"/>
       </g>
     </mask>
 
     <!-- One shared ellipse so back + front highlights stay in sync -->
-    <ellipse id="ring" cx="210.0" cy="158.4" rx="188.7" ry="12" pathLength="100"/>
+    <ellipse id="ring" cx="210.0" cy="158.8" rx="188.7" ry="12" pathLength="100"/>
   </defs>
 
   <style>

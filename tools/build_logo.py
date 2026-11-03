@@ -40,8 +40,12 @@ capH = ay1 - ay0
 a_runs = [r for r in runs(A, (ax0 + ax1) / 2, ay0, ay1) if r[0] > ay0 + capH * 0.05]
 a_bar = a_runs[0]
 # G bar: run near the middle on a column 65% across
-g_runs = runs(G, gx0 + 0.65 * (gx1 - gx0), gy0, gy1)
-g_bar = min(g_runs, key=lambda r: abs((r[0] + r[1]) / 2 - (gy0 + gy1) / 2))
+# G bar: the horizontal part (on the right half, away from the top/bottom curves)
+# whose centre is closest to the A crossbar, so one halo lines up with both
+a_c = (a_bar[0] + a_bar[1]) / 2; gh = gy1 - gy0
+g_runs = [r for frac in (0.6, 0.7, 0.8, 0.9) for r in runs(G, gx0 + frac * (gx1 - gx0), gy0, gy1)
+          if r[0] > gy0 + 0.15 * gh and r[1] < gy1 - 0.15 * gh and (r[1] - r[0]) < 0.3 * gh]
+g_bar = min(g_runs, key=lambda r: abs((r[0] + r[1]) / 2 - a_c))
 # G bar horizontal extent: scan row at bar centre from the right
 gyc = (g_bar[0] + g_bar[1]) / 2
 xs = [gx0 + (gx1 - gx0) * i / 300 for i in range(301)]
@@ -181,4 +185,4 @@ light = '    .aura { fill: #0E1A36; }'
 dark = '    .aura { fill: #F4F6FA; }'
 for suffix, css, tile in [('', auto, False), ('-light', light, False), ('-dark', dark, False), ('-tile', dark, True)]:
     open(os.path.join(outdir, f'{prefix}{suffix}.svg'), 'w').write(svg(css, tile))
-print(f'mid={mid:.1f} cy={cy:.1f} sw={sw:.1f} scale={s:.4f}')
+print(f'a_bar={a_bar_y} g_bar={g_bar_y} mid={mid:.1f} cy={cy:.1f} sw={sw:.1f} scale={s:.4f}')
