@@ -105,6 +105,9 @@ band_bot = max(a_bar_y[1], g_bar_y[1], mid + sw / 2) + 3
 mA = (a_l, band_top, a_r - a_l, band_bot - band_top)
 mG = (gb0, band_top, x_right - gb0, band_bot - band_top)
 MIDLINE_SEE_THROUGH = float(os.environ.get('AG_SEE_THROUGH', 0.45))
+# Redraw the G's bar over the halo so the G never reads as a C
+G_BAR_ON_TOP = os.environ.get('AG_G_BAR_ON_TOP', '0') == '1'
+gbar_clip = (gb0 - 1, g_bar_y[0] - 1, x_right - gb0 + 2, g_bar_y[1] - g_bar_y[0] + 2)
 
 def svg(aura_css, tile=False):
     W, H = (420, 420) if tile else (520, 340)
@@ -170,6 +173,8 @@ def svg(aura_css, tile=False):
       </g>
     </mask>
 
+    <clipPath id="g-bar"><rect {r(gbar_clip)}/></clipPath>
+
     <!-- One shared ellipse so back + front highlights stay in sync -->
     <ellipse id="ring" cx="{cx:.1f}" cy="{cy:.1f}" rx="{rx:.1f}" ry="{ry}" pathLength="100"/>
   </defs>
@@ -201,6 +206,7 @@ def svg(aura_css, tile=False):
       <use href="#ring" class="glint"/>
     </g></g>
   </g>
+  {'<!-- G bar sits on top of the halo so the G stays legible -->' + chr(10) + '  <path fill="url(#gen-green)" clip-path="url(#g-bar)" d="' + dG + '"/>' if G_BAR_ON_TOP else ''}
   </g>
 </svg>
 '''
