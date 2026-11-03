@@ -34,6 +34,8 @@ def runs(g, x, y0, y1, n=400):
     if cur: out.append(cur)
     return out
 
+def inside(g, x, y):
+    p = PointInsidePen(gs, (x, y)); g.draw(p); return p.getResult()
 ax0, ay0, ax1, ay1 = bounds(A); gx0, gy0, gx1, gy1 = bounds(G)
 capH = ay1 - ay0
 # A crossbar: lowest filled run on the centre column that isn't the base
@@ -49,12 +51,23 @@ g_bar = min(g_runs, key=lambda r: abs((r[0] + r[1]) / 2 - a_c))
 # G bar horizontal extent: scan row at bar centre from the right
 gyc = (g_bar[0] + g_bar[1]) / 2
 xs = [gx0 + (gx1 - gx0) * i / 300 for i in range(301)]
-def inside(g, x, y):
-    p = PointInsidePen(gs, (x, y)); g.draw(p); return p.getResult()
 gbar_x0 = min(x for x in xs if x > gx0 + 0.4 * (gx1 - gx0) and inside(G, x, gyc))
 
-overlap = 0.045 * capH                      # letters slightly joined
-gdx = ax1 - gx0 - overlap
+# Slight join: measure the real gap between A's right edge and G's left edge
+# at many heights, then shift G so the closest point overlaps by `overlap`.
+overlap = float(os.environ.get('AG_OVERLAP', 0.035)) * capH
+def edge(g, y, x0, x1, from_right, n=240):
+    rng = range(n, -1, -1) if from_right else range(n + 1)
+    for i in rng:
+        x = x0 + (x1 - x0) * i / n
+        if inside(g, x, y): return x
+    return None
+gaps = []
+for k in range(1, 40):
+    y = ay0 + capH * k / 40
+    ar = edge(A, y, ax0, ax1, True); gl = edge(G, y, gx0, gx1, False)
+    if ar is not None and gl is not None: gaps.append(gl - ar)
+gdx = -min(gaps) - overlap
 total_w = gx1 + gdx - ax0
 s = 178 / capH
 if total_w * s > 330: s = 330 / total_w
