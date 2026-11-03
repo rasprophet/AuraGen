@@ -40,19 +40,19 @@
     </filter>
 
     <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="3"/>
+      <feGaussianBlur stdDeviation="1.2"/>
     </filter>
 
     <!-- Back half of the halo (behind the letters) / front half (over them) -->
     <clipPath id="back-half"><rect x="-60" y="-60" width="540" height="220.3"/></clipPath>
     <clipPath id="front-half"><rect x="-60" y="160.3" width="540" height="199.7"/></clipPath>
 
-    <!-- Halo lightens slightly where it crosses the midlines -->
+    <!-- Halo turns slightly see-through only where it crosses the midlines, solid gold everywhere else -->
     <mask id="midline-lighten" maskUnits="userSpaceOnUse" x="-60" y="-60" width="540" height="420">
       <rect x="-60" y="-60" width="540" height="420" fill="#fff"/>
-      <g fill="#000" fill-opacity="0.15" filter="url(#soft)">
-        <rect x="111.9" y="172.1" width="60.0" height="20.9" rx="6"/>
-        <rect x="303.9" y="151.3" width="74.3" height="14.3" rx="6"/>
+      <g fill="#000" fill-opacity="0.45" filter="url(#soft)">
+        <rect x="100.5" y="154.3" width="64.1" height="35.7" rx="2"/>
+        <rect x="309.9" y="154.3" width="62.3" height="35.7" rx="2"/>
       </g>
     </mask>
 

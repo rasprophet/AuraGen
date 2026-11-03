@@ -89,10 +89,22 @@ x_left, x_right = T(ax0, 0)[0], T(gx1 + gdx, 0)[0]
 cx = (x_left + x_right) / 2; rx = (x_right - x_left) / 2 + 28; ry = 12
 cy = mid - ry * 0.85
 sw = 14
-a_cx = T((ax0 + ax1) / 2, 0)[0]
-mA = (a_cx - 30, a_bar_y[0] - 6, 60, a_bar_y[1] - a_bar_y[0] + 12)
+# Where the halo crosses each midline: A crossbar between the inner edges of
+# the legs (measured just under the bar), G bar from its start to the G's right edge.
+def opening(g, y, x0, x1, n=400):
+    xc = (x0 + x1) / 2; step = (x1 - x0) / n; l = r = xc
+    while l > x0 and not inside(g, l, y): l -= step
+    while r < x1 and not inside(g, r, y): r += step
+    return l, r
+ay_probe = a_bar[0] - 0.02 * capH
+al, ar_ = opening(A, ay_probe, ax0, ax1)
+a_l, a_r = T(al, 0)[0], T(ar_, 0)[0]
 gb0 = T(gbar_x0 + gdx, 0)[0]
-mG = (gb0 - 6, g_bar_y[0] - 6, x_right - gb0 + 12, g_bar_y[1] - g_bar_y[0] + 12)
+band_top = min(a_bar_y[0], g_bar_y[0], mid - sw / 2) - 3
+band_bot = max(a_bar_y[1], g_bar_y[1], mid + sw / 2) + 3
+mA = (a_l, band_top, a_r - a_l, band_bot - band_top)
+mG = (gb0, band_top, x_right - gb0, band_bot - band_top)
+MIDLINE_SEE_THROUGH = float(os.environ.get('AG_SEE_THROUGH', 0.45))
 
 def svg(aura_css, tile=False):
     W, H = (420, 420) if tile else (520, 340)
@@ -142,19 +154,19 @@ def svg(aura_css, tile=False):
     </filter>
 
     <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="3"/>
+      <feGaussianBlur stdDeviation="1.2"/>
     </filter>
 
     <!-- Back half of the halo (behind the letters) / front half (over them) -->
     <clipPath id="back-half"><rect x="-60" y="-60" width="540" height="{cy + 60:.1f}"/></clipPath>
     <clipPath id="front-half"><rect x="-60" y="{cy:.1f}" width="540" height="{360 - cy:.1f}"/></clipPath>
 
-    <!-- Halo lightens slightly where it crosses the midlines -->
+    <!-- Halo turns slightly see-through only where it crosses the midlines, solid gold everywhere else -->
     <mask id="midline-lighten" maskUnits="userSpaceOnUse" x="-60" y="-60" width="540" height="420">
       <rect x="-60" y="-60" width="540" height="420" fill="#fff"/>
-      <g fill="#000" fill-opacity="0.15" filter="url(#soft)">
-        <rect {r(mA)} rx="6"/>
-        <rect {r(mG)} rx="6"/>
+      <g fill="#000" fill-opacity="{MIDLINE_SEE_THROUGH}" filter="url(#soft)">
+        <rect {r(mA)} rx="2"/>
+        <rect {r(mG)} rx="2"/>
       </g>
     </mask>
 
