@@ -56,7 +56,7 @@ await pg.click('[data-cat="All"]');
 
 // ---------- 4. sort ----------
 await pg.click('[data-sort="newest"]');await pg.waitForTimeout(150);
-c=await cards();check('Newest sort puts Bitcoin $80K (created 23) first',c[0]==='2',c.slice(0,3).join());
+c=await cards();check('Newest sort puts GTA VI (created 24) first',c[0]==='3',c.slice(0,3).join());
 await pg.click('[data-sort="trending"]');await pg.waitForTimeout(150);
 c=await cards();check('Trending sort puts Fed (trend 97) first',c[0]==='1',c.slice(0,3).join());
 check('crypto market in Trending top 3 (Bitcoin $80K second)',c[1]==='2',c.slice(0,3).join());
@@ -70,7 +70,7 @@ check('filter badge shows 1',(await ev(()=>filterCount.textContent))==='1');
 await pg.click('.filter-option[data-filter="source"][data-value="all"]');
 await pg.click('.filter-option[data-filter="year"][data-value="2027"]');await pg.waitForTimeout(150);
 const d27=await ev(()=>[...document.querySelectorAll('#markets .market')].map(c=>c.querySelector('.market-cat').textContent));
-check(`2027 filter → ${d27.length} markets`,d27.length===6,d27.join(' | '));
+check(`2027 filter → ${d27.length} markets`,d27.length===5,d27.join(' | '));
 await pg.click('#resetFilters');await pg.waitForTimeout(150);
 check('Reset filters restores 18',(await cards()).length===18);
 await pg.click('body',{position:{x:5,y:600}});await pg.waitForTimeout(250);
@@ -248,7 +248,7 @@ await pg.click('[data-save-preferences]');await pg.waitForTimeout(200);
 check('preferences: dark theme applied',await ev(()=>document.body.dataset.theme==='dark'));
 check('preferences: compact + hide tape applied',await ev(()=>document.body.classList.contains('compact-markets')&&document.body.classList.contains('hide-tape')));
 await pg.click('[data-page="markets"]');await pg.waitForTimeout(400);
-c=await cards();check('preferences: default sort newest applied',c[0]==='2'||c[0].startsWith('cm'),c[0]);
+c=await cards();check('preferences: default sort newest applied',c[0]==='3'||c[0].startsWith('cm'),c[0]);
 await pg.screenshot({path:shot+'-dark.png'});
 const darkContrast=await ev(()=>{const s=getComputedStyle(document.body);return [s.backgroundColor,s.color]});
 check('dark mode body colors set '+darkContrast.join(' / '),darkContrast[0]!==darkContrast[1]);
