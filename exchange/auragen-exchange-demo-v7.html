@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AuraGen — Exchange</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f3f3f0;--card:#fff;--ink:#17191d;--muted:#686b72;--line:#dedfdf;--blue-50:#eef1f8;--blue-100:#dde3f2;--blue-200:#a9b6de;--blue-500:#3151c6;--blue-600:#1E3A8A;--blue-700:#152C6B;--yes:#087253;--yes-soft:#e1f4ed;--no:#b52d49;--no-soft:#fce8ed;--shadow:0 16px 44px rgba(23,25,29,.08);--glass:rgba(255,255,255,.64);--creator:#a45b2a;--creator-soft:#f5e9df}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Instrument Sans",sans-serif;font-size:14px}button,input{font:inherit}button{cursor:pointer}.mono{font-family:"IBM Plex Mono",monospace}button:focus-visible,input:focus-visible{outline:3px solid var(--blue-200);outline-offset:2px}
+    .top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+    .top-main{height:64px;max-width:1400px;margin:auto;padding:0 24px;display:flex;align-items:center;gap:24px}.logo{display:flex;align-items:center;gap:11px;font-size:24px;font-weight:700;letter-spacing:-.7px;white-space:nowrap}.logo-mark{width:35px;height:35px;display:grid;place-items:center;border-radius:11px;background:var(--blue-50);border:1px solid var(--blue-100)}.logo-mark svg{width:25px;height:25px;overflow:visible}.logo-a{fill:none;stroke:var(--blue-700);stroke-width:2.25;stroke-linecap:round;stroke-linejoin:round}.logo-orbit{fill:none;stroke:var(--blue-500);stroke-width:1.5;stroke-linecap:round}.wordmark{display:inline}.wm-aura{color:var(--ink)}.wm-gen{color:#10B981}.avatar-large{display:inline-flex !important;align-items:center;justify-content:center;background:#4F5D8A;color:#fff;font:700 26px 'Instrument Sans',sans-serif}.creator-avatar{display:inline-flex !important;align-items:center;justify-content:center;font:700 13px 'IBM Plex Mono';background:#1E3A8A;color:#fff}.rank-av{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:#1E3A8A;color:#fff;font:700 12px 'IBM Plex Mono';margin-right:10px;vertical-align:middle;letter-spacing:.3px;grid-row:1/3}.profile-initial{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:inherit;background:#4F5D8A;color:#fff;font:700 16px 'Instrument Sans',sans-serif}.logo-signal{fill:#10B981;stroke:none}.logo-signal{fill:var(--blue-600)}
+    .search{height:40px;max-width:520px;flex:1;position:relative}.search:before{content:"⌕";position:absolute;left:14px;top:7px;font-size:19px;color:#98a2b3}.search input{width:100%;height:100%;padding:0 14px 0 40px;border:1px solid var(--line);background:#f4f6f9;border-radius:10px;outline:none}.search input:focus{background:white;border-color:var(--blue-500);box-shadow:0 0 0 3px var(--blue-100)}
+    .nav-actions{margin-left:auto;display:flex;gap:8px}.quiet,.primary{height:39px;border-radius:10px;padding:0 15px;font-weight:600}.quiet{border:1px solid transparent;background:transparent;color:#344054}.primary{border:0;background:var(--blue-600);color:white}.primary:hover{background:var(--blue-700)}.avatar{width:39px;height:39px;border-radius:50%;border:1px solid var(--line);background:white;font-weight:700;color:var(--blue-600)}
+    .market-tape{height:38px;overflow:hidden;background:#132d59;border-top:1px solid rgba(255,255,255,.08);color:white}.tape-track{height:100%;display:flex;align-items:center;width:max-content;animation:tapeMove 36s linear infinite;will-change:transform}.tape-group{height:100%;display:flex;align-items:center;gap:30px;padding-right:30px}.tape-item{height:100%;display:flex;align-items:center;gap:7px;border:0;background:transparent;color:var(--blue-200);padding:0;font:600 10px "IBM Plex Mono";white-space:nowrap}.tape-item b{color:white;font-weight:600}.tape-item .up{color:#7ce0c1}.tape-item .down{color:#ff9cac}.tape-item:hover,.tape-item:focus-visible{color:white}.tape-item:focus-visible{outline:2px solid white;outline-offset:-4px;border-radius:4px}@keyframes tapeMove{to{transform:translateX(-50%)}}.market-tape:hover .tape-track,.market-tape:focus-within .tape-track{animation-play-state:paused}
+    main{max-width:1400px;margin:auto;padding:22px 24px 60px}.ticker{background:var(--blue-700);color:white;border-radius:10px;padding:15px 18px;display:flex;align-items:center;gap:18px}.ticker-tag{font:600 11px "IBM Plex Mono";padding:5px 8px;border:1px solid rgba(255,255,255,.34);border-radius:5px}.ticker-copy{font-size:15px;font-weight:600}.ticker-copy span{font-weight:400;color:var(--blue-100)}.ticker-stats{margin-left:auto;display:flex;gap:28px}.ticker-stat b{display:block;font-size:15px}.ticker-stat small{font:500 9px "IBM Plex Mono";color:var(--blue-200);text-transform:uppercase;letter-spacing:.8px}
+    .page-head{display:flex;align-items:flex-end;justify-content:space-between;margin:27px 0 14px}.page-head h1{font-size:28px;letter-spacing:-.8px;margin:0 0 3px}.page-head p{margin:0;color:var(--muted)}.tools{display:flex;align-items:center;gap:8px}.sort-control{display:flex;padding:3px;background:#e9edf3;border:1px solid #dfe4ec;border-radius:11px}.sort-btn{height:34px;padding:0 13px;border:0;border-radius:8px;background:transparent;color:#596273;font-weight:700}.sort-btn.active{background:white;color:var(--ink);box-shadow:0 1px 3px rgba(17,24,39,.12)}.filter-area{position:relative}.filter-trigger{height:40px;display:flex;align-items:center;gap:7px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:white;color:#475467;font-weight:700}.filter-trigger svg{width:16px;height:16px}.filter-trigger.active{border-color:var(--blue-200);background:var(--blue-50);color:var(--blue-700)}.filter-count{display:none;min-width:18px;height:18px;border-radius:9px;background:var(--blue-600);color:white;font-size:10px;align-items:center;justify-content:center}.filter-trigger.active .filter-count{display:inline-flex}
+    .filter-panel{position:absolute;right:0;top:48px;width:290px;padding:14px;background:rgba(255,255,255,.92);border:1px solid rgba(214,222,235,.9);border-radius:14px;box-shadow:0 18px 50px rgba(32,50,82,.16);backdrop-filter:blur(24px) saturate(150%);opacity:0;visibility:hidden;transform:translateY(-6px) scale(.98);transform-origin:top right;transition:.18s ease;z-index:20}.filter-panel.open{opacity:1;visibility:visible;transform:none}.filter-title{font-weight:700;margin-bottom:13px;display:flex;justify-content:space-between}.filter-title button{border:0;background:none;color:var(--blue-600);font-size:12px}.filter-group{padding:12px 0;border-top:1px solid var(--line)}.filter-label{font:600 9px "IBM Plex Mono";text-transform:uppercase;letter-spacing:.8px;color:#7a8494;margin-bottom:9px}.filter-options{display:flex;gap:6px;flex-wrap:wrap}.filter-option{height:32px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:white;color:#596273;font-weight:600;font-size:12px}.filter-option.active{border-color:var(--blue-200);background:var(--blue-50);color:var(--blue-700)}
+    .market-controls{display:flex;align-items:center;gap:12px;margin-bottom:16px;min-width:0}.control-label{font:600 9px "IBM Plex Mono";text-transform:uppercase;letter-spacing:.8px;color:#7a8494;flex:0 0 auto}.category-filter{display:flex;gap:6px;overflow:auto;scrollbar-width:none;padding:2px}.category-filter::-webkit-scrollbar{display:none}.cat-btn{height:36px;display:flex;align-items:center;gap:7px;padding:0 12px;border:1px solid var(--line);border-radius:9px;background:white;color:#596273;white-space:nowrap;font-weight:600}.cat-btn svg{width:16px;height:16px;stroke-width:1.8}.cat-btn.active{color:var(--blue-700);border-color:var(--blue-200);background:var(--blue-50)}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:18px;align-items:start}.markets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-content:start;grid-auto-rows:max-content}.market{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px;min-height:250px;height:auto;display:flex;flex-direction:column;cursor:pointer;transition:.18s ease}.market:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#cfd8e6}.market-top{display:flex;gap:11px;align-items:flex-start}.market-icon{width:42px;height:42px;border-radius:10px;background:var(--blue-50);color:var(--blue-700);display:grid;place-items:center;flex:0 0 auto}.market-icon svg{width:22px;height:22px;stroke-width:1.8}.market-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;height:2.56em;font-size:16px;line-height:1.28;font-weight:700;letter-spacing:-.2px}.market-cat{font:600 9px "IBM Plex Mono";color:#7b8493;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}.star{margin-left:auto;width:32px;height:32px;display:grid;place-items:center;border:0;border-radius:50%;background:transparent;color:#98a2b3;padding:0;transition:.16s ease}.star svg{width:21px;height:21px;fill:transparent;stroke:currentColor;stroke-width:1.8}.star:hover{background:var(--blue-50);color:var(--blue-600)}.star.saved{background:var(--blue-50);color:var(--blue-600)}.star.saved svg{fill:currentColor}.price-row{display:flex;align-items:flex-end;justify-content:space-between;margin:20px 0 14px}.prob{font-size:35px;line-height:1;font-weight:700;letter-spacing:-1.5px}.prob small{font-size:13px;color:var(--muted);font-weight:500}.neutral{font:500 10px "IBM Plex Mono";color:#667085;text-align:right}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.buy{height:40px;border-radius:8px;font-weight:700}.buy.yes{border:0;background:var(--yes-soft);color:var(--yes)}.buy.no{border:0;background:var(--no-soft);color:var(--no)}.buy:hover{filter:brightness(.97)}.buy:disabled{opacity:.45;filter:none;cursor:not-allowed}.meta{margin-top:auto;padding-top:15px;display:flex;align-items:center;color:#7b8493;font-size:11px}.creator{margin-left:auto;background:var(--blue-50);color:var(--blue-700);border-radius:20px;padding:4px 8px;font-weight:700}.creator:before{content:"↗ ";color:var(--blue-600)}
+    .empty{grid-column:1/-1;padding:46px 20px;text-align:center;border:1px dashed #cbd4e1;border-radius:13px;color:var(--muted);background:rgba(255,255,255,.5)}.side{display:flex;flex-direction:column;gap:14px}.side-card{background:white;border:1px solid var(--line);border-radius:13px;padding:16px}.side-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.side-title h2{font-size:15px;margin:0}.side-title a{font-size:11px;color:var(--blue-600)}.rank{display:grid;grid-template-columns:23px 1fr auto;align-items:center;gap:9px;padding:10px 0;border-top:1px solid #f0f1f3}.rank:first-of-type{border-top:0}.rank-num{font:600 10px "IBM Plex Mono";color:#98a2b3}.rank-name{font-weight:700;font-size:12px}.rank small{display:block;color:#98a2b3;margin-top:2px}.rank-money{font:600 11px "IBM Plex Mono";color:var(--yes)}.create-card{background:var(--ink);color:white;border:0}.create-card .side-title{margin-bottom:8px}.create-card p{color:#aab4c4;line-height:1.5;font-size:12px}.create-card button{height:39px;width:100%;border:0;border-radius:9px;background:white;color:var(--ink);font-weight:700;margin-top:5px}
+    .drawer-wrap{position:fixed;inset:0;z-index:80;visibility:hidden;pointer-events:none;transition:visibility .36s}.drawer-wrap.open{visibility:visible;pointer-events:auto}.scrim{position:absolute;inset:0;background:rgba(25,39,66,.22);backdrop-filter:blur(0);opacity:0;transition:opacity .32s ease,backdrop-filter .32s ease}.drawer-wrap.open .scrim{opacity:1;backdrop-filter:blur(5px)}.drawer{position:absolute;right:10px;top:10px;bottom:10px;width:min(450px,calc(100% - 20px));padding:22px;overflow:auto;border:1px solid rgba(255,255,255,.82);border-radius:24px;background:rgba(245,249,255,.78);backdrop-filter:blur(34px) saturate(175%);box-shadow:-20px 12px 60px rgba(36,79,168,.18),inset 0 1px 0 rgba(255,255,255,.94);opacity:0;transform:translateX(calc(100% + 22px)) scale(.985);transition:transform .42s cubic-bezier(.22,.8,.24,1),opacity .26s ease}.drawer-wrap.open .drawer{opacity:1;transform:none}.drawer-head{display:flex;gap:15px}.drawer-head .market-icon{width:48px;height:48px;background:rgba(255,255,255,.56);border:1px solid rgba(255,255,255,.8);box-shadow:inset 0 1px 0 white,0 8px 22px rgba(36,79,168,.08)}.drawer-head h2{margin:0;font-size:20px;line-height:1.25}.glass-button{border:1px solid rgba(255,255,255,.82);background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.42));backdrop-filter:blur(18px) saturate(160%);box-shadow:inset 0 1px 0 rgba(255,255,255,.96),0 8px 20px rgba(40,72,125,.1)}.close{margin-left:auto;border-radius:50%;width:36px;height:36px;color:#4e5d72}.drawer-prob{font-size:54px;font-weight:700;margin:34px 0 4px}.drawer-prob small{font-size:18px;color:#8290a3}.drawer-label{color:#667085}.trade-box{background:rgba(255,255,255,.46);border:1px solid rgba(255,255,255,.76);border-radius:20px;padding:15px;margin-top:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.92),0 12px 30px rgba(36,79,168,.08)}.trade-box .buttons{margin-bottom:14px;padding:3px;border-radius:14px;background:rgba(223,231,242,.62);border:1px solid rgba(255,255,255,.74)}.trade-box .buy{border:1px solid transparent;border-radius:11px;background:transparent}.trade-box .buy.selected{background:rgba(255,255,255,.8);border-color:rgba(255,255,255,.92);box-shadow:0 2px 9px rgba(31,78,174,.11),inset 0 1px 0 white}.field{display:block;font:600 10px "IBM Plex Mono";color:#667085;text-transform:uppercase}.field input{display:block;width:100%;height:46px;border-radius:13px;margin:7px 0 14px;padding:0 12px;font:600 16px "IBM Plex Mono";color:var(--ink)}.summary{display:flex;justify-content:space-between;padding:7px 0;color:#667085}.summary b{color:var(--ink)}.order{width:100%;height:48px;border:1px solid rgba(255,255,255,.46);border-radius:14px;background:var(--blue-600);color:white;font-weight:700;margin-top:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 10px 24px rgba(47,103,213,.22)}.order:hover{background:var(--blue-700)}.detail{display:flex;justify-content:space-between;padding:14px 2px;border-bottom:1px solid rgba(174,188,208,.46);color:#667085}.detail b{color:var(--ink)}
+    .create-layer{position:fixed;inset:0;z-index:100;visibility:hidden;pointer-events:none;transition:visibility .34s}.create-layer.open{visibility:visible;pointer-events:auto}.modal-scrim{position:absolute;inset:0;background:rgba(20,34,58,.24);backdrop-filter:blur(0);opacity:0;transition:background .38s ease,opacity .28s ease,backdrop-filter .38s ease}.create-layer.open .modal-scrim{opacity:1;backdrop-filter:blur(7px)}.create-modal{position:absolute;left:50%;top:50%;width:min(980px,calc(100% - 32px));height:min(760px,calc(100% - 32px));display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(255,255,255,.84);border-radius:24px;background:rgba(250,252,255,.88);backdrop-filter:blur(34px) saturate(165%);box-shadow:0 32px 90px rgba(27,48,85,.24),inset 0 1px 0 white;opacity:0;transform:translate(-50%,-47%) scale(.975);transform-origin:center top;transition:left .46s cubic-bezier(.2,.8,.2,1),top .46s cubic-bezier(.2,.8,.2,1),width .46s cubic-bezier(.2,.8,.2,1),height .46s cubic-bezier(.2,.8,.2,1),border-radius .38s ease,transform .46s cubic-bezier(.2,.8,.2,1),opacity .24s ease}.create-layer.open .create-modal{opacity:1;transform:translate(-50%,-50%) scale(1)}.create-layer.open.expanded .create-modal{left:14px;top:18px;width:calc(100% - 28px);height:calc(100% - 18px);border-radius:22px 22px 0 0;transform:none}.create-layer.expanded .modal-scrim{background:rgba(20,34,58,.18);backdrop-filter:blur(5px)}
+    .proposal-head{padding:18px 20px 15px;border-bottom:1px solid rgba(194,205,221,.65);background:rgba(255,255,255,.42)}.proposal-title-row{display:flex;align-items:center}.proposal-title-row h2{font-size:19px;margin:0}.proposal-title-row p{margin:2px 0 0;color:var(--muted);font-size:12px}.proposal-window-actions{margin-left:auto;display:flex;align-items:center;gap:8px}.proposal-expand,.proposal-close{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;color:#4e5d72}.proposal-expand svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.proposal-expand .collapse-icon{display:none}.create-layer.expanded .proposal-expand .expand-icon{display:none}.create-layer.expanded .proposal-expand .collapse-icon{display:block}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}.step{display:flex;align-items:center;gap:8px;color:#7a8494;font-size:12px;font-weight:700}.step-dot{width:24px;height:24px;display:grid;place-items:center;border-radius:50%;border:1px solid #cfd7e4;background:rgba(255,255,255,.6);font:600 10px "IBM Plex Mono"}.step.active{color:var(--blue-700)}.step.active .step-dot{background:var(--blue-600);border-color:var(--blue-600);color:white}.step.done{color:var(--yes)}.step.done .step-dot{background:var(--yes-soft);border-color:#b7dfd2;color:var(--yes)}
+    .proposal-body{min-height:0;overflow:auto}.proposal-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.82fr);min-height:490px}.proposal-form{padding:24px 26px}.proposal-preview{padding:24px;border-left:1px solid rgba(194,205,221,.65);background:rgba(238,244,255,.44)}.proposal-preview h3{font-size:12px;margin:0 0 12px;color:#596273}.form-step{display:none}.form-step.active{display:block;animation:stepIn .24s ease}.form-step.back.active{animation:stepBack .24s ease}@keyframes stepIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}@keyframes stepBack{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}.form-step h3{font-size:22px;letter-spacing:-.5px;margin:0 0 6px}.form-intro{color:var(--muted);margin:0 0 22px;line-height:1.5}.form-field{margin-bottom:18px}.form-field label,.field-label{display:flex;justify-content:space-between;font-weight:700;font-size:12px;margin-bottom:7px}.optional{color:#98a2b3;font-weight:500}.form-field input,.form-field textarea,.form-field select{width:100%;border:1px solid #d5dce7;border-radius:11px;background:rgba(255,255,255,.78);color:var(--ink);padding:0 12px;outline:none;box-shadow:inset 0 1px 1px rgba(27,48,85,.03)}.form-field input,.form-field select{height:44px}.form-field textarea{min-height:92px;padding-top:11px;resize:vertical;line-height:1.45}.form-field input:focus,.form-field textarea:focus,.form-field select:focus{border-color:var(--blue-500);box-shadow:0 0 0 3px var(--blue-100)}.help{font-size:11px;color:#7a8494;margin-top:6px;line-height:1.4}.field-error{display:none;font-size:11px;color:var(--no);margin-top:6px}.form-field.invalid input,.form-field.invalid textarea{border-color:var(--no)}.form-field.invalid .field-error{display:block}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .category-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.category-choice{min-height:62px;display:flex;align-items:center;gap:9px;padding:9px;border:1px solid #d5dce7;border-radius:11px;background:rgba(255,255,255,.72);color:#596273;font-weight:600;text-align:left}.category-choice svg{width:19px;height:19px;color:var(--blue-700)}.category-choice.active{border-color:var(--blue-200);background:var(--blue-50);color:var(--blue-700);box-shadow:inset 0 0 0 1px var(--blue-100)}.resolution-note{display:flex;gap:10px;padding:12px;border:1px solid var(--blue-100);border-radius:11px;background:var(--blue-50);color:#43526a;font-size:12px;line-height:1.45}.resolution-note svg{width:18px;height:18px;flex:0 0 auto;color:var(--blue-600)}
+    .preview-card{background:rgba(255,255,255,.76);border:1px solid rgba(255,255,255,.9);border-radius:16px;padding:16px;box-shadow:0 12px 32px rgba(35,65,116,.1),inset 0 1px 0 white}.preview-top{display:flex;gap:10px}.preview-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:10px;background:var(--blue-50);color:var(--blue-700)}.preview-icon svg{width:21px;height:21px}.preview-cat{font:600 9px "IBM Plex Mono";color:#7a8494;text-transform:uppercase}.preview-question{font-weight:700;line-height:1.3;margin-top:4px}.preview-placeholder{color:#98a2b3}.preview-outcomes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:22px 0}.preview-outcome{height:40px;display:grid;place-items:center;border-radius:9px;font-weight:700}.preview-outcome.y{background:var(--yes-soft);color:var(--yes)}.preview-outcome.n{background:var(--no-soft);color:var(--no)}.preview-meta{display:flex;justify-content:space-between;padding-top:13px;border-top:1px solid var(--line);color:#7a8494;font-size:11px}.preview-tip{margin-top:15px;padding:12px;border-radius:11px;background:rgba(255,255,255,.55);color:#667085;font-size:11px;line-height:1.5}.preview-tip b{display:block;color:var(--ink);margin-bottom:3px}
+    .review-list{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.62);overflow:hidden}.review-row{display:grid;grid-template-columns:120px 1fr;gap:14px;padding:13px;border-top:1px solid var(--line)}.review-row:first-child{border-top:0}.review-row span{color:#7a8494;font-size:12px}.review-row b{font-size:12px;line-height:1.45}.review-check{display:flex;gap:9px;align-items:flex-start;margin-top:15px;padding:12px;border-radius:11px;background:var(--blue-50);font-size:12px;line-height:1.45}.review-check input{margin-top:2px;accent-color:var(--blue-600)}.proposal-success{display:none;padding:56px 30px;text-align:center}.proposal-success.show{display:block;animation:stepIn .28s ease}.success-mark{width:58px;height:58px;display:grid;place-items:center;margin:0 auto 18px;border-radius:50%;background:var(--yes-soft);color:var(--yes)}.success-mark svg{width:26px;height:26px}.proposal-success h3{font-size:24px;margin:0 0 8px}.proposal-success p{max-width:460px;margin:0 auto;color:var(--muted);line-height:1.55}
+    .proposal-foot{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid rgba(194,205,221,.65);background:rgba(255,255,255,.5)}.draft-state{color:#7a8494;font-size:11px}.proposal-actions{display:flex;gap:8px}.proposal-actions button{height:40px;border-radius:10px;padding:0 15px;font-weight:700}.back-btn{border:1px solid #d5dce7;background:rgba(255,255,255,.72);color:#4e5d72}.next-btn{border:0;background:var(--blue-600);color:white}.next-btn:hover{background:var(--blue-700)}
+    .toast{position:fixed;left:50%;bottom:26px;z-index:110;padding:10px 14px;border:1px solid rgba(255,255,255,.78);border-radius:20px;background:rgba(26,38,58,.88);backdrop-filter:blur(18px);color:white;font-weight:600;box-shadow:0 12px 30px rgba(17,24,39,.22);opacity:0;transform:translate(-50%,12px);pointer-events:none;transition:.2s ease}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:1120px){.markets{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:820px){.search{display:none}.layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.markets{grid-template-columns:repeat(2,1fr)}.ticker-stats{display:none}}
+    @media(max-width:760px){.proposal-layout{grid-template-columns:1fr}.proposal-preview{display:none}.create-modal,.create-layer.open.expanded .create-modal{inset:0;width:100%;height:100%;border-radius:0;transform:translateY(12px);left:0;top:0}.create-layer.open .create-modal,.create-layer.open.expanded .create-modal{transform:none}.proposal-expand{display:none}.proposal-form{padding:22px 18px}.proposal-head{padding:14px 16px}.proposal-foot{padding:12px 16px}.step span:last-child{display:none}}
+    @media(max-width:620px){.top-main{height:58px;padding:0 14px}.quiet{display:none}.avatar{display:none}main{padding-left:14px;padding-right:14px}.ticker{align-items:flex-start}.ticker-copy span{display:block;margin-top:3px}.page-head{align-items:flex-start;flex-direction:column;gap:14px}.page-head h1{font-size:23px}.tools{width:100%}.sort-control{flex:1}.sort-btn{flex:1}.market-controls{align-items:flex-start;flex-direction:column;gap:7px}.category-filter{width:100%}.markets{grid-template-columns:1fr}.market{min-height:238px}.side{grid-template-columns:1fr}.logo{font-size:19px}.drawer{inset:0;width:100%;max-width:none;border-radius:0}.filter-panel{position:fixed;left:14px;right:14px;top:122px;width:auto}.category-options{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:1fr}.proposal-title-row p{display:none}.review-row{grid-template-columns:90px 1fr}}
+    .scrim{background:rgba(25,39,66,.18);backdrop-filter:none}.drawer-wrap.open .scrim{backdrop-filter:none}.drawer{border-color:var(--line);background:#fff;backdrop-filter:none;box-shadow:-10px 8px 32px rgba(25,39,66,.12);transform:translateX(calc(100% + 22px)) scale(.99)}.drawer-head .market-icon{background:var(--blue-50);border-color:var(--blue-100);box-shadow:none}.glass-button{border-color:#dfe6f0;background:linear-gradient(180deg,#fff,rgba(244,247,252,.92));backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 #fff,0 3px 9px rgba(40,72,125,.08)}.trade-box{background:#f7f9fc;border-color:var(--line);box-shadow:none}.trade-box .buttons{background:#e9eef5;border-color:#e1e7f0}.trade-box .buy.selected{background:#fff;border-color:#dfe6f0;box-shadow:0 2px 6px rgba(31,78,174,.08)}
+    .site-page{display:none}.site-page.active{display:block;animation:pageIn .3s ease}@keyframes pageIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}.logo{border:0;background:transparent;padding:0;color:var(--ink);cursor:pointer}.quiet.active{background:var(--blue-50);color:var(--blue-700)}.avatar.active{background:var(--blue-50);border-color:var(--blue-200)}body[data-view="how"] .search,body[data-view="settings"] .search{visibility:hidden}body[data-view="settings"] .market-tape,.hide-tape .market-tape{display:none}
+    .how-page{padding-top:32px}.how-hero{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(390px,.92fr);gap:56px;align-items:center;min-height:470px;padding:52px 56px;border:1px solid var(--line);border-radius:24px;background:#fff;overflow:hidden}.eyebrow{font:600 10px "IBM Plex Mono";letter-spacing:1px;text-transform:uppercase;color:var(--blue-600)}.how-hero h1{max-width:690px;margin:16px 0 18px;font-size:clamp(42px,5.2vw,70px);line-height:.98;letter-spacing:-3.2px}.how-hero p{max-width:590px;margin:0;color:var(--muted);font-size:17px;line-height:1.6}.hero-actions{display:flex;gap:9px;margin-top:27px}.hero-actions button{height:44px;padding:0 16px;border-radius:10px;font-weight:700}.secondary-cta{border:1px solid var(--line);background:#fff;color:#344054}.hero-market{padding:22px;border:1px solid #dce4ef;border-radius:18px;background:#f8faff;box-shadow:0 16px 38px rgba(36,79,168,.1)}.hero-market:before{content:"LIVE EXAMPLE";display:inline-block;margin-bottom:18px;font:600 9px "IBM Plex Mono";letter-spacing:.9px;color:var(--blue-600)}.hero-market-top{display:flex;gap:12px}.hero-market h2{margin:2px 0 0;font-size:19px;line-height:1.3}.hero-market-prob{font-size:58px;font-weight:700;letter-spacing:-2px;margin:35px 0 18px}.hero-market-prob small{font-size:16px;color:var(--muted);letter-spacing:0}.hero-market .buttons{margin-bottom:20px}.hero-source{display:flex;align-items:center;gap:9px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}.source-check{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:var(--yes-soft);color:var(--yes);font-weight:700}.trust-strip{display:grid;grid-template-columns:repeat(4,1fr);margin:22px 0 78px;border:1px solid var(--line);border-radius:16px;background:#fff}.trust-item{padding:19px 22px;border-left:1px solid var(--line)}.trust-item:first-child{border-left:0}.trust-item b{display:block;font-size:14px}.trust-item span{display:block;color:var(--muted);font-size:11px;margin-top:4px}.section-intro{max-width:650px;margin-bottom:30px}.section-intro h2{font-size:34px;letter-spacing:-1.2px;margin:8px 0}.section-intro p{color:var(--muted);line-height:1.6;margin:0}.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:80px}.process-card{min-height:240px;padding:22px;border:1px solid var(--line);border-radius:16px;background:#fff}.process-number{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;background:var(--blue-50);color:var(--blue-700);font:600 11px "IBM Plex Mono"}.process-card h3{font-size:19px;margin:34px 0 8px}.process-card p{color:var(--muted);line-height:1.55;margin:0}.process-detail{margin-top:20px;padding-top:16px;border-top:1px solid #edf0f4;font-size:11px;color:#596273}.price-story{display:grid;grid-template-columns:.85fr 1.15fr;gap:48px;align-items:center;margin-bottom:80px;padding:52px;border-radius:22px;background:#132d59;color:white}.price-story h2{font-size:34px;line-height:1.05;letter-spacing:-1.2px;margin:10px 0 14px}.price-story p{color:var(--blue-200);line-height:1.6}.price-scale{padding:24px;border:1px solid rgba(255,255,255,.16);border-radius:16px;background:rgba(255,255,255,.06)}.scale-labels,.scale-result{display:flex;justify-content:space-between;align-items:center}.scale-labels{font:500 10px "IBM Plex Mono";color:var(--blue-200)}.scale-bar{height:12px;margin:16px 0;border-radius:8px;background:linear-gradient(90deg,var(--no) 0 38%,var(--yes) 38% 100%);position:relative}.scale-marker{position:absolute;left:62%;top:50%;width:22px;height:22px;border:4px solid white;border-radius:50%;background:var(--yes);transform:translate(-50%,-50%)}.scale-result b{font-size:23px}.scale-result span{color:var(--blue-200);font-size:12px}.resolution-block{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;margin-bottom:80px}.resolution-block h2{font-size:34px;line-height:1.1;letter-spacing:-1.2px;margin:10px 0 14px}.resolution-block>div>p{color:var(--muted);line-height:1.6}.receipt-card{padding:22px;border:1px solid var(--line);border-radius:18px;background:#fff}.receipt-row{display:grid;grid-template-columns:42px 1fr;gap:12px;padding:15px 0;border-top:1px solid var(--line)}.receipt-row:first-child{border-top:0}.receipt-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:var(--blue-50);color:var(--blue-700)}.receipt-icon svg{width:19px;height:19px}.receipt-row b{display:block;margin-bottom:3px}.receipt-row span{color:var(--muted);font-size:12px;line-height:1.45}.creator-cta{display:flex;align-items:center;justify-content:space-between;gap:30px;padding:34px 38px;border-radius:20px;background:var(--blue-700);color:white;margin-bottom:70px}.creator-cta h2{margin:0 0 7px;font-size:27px}.creator-cta p{margin:0;color:var(--blue-100)}.creator-cta button{height:44px;padding:0 17px;border:0;border-radius:10px;background:white;color:var(--blue-700);font-weight:700;white-space:nowrap}.faq{max-width:820px;margin:0 auto 45px}.faq h2{text-align:center;font-size:30px}.faq details{border-top:1px solid var(--line);padding:17px 2px}.faq summary{cursor:pointer;font-weight:700;list-style:none}.faq summary::-webkit-details-marker{display:none}.faq summary:after{content:"+";float:right;color:var(--blue-600);font-size:20px}.faq details[open] summary:after{content:"−"}.faq details p{color:var(--muted);line-height:1.55;margin:12px 36px 0 0}
+    .settings-page{padding-top:34px}.settings-heading{display:flex;align-items:center;gap:15px;margin-bottom:25px}.avatar-large{width:56px;height:56px;display:grid;place-items:center;border-radius:50%;background:var(--blue-700);color:white;font-size:18px;font-weight:700}.settings-heading h1{font-size:27px;margin:0 0 3px}.settings-heading p{margin:0;color:var(--muted)}.settings-shell{display:grid;grid-template-columns:220px minmax(0,720px);gap:28px;align-items:start}.settings-nav{display:flex;flex-direction:column;gap:4px}.settings-tab{height:42px;padding:0 12px;border:0;border-radius:9px;background:transparent;color:#596273;text-align:left;font-weight:700}.settings-tab.active{background:var(--blue-50);color:var(--blue-700)}.settings-panel{display:none;border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}.settings-panel.active{display:block;animation:pageIn .22s ease}.settings-panel-head{padding:20px 22px;border-bottom:1px solid var(--line)}.settings-panel-head h2{font-size:18px;margin:0 0 4px}.settings-panel-head p{margin:0;color:var(--muted);font-size:12px}.settings-content{padding:22px}.setting-field{display:block;margin-bottom:18px;font-weight:700;font-size:12px}.setting-field input,.setting-field select{display:block;width:100%;height:44px;margin-top:7px;padding:0 12px;border:1px solid #d5dce7;border-radius:10px;background:#fff;color:var(--ink);outline:none}.setting-field input:focus,.setting-field select:focus{border-color:var(--blue-500);box-shadow:0 0 0 3px var(--blue-100)}.setting-field small{display:block;color:#98a2b3;font-weight:400;margin-top:6px}.setting-row{display:flex;justify-content:space-between;gap:24px;padding:17px 0;border-top:1px solid var(--line)}.setting-row:first-child{border-top:0}.setting-row b{display:block;font-size:13px;margin-bottom:4px}.setting-row p{margin:0;color:var(--muted);font-size:11px;line-height:1.45}.switch{position:relative;width:44px;height:26px;flex:0 0 auto}.switch input{position:absolute;opacity:0}.switch span{position:absolute;inset:0;border-radius:14px;background:#cfd6df;transition:.18s}.switch span:after{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;border-radius:50%;background:white;box-shadow:0 1px 3px rgba(0,0,0,.18);transition:.18s}.switch input:checked+span{background:var(--blue-600)}.switch input:checked+span:after{transform:translateX(18px)}.settings-foot{display:flex;justify-content:flex-end;padding:14px 22px;border-top:1px solid var(--line);background:#fafbfc}.save-settings{height:39px;padding:0 14px;border:0;border-radius:9px;background:var(--blue-600);color:white;font-weight:700}.compact-markets .market{min-height:224px;padding:13px}.compact-markets .price-row{margin:14px 0 11px}
+    @media(max-width:900px){.how-hero{grid-template-columns:1fr;padding:38px}.hero-market{max-width:540px}.trust-strip{grid-template-columns:1fr 1fr}.trust-item:nth-child(3){border-left:0;border-top:1px solid var(--line)}.trust-item:nth-child(4){border-top:1px solid var(--line)}.price-story,.resolution-block{grid-template-columns:1fr}.settings-shell{grid-template-columns:180px 1fr}}
+    @media(max-width:680px){.how-page,.settings-page{padding-top:20px}.how-hero{padding:28px 20px;border-radius:16px;gap:34px}.how-hero h1{font-size:42px;letter-spacing:-2px}.how-hero p{font-size:15px}.trust-strip{margin-bottom:56px}.process-grid{grid-template-columns:1fr;margin-bottom:56px}.process-card{min-height:0}.price-story{padding:28px 20px;margin-bottom:56px}.resolution-block{gap:24px;margin-bottom:56px}.creator-cta{align-items:flex-start;flex-direction:column;padding:27px 22px}.settings-shell{grid-template-columns:1fr}.settings-nav{flex-direction:row;overflow:auto}.settings-tab{white-space:nowrap}.settings-heading{margin-bottom:18px}}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.search-clear{position:absolute;right:7px;top:5px;width:30px;height:30px;display:none;border:0;border-radius:8px;background:transparent;color:#667085;font-size:18px}.search.has-value .search-clear{display:block}.search.has-value input{padding-right:42px}.side-title .view-all{border:0;background:transparent;color:var(--blue-600);font-size:11px;padding:4px;font-weight:700}.preview-icon svg{width:22px;height:22px;stroke-width:1.8}
+    .creator-layer,.order-layer{position:fixed;inset:0;z-index:115;visibility:hidden;pointer-events:none;transition:visibility .3s}.creator-layer.open,.order-layer.open{visibility:visible;pointer-events:auto}.creator-scrim,.order-scrim{position:absolute;inset:0;background:rgba(25,39,66,.22);opacity:0;transition:opacity .25s}.creator-layer.open .creator-scrim,.order-layer.open .order-scrim{opacity:1}.creator-modal,.order-modal{position:absolute;left:50%;top:50%;width:min(820px,calc(100% - 32px));max-height:min(720px,calc(100% - 32px));display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:0 24px 70px rgba(25,39,66,.18);opacity:0;transform:translate(-50%,-47%) scale(.98);transition:transform .34s cubic-bezier(.22,.8,.24,1),opacity .22s}.creator-layer.open .creator-modal,.order-layer.open .order-modal{opacity:1;transform:translate(-50%,-50%)}.creator-head{display:flex;align-items:flex-start;padding:22px 24px;border-bottom:1px solid var(--line)}.creator-head h2{font-size:23px;margin:6px 0 3px}.creator-head p{margin:0;color:var(--muted);font-size:12px}.creator-close{margin-left:auto;width:36px;height:36px;border-radius:50%;color:#4e5d72}.creator-tools{display:flex;align-items:center;gap:16px;padding:14px 24px}.creator-search{position:relative;flex:1}.creator-search span{position:absolute;left:12px;top:10px;color:#98a2b3}.creator-search input{width:100%;height:40px;padding:0 12px 0 36px;border:1px solid var(--line);border-radius:9px;background:#f7f9fc;outline:none}.creator-search input:focus{background:white;border-color:var(--blue-500);box-shadow:0 0 0 3px var(--blue-100)}.creator-summary{display:flex;align-items:baseline;gap:6px;color:var(--muted);font-size:11px}.creator-summary b{font-size:17px;color:var(--ink)}.creator-columns,.creator-row-full{display:grid;grid-template-columns:minmax(220px,1.5fr) 1fr 60px 100px;align-items:center;gap:14px}.creator-columns{padding:9px 24px;background:#f7f9fc;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font:600 9px "IBM Plex Mono";letter-spacing:.6px;text-transform:uppercase;color:#7a8494}.creator-directory{overflow:auto}.creator-row-full{min-height:72px;padding:12px 24px;border-top:1px solid #edf0f4}.creator-row-full:first-child{border-top:0}.creator-identity{display:flex;align-items:center;gap:11px}.creator-avatar{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:var(--blue-700);color:white;font-weight:700}.creator-identity b{display:block}.creator-identity small,.creator-stat small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.creator-stat b{font:600 12px "IBM Plex Mono"}.creator-earnings{font:600 12px "IBM Plex Mono";color:var(--yes);text-align:right}.creator-empty{padding:42px;text-align:center;color:var(--muted)}
+    .order-modal{width:min(460px,calc(100% - 28px))}.order-head{display:flex;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}.order-head h2{font-size:19px;margin:0}.order-close{margin-left:auto;width:34px;height:34px;border-radius:50%;color:#4e5d72}.order-body{padding:20px;overflow:auto}.order-market{display:flex;gap:11px;padding-bottom:18px;border-bottom:1px solid var(--line)}.order-market .market-icon{width:40px;height:40px}.order-market b{display:block;line-height:1.35}.order-market span{display:block;color:var(--muted);font-size:11px;margin-top:4px}.order-side{display:inline-flex!important;margin-top:12px!important;padding:5px 8px;border-radius:7px;font-weight:700!important}.order-side.yes{background:var(--yes-soft);color:var(--yes)}.order-side.no{background:var(--no-soft);color:var(--no)}.order-breakdown{padding:10px 0}.order-line{display:flex;justify-content:space-between;padding:8px 0;color:var(--muted)}.order-line b{color:var(--ink)}.order-line.total{margin-top:6px;padding-top:15px;border-top:1px solid var(--line);font-size:16px}.order-risk{padding:12px;border-radius:10px;background:#f5f7fa;color:#596273;font-size:11px;line-height:1.5}.order-risk b{display:block;color:var(--ink);margin-bottom:3px}.order-cap-warning{display:none;margin-top:12px;padding:11px 12px;border-radius:10px;background:var(--no-soft);color:var(--no);font-size:11px;line-height:1.5;font-weight:600}.order-cap-warning.show{display:block}.order-actions{display:grid;grid-template-columns:1fr 1.35fr;gap:8px;margin-top:16px}.order-actions button{height:44px;border-radius:10px;font-weight:700}.edit-order{border:1px solid var(--line);background:white;color:#475467}.place-order{border:0;background:var(--blue-600);color:white}.place-order:disabled{opacity:.5;cursor:not-allowed;background:var(--muted)}.order-success{display:none;padding:42px 24px 34px;text-align:center}.order-success.show{display:block}.order-success .success-mark{margin-bottom:15px}.order-success h3{font-size:22px;margin:0 0 8px}.order-success p{color:var(--muted);line-height:1.5;margin:0 auto 22px;max-width:340px}.order-receipt{padding:12px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;text-align:left}.order-receipt span{display:block;color:var(--muted);font-size:10px}.order-receipt b{display:block;margin-top:4px;font:600 11px "IBM Plex Mono"}.done-order{width:100%;height:44px;margin-top:14px;border:0;border-radius:10px;background:var(--ink);color:white;font-weight:700}
+    @media(max-width:620px){.creator-modal{inset:0;width:100%;max-height:none;border-radius:0;transform:translateY(12px);left:0;top:0}.creator-layer.open .creator-modal{transform:none}.creator-columns{display:none}.creator-row-full{grid-template-columns:1fr auto}.creator-row-full .creator-stat:nth-child(2){display:none}.creator-row-full .creator-stat:nth-child(3){display:none}.creator-tools{align-items:stretch;flex-direction:column}.creator-summary{display:none}}
+    .trade-box .buttons{padding:0;background:transparent;border:0;gap:8px}.trade-box .buy.yes{background:var(--yes-soft);color:var(--yes)}.trade-box .buy.no{background:var(--no-soft);color:var(--no)}.trade-box .buy.selected{border-color:currentColor;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 0 0 4px currentColor}
+    @media(max-width:620px){.nav-actions .primary{display:none}.nav-actions .quiet{display:block;height:36px;padding:0 8px;font-size:12px}.avatar{display:block;width:36px;height:36px}.top-main{gap:10px}}
+    .market{min-height:292px}.prob-chance{text-align:right}.prob-chance span{display:block;font:500 9px "IBM Plex Mono";color:#7a8494;text-transform:uppercase;letter-spacing:.6px}.prob-chance b{display:block;margin-top:4px;color:var(--yes);font:600 12px "IBM Plex Mono";text-transform:uppercase;letter-spacing:.6px}.prob-track{height:6px;margin:-5px 0 14px;border-radius:5px;background:#edf0f4;overflow:hidden}.prob-track i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--blue-700),var(--yes))}.meta b{color:#596273;font-weight:700}.compact-markets .market{min-height:265px}
+    main{padding-top:28px}.ticker{border-radius:14px;padding:18px 20px;box-shadow:0 10px 28px rgba(36,79,168,.12)}.page-head{margin-top:32px;margin-bottom:18px}.page-head h1{font-size:31px;letter-spacing:-1.1px}.category-filter{gap:8px}.cat-btn{height:38px;border-radius:10px;padding:0 13px}.layout{gap:20px}.markets{gap:18px}.market{min-height:312px;padding:19px;border-radius:17px;border-color:#dde3ec;box-shadow:0 2px 8px rgba(32,50,82,.025)}.market:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(24,45,82,.1);border-color:var(--blue-200)}.market-icon{width:45px;height:45px;border-radius:12px}.market-title{font-size:17px;line-height:1.3;letter-spacing:-.3px}.star{width:34px;height:34px}.price-row{margin:25px 0 15px}.prob{font-size:42px;letter-spacing:-2px}.prob small{font-size:15px}.prob-track{height:7px;margin:-5px 0 17px;background:#edf1f5}.prob-track i{background:var(--blue-600)}.prob-chance b{font-size:12px}.prob-chance b.positive{color:var(--yes)}.prob-chance b.negative{color:var(--no)}.prob-chance b.neutral-tone{color:var(--blue-700)}.buy{height:44px;border-radius:10px}.meta{padding-top:17px;font-size:11px}.creator{padding:5px 9px}.side{gap:16px}.side-card{border-radius:16px;padding:18px}.create-card{background:var(--blue-700)}.create-card p{color:var(--blue-100)}.create-card button{color:var(--blue-700)}
+    @media(max-width:1320px){.markets{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:760px){.market{min-height:300px;padding:17px}.market-title{font-size:16px}}
+    body[data-view="how"] .search,body[data-view="settings"] .search{display:none}
+    @media(max-width:620px){.ticker{display:block;padding:16px}.ticker-tag{display:inline-block;margin-bottom:10px}.ticker-copy{line-height:1.45}.ticker-copy span{display:block;margin-top:2px}.markets{grid-template-columns:1fr}.market{min-height:300px}.meta{font-size:11px}}
+    .theme-toggle{width:39px;height:39px;display:grid;place-items:center;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--card);color:#536176;transition:background .18s,border-color .18s,color .18s,transform .18s}.theme-toggle:hover{background:var(--blue-50);border-color:var(--blue-200);color:var(--blue-700);transform:translateY(-1px)}.theme-toggle svg{width:18px;height:18px;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.moon-icon{display:none}.prob,.drawer-prob,.hero-market-prob{display:flex;align-items:baseline;gap:6px}.prob small,.drawer-prob small,.hero-market-prob small{margin-left:0;letter-spacing:0;line-height:1}.hero-market-prob{gap:8px}
+    body[data-theme="dark"]{--bg:#111215;--card:#191b20;--ink:#f4f3ef;--muted:#aaa8a2;--line:#303238;--blue-50:#242831;--blue-100:#303746;--blue-200:#7f94c8;--blue-500:#7894de;--blue-600:#6687e1;--blue-700:#9ab1ee;--yes:#65ddb5;--yes-soft:#12362d;--no:#ff8ca0;--no-soft:#40242c;--shadow:0 14px 38px rgba(0,0,0,.28);--glass:#182334;--creator:#f0ad76;--creator-soft:#39291e;color-scheme:dark;background:linear-gradient(180deg,#16181c 0,#111215 520px)}
+    body[data-theme="dark"] .top{background:rgba(12,20,33,.94);border-color:var(--line)}body[data-theme="dark"] .market-tape{background:#08162b;border-color:#263b5e}body[data-theme="dark"] .logo-mark{background:#172741;border-color:#29456f}body[data-theme="dark"] .logo-a{stroke:#9bbdff}body[data-theme="dark"] .logo-orbit{stroke:#6f9cf2}body[data-theme="dark"] .search input,body[data-theme="dark"] .creator-search input{background:#101927;border-color:var(--line);color:var(--ink)}body[data-theme="dark"] .search input:focus,body[data-theme="dark"] .creator-search input:focus{background:#131e2e}body[data-theme="dark"] .search input::placeholder,body[data-theme="dark"] .creator-search input::placeholder{color:#728096}body[data-theme="dark"] .quiet{color:#c7d1df}body[data-theme="dark"] .avatar,body[data-theme="dark"] .theme-toggle{background:#131d2b;border-color:var(--line);color:#a9c6ff}body[data-theme="dark"] .sun-icon{display:none}body[data-theme="dark"] .moon-icon{display:block}body[data-theme="dark"] .ticker{background:#214f9d;box-shadow:0 12px 34px rgba(0,0,0,.22)}body[data-theme="dark"] .ticker-copy span{color:#d7e5ff}body[data-theme="dark"] .ticker-stat small{color:#c5d8fb}
+    body[data-theme="dark"] .sort-control{background:#182334;border-color:#2b394c}body[data-theme="dark"] .sort-btn{color:#9ba9bb}body[data-theme="dark"] .sort-btn.active{background:#2a3a50;color:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3)}body[data-theme="dark"] .filter-trigger,body[data-theme="dark"] .cat-btn,body[data-theme="dark"] .filter-option{background:#131d2b;border-color:var(--line);color:#afbbcb}body[data-theme="dark"] .filter-trigger.active,body[data-theme="dark"] .cat-btn.active,body[data-theme="dark"] .filter-option.active{background:#172b49;border-color:#426aab;color:#a9c7ff}body[data-theme="dark"] .filter-panel{background:#131d2b;border-color:var(--line);box-shadow:0 22px 56px rgba(0,0,0,.34)}body[data-theme="dark"] .filter-title button,body[data-theme="dark"] .side-title .view-all{color:#8fb5ff}body[data-theme="dark"] .filter-group{border-color:var(--line)}
+    body[data-theme="dark"] .market,body[data-theme="dark"] .side-card{background:#131d2b;border-color:var(--line);box-shadow:0 2px 8px rgba(0,0,0,.08)}body[data-theme="dark"] .market:hover{border-color:#4d74b6;box-shadow:0 18px 42px rgba(0,0,0,.3)}body[data-theme="dark"] .market-icon,body[data-theme="dark"] .preview-icon,body[data-theme="dark"] .receipt-icon{background:#172b49;color:#9bbcff}body[data-theme="dark"] .market-cat,body[data-theme="dark"] .neutral,body[data-theme="dark"] .control-label,body[data-theme="dark"] .filter-label,body[data-theme="dark"] .prob-chance span{color:#8d9bae}body[data-theme="dark"] .star{color:#7d8da4}body[data-theme="dark"] .star:hover,body[data-theme="dark"] .star.saved{background:#172b49;color:#8fb5ff}body[data-theme="dark"] .prob-track{background:#253144}body[data-theme="dark"] .prob-chance b.neutral-tone{color:#9ebdff}body[data-theme="dark"] .meta{border-color:#283446;color:#93a2b6}body[data-theme="dark"] .meta b{color:#c9d3e2}body[data-theme="dark"] .creator{background:#172b49;color:#a8c5ff}body[data-theme="dark"] .create-card{background:#1e4f9e}body[data-theme="dark"] .create-card p{color:#c5d8fb}body[data-theme="dark"] .create-card button{background:#f5f8ff;color:#214f9d}body[data-theme="dark"] .rank,body[data-theme="dark"] .detail{border-color:#273447}
+    body[data-theme="dark"] .scrim,body[data-theme="dark"] .modal-scrim,body[data-theme="dark"] .creator-scrim,body[data-theme="dark"] .order-scrim{background:rgba(1,6,14,.62)}body[data-theme="dark"] .drawer,body[data-theme="dark"] .create-modal,body[data-theme="dark"] .creator-modal,body[data-theme="dark"] .order-modal{background:#131d2b;border-color:var(--line);backdrop-filter:none;box-shadow:0 30px 80px rgba(0,0,0,.5)}body[data-theme="dark"] .drawer-head .market-icon{background:#172b49;border-color:#29466f}body[data-theme="dark"] .glass-button{background:#1a2636;border-color:#344256;color:#c5d0df;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 3px 9px rgba(0,0,0,.2)}body[data-theme="dark"] .trade-box{background:#101927;border-color:#2a3648}body[data-theme="dark"] .trade-box .buy.selected{border-color:currentColor;box-shadow:0 0 0 2px #101927,0 0 0 4px currentColor}body[data-theme="dark"] .field input{background:#0d1623;border-color:#344256;color:var(--ink)}body[data-theme="dark"] .summary,body[data-theme="dark"] .drawer-label,body[data-theme="dark"] .detail{color:#98a7ba}body[data-theme="dark"] .summary b,body[data-theme="dark"] .detail b{color:var(--ink)}
+    body[data-theme="dark"] .proposal-head,body[data-theme="dark"] .proposal-foot{background:#111a28;border-color:var(--line)}body[data-theme="dark"] .proposal-preview{background:#101a29;border-color:var(--line)}body[data-theme="dark"] .form-field input,body[data-theme="dark"] .form-field textarea,body[data-theme="dark"] .form-field select,body[data-theme="dark"] .setting-field input,body[data-theme="dark"] .setting-field select{background:#0f1826;border-color:#344256;color:var(--ink)}body[data-theme="dark"] .category-choice{background:#101927;border-color:#344256;color:#afbbcb}body[data-theme="dark"] .category-choice.active{background:#172b49;border-color:#426aab;color:#aec9ff}body[data-theme="dark"] .preview-card,body[data-theme="dark"] .preview-tip,body[data-theme="dark"] .review-list{background:#131f2f;border-color:#2b394c;box-shadow:none}body[data-theme="dark"] .preview-meta,body[data-theme="dark"] .review-row,body[data-theme="dark"] .proposal-foot{border-color:var(--line)}body[data-theme="dark"] .resolution-note,body[data-theme="dark"] .review-check{background:#172741;border-color:#29466f;color:#c2cee0}body[data-theme="dark"] .back-btn{background:#182334;border-color:#344256;color:#c2cddd}
+    body[data-theme="dark"] .how-hero,body[data-theme="dark"] .trust-strip,body[data-theme="dark"] .process-card,body[data-theme="dark"] .receipt-card,body[data-theme="dark"] .settings-panel{background:#131d2b;border-color:var(--line)}body[data-theme="dark"] .hero-market{background:#101927;border-color:#2a3950;box-shadow:0 18px 42px rgba(0,0,0,.22)}body[data-theme="dark"] .secondary-cta{background:#131d2b;border-color:#344256;color:#d6deea}body[data-theme="dark"] .trust-item,body[data-theme="dark"] .process-detail,body[data-theme="dark"] .receipt-row,body[data-theme="dark"] .faq details{border-color:var(--line)}body[data-theme="dark"] .price-story{background:#132849}body[data-theme="dark"] .settings-tab{color:#a9b5c5}body[data-theme="dark"] .settings-tab.active{background:#172b49;color:#a9c7ff}body[data-theme="dark"] .settings-panel-head,body[data-theme="dark"] .settings-foot,body[data-theme="dark"] .setting-row{border-color:var(--line)}body[data-theme="dark"] .settings-foot{background:#101927}body[data-theme="dark"] .switch span{background:#3a4759}
+    body[data-theme="dark"] .creator-columns,body[data-theme="dark"] .order-risk,body[data-theme="dark"] .order-receipt{background:#101927;border-color:var(--line);color:#aeb9c9}body[data-theme="dark"] .creator-row-full,body[data-theme="dark"] .order-market,body[data-theme="dark"] .order-line.total{border-color:var(--line)}body[data-theme="dark"] .edit-order{background:#131d2b;border-color:#344256;color:#c7d1df}body[data-theme="dark"] .done-order{background:#eaf0fa;color:#111827}body[data-theme="dark"] .toast{background:rgba(5,10,18,.92);border-color:#344256}
+    .market-tape{position:relative}.tape-track{padding-right:46px}.tape-control{position:absolute;right:0;top:0;z-index:2;width:46px;height:38px;border:0;border-left:1px solid rgba(255,255,255,.14);background:#132d59;color:#dce8ff;display:grid;place-items:center}.tape-control:hover{color:#fff;background:#18386e}.tape-control svg{width:16px;height:16px;fill:currentColor}.market-tape.paused .tape-track{animation-play-state:paused}.tape-play{display:none}.market-tape.paused .tape-pause{display:none}.market-tape.paused .tape-play{display:block}
+    .market-open{display:flex;align-items:flex-start;gap:11px;min-width:0;flex:1;padding:0;border:0;background:transparent;color:inherit;text-align:left}.market-open:hover .market-title{color:var(--blue-700)}.market-open:focus-visible{border-radius:10px}.saved-destination .saved-count{min-width:19px;height:19px;display:inline-grid;place-items:center;border-radius:10px;background:var(--blue-100);color:var(--blue-700);font:600 9px "IBM Plex Mono"}.saved-destination.active .saved-count{background:var(--blue-600);color:#fff}.empty-actions{display:flex;justify-content:center;gap:8px;margin-top:16px}.empty-actions button{height:40px;padding:0 13px;border-radius:9px;font-weight:700}.empty-clear{border:0;background:var(--blue-600);color:#fff}.empty-reset{border:1px solid var(--line);background:var(--card);color:var(--ink)}
+    .outcome-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.outcome-heading b{font-size:12px}.outcome-heading span{color:var(--muted);font-size:10px}.trade-box .buttons[role="radiogroup"]{margin-bottom:15px}.trade-box .buy[role="radio"]{min-height:46px}.resolution-card{margin-top:18px;padding:16px;border:1px solid var(--line);border-radius:16px;background:#f7f9fc}.resolution-card h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:14px}.resolution-card h3 svg{width:18px;height:18px;color:var(--blue-600)}.resolution-card p{margin:0;color:#526074;font-size:12px;line-height:1.55}.resolution-source{display:flex;align-items:flex-start;gap:9px;margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}.resolution-source svg{width:17px;height:17px;flex:0 0 auto;color:var(--yes)}.resolution-source span{display:block;color:var(--muted);font-size:10px}.resolution-source b{display:block;margin-top:2px;font-size:11px}.resolution-edge{margin-top:11px;color:var(--muted);font-size:10px;line-height:1.45}.full-rules{width:100%;height:38px;margin-top:13px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--blue-700);font-weight:700;font-size:11px}.drawer[aria-hidden="true"]{visibility:hidden}.order-line.loss span,.order-line.loss b{color:var(--no)}.order-line.profit span,.order-line.profit b{color:var(--yes)}.order-fill-note{margin-top:9px;color:var(--muted);font-size:10px;line-height:1.45}.wellbeing-note{padding:13px;border:1px solid var(--blue-100);border-radius:11px;background:var(--blue-50);color:#43526a;font-size:11px;line-height:1.5}
+    .exclude-note{margin-top:22px;padding:14px 18px;border-radius:12px;border:1px dashed var(--line);background:var(--card);color:var(--muted);font-size:12px;display:flex;align-items:center;gap:10px}.exclude-note b{color:var(--ink)}
+    .site-footer{max-width:1400px;margin:44px auto 0;padding:20px 28px 40px;border-top:1px solid var(--line);font:10px/1.8 "IBM Plex Mono",monospace;color:var(--muted)}.site-footer b{color:var(--muted);font-weight:600}
+    @media(max-width:620px){.site-footer{padding:18px 16px 32px}}
+    body[data-theme="dark"] .tape-control{background:#08162b;color:#9dbdff}body[data-theme="dark"] .market-open:hover .market-title{color:#9ebdff}body[data-theme="dark"] .saved-destination .saved-count{background:#20395e;color:#b8d0ff}body[data-theme="dark"] .resolution-card,body[data-theme="dark"] .wellbeing-note{background:#101927;border-color:#2a3648}body[data-theme="dark"] .resolution-card p,body[data-theme="dark"] .wellbeing-note{color:#b3c0d0}body[data-theme="dark"] .full-rules,body[data-theme="dark"] .empty-reset{background:#131d2b;border-color:#344256;color:#a9c7ff}
+    @media(max-width:620px){.theme-toggle{width:36px;height:36px}.drawer{left:0;right:0;top:auto;bottom:0;width:100%;max-height:92svh;border-radius:24px 24px 0 0;transform:translateY(calc(100% + 22px));padding:20px 18px 24px}.drawer-wrap.open .drawer{transform:none}.drawer-head h2{font-size:18px}.trade-box{border-radius:16px}.creator-row-full{margin:8px 12px;padding:14px;border:1px solid var(--line);border-radius:13px;background:var(--card)}.creator-row-full:first-child{border-top:1px solid var(--line)}.cat-btn,.filter-trigger,.sort-btn,.settings-tab{min-height:44px}.tape-control{width:44px}.nav-actions{gap:5px}.nav-actions .quiet{display:none}.logo{font-size:18px}.logo-mark{width:30px;height:30px}.market-open{gap:10px}}
+    /* AuraGen precision-exchange art direction */
+    body{background:linear-gradient(180deg,#f8f9fb 0,#f2f4f8 520px);font-feature-settings:"ss01" 1,"cv02" 1}.top{background:rgba(250,251,253,.96);border-color:#e4e8ef;backdrop-filter:blur(18px) saturate(140%)}.top-main{height:68px;max-width:1450px;padding:0 28px;gap:26px}.logo{font-size:20px;letter-spacing:-.7px}.logo-mark{width:34px;height:34px;border-radius:9px;background:#eef3ff;border-color:#dbe5fb}.search{height:42px;max-width:560px}.search input{border-color:#e0e5ec;background:#f5f7fa;border-radius:11px}.search input:focus{background:#fff}.quiet,.primary{height:42px;border-radius:11px}.primary{padding:0 17px;box-shadow:0 4px 11px rgba(47,103,213,.18)}.avatar,.theme-toggle{width:42px;height:42px}
+    .market-tape{height:34px;background:#0b1f3e;border-top-color:#17365f}.tape-control{height:34px;background:#0b1f3e}.tape-item{font-size:9px}.tape-group{gap:34px;padding-right:34px}.tape-track{animation-duration:42s}
+    main{max-width:1450px;padding:29px 28px 72px}.ticker{position:relative;min-height:86px;overflow:hidden;border-radius:16px;padding:21px 24px;background:#102a58;box-shadow:0 18px 46px rgba(24,61,128,.14)}.ticker:after{content:"";position:absolute;width:260px;height:260px;right:170px;top:-154px;border:1px solid rgba(132,174,255,.28);border-radius:50%;box-shadow:0 0 0 38px rgba(103,151,244,.05),0 0 0 84px rgba(103,151,244,.035)}.ticker>*{position:relative;z-index:1}.ticker-tag{padding:6px 9px;border-radius:6px;border-color:rgba(255,255,255,.42)}.ticker-copy{font-size:16px;letter-spacing:-.15px}.ticker-copy span{color:#ccdcfb}.ticker-stats{gap:34px}.ticker-stat b{font-size:16px}.page-head{margin-top:38px}.page-head h1{font-size:36px;line-height:1;letter-spacing:-1.6px;margin-bottom:8px}.page-head p{font-size:15px}.tools{gap:10px}.sort-control{padding:3px;border-radius:12px;background:#fff;border-color:#dfe4ec;box-shadow:0 1px 2px rgba(18,34,62,.03)}.sort-btn{height:36px;border-radius:9px}.sort-btn.active{background:#14213a;color:#fff;box-shadow:none}.filter-trigger{height:43px;border-radius:11px;background:#fff}.market-controls{margin-bottom:18px}.control-label{margin-right:2px}.category-filter{gap:7px}.cat-btn{height:40px;border-radius:10px;background:#fff;border-color:#e0e5ec;box-shadow:0 1px 1px rgba(18,34,62,.025)}.cat-btn.active{background:#14213a;border-color:#14213a;color:#fff}.cat-btn.active svg{color:#91b3ff}.saved-destination .saved-count{background:#edf1f7;color:#5d6b80}.saved-destination.active .saved-count{background:#fff;color:#14213a}
+    .layout{gap:22px}.markets{gap:18px}.market{position:relative;min-height:306px;padding:20px;border-radius:16px;border-color:#dfe4ec;box-shadow:0 1px 2px rgba(18,34,62,.025);transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s,border-color .22s}.market:after{content:"";position:absolute;left:20px;right:20px;top:-1px;height:2px;border-radius:0 0 2px 2px;background:#467be3;opacity:0;transition:opacity .2s}.market:hover{transform:translateY(-3px);border-color:#cbd5e5;box-shadow:0 16px 40px rgba(18,34,62,.09)}.market:hover:after{opacity:1}.market-open{gap:12px}.market-icon{width:46px;height:46px;border-radius:11px;background:#edf3ff;border:1px solid #dce7fb;color:#275dc1}.market-icon svg{width:23px;height:23px}.market-cat{margin-bottom:6px;color:#778296;letter-spacing:1px}.market-title{font-size:17.5px;line-height:1.28;letter-spacing:-.38px}.star{width:36px;height:36px}.price-row{margin:28px 0 16px}.prob{font-size:46px;letter-spacing:-2.5px}.prob small{font-size:15px}.prob-chance span{color:#788397}.prob-chance b{font-size:11px;letter-spacing:.9px}.prob-track{height:6px;margin:-5px 0 18px;background:#edf0f5}.prob-track i{background:#356fdf}.buy{height:46px;border-radius:10px;transition:transform .15s,filter .15s,box-shadow .15s}.buy.yes{border:1px solid #c8e9df;background:#e1f4ed;color:#087253}.buy.no{border:1px solid #f5d3dc;background:#fce8ed;color:#b52d49}.buy:hover{transform:translateY(-1px);filter:none;box-shadow:0 5px 12px rgba(18,34,62,.06)}.meta{padding-top:18px;border-color:#edf0f4}.creator{padding:6px 10px;background:#edf3ff;color:#2356b5}.side{gap:18px}.side-card{padding:20px;border-radius:16px;border-color:#dfe4ec;box-shadow:0 1px 2px rgba(18,34,62,.025)}.rank{padding:12px 0}.create-card{background:#102a58}.create-card p{color:#cad9f2}.create-card button{height:42px;border-radius:10px;color:#173f89}
+    .drawer{right:12px;top:12px;bottom:12px;width:min(460px,calc(100% - 24px));padding:24px;border-radius:20px;border-color:#dfe4ec;background:#fff;box-shadow:-24px 16px 72px rgba(9,22,44,.18)}.drawer-head{gap:14px}.drawer-head h2{font-size:21px;letter-spacing:-.45px}.drawer-head .market-icon{width:48px;height:48px}.drawer-prob{font-size:58px;margin-top:38px;letter-spacing:-3px}.trade-box{margin-top:24px;padding:16px;border-radius:16px;background:#f5f7fa;border-color:#e2e7ef}.trade-box .buttons{gap:9px}.trade-box .buy.selected{box-shadow:0 0 0 2px #f5f7fa,0 0 0 4px currentColor}.field input{height:48px;border-radius:10px;background:#fff;border:1px solid #dce2eb}.order{height:50px;border-radius:11px;box-shadow:0 8px 18px rgba(47,103,213,.18)}.detail{padding:15px 2px}.resolution-card{border-radius:14px;background:#f7f9fc}.full-rules{border-radius:9px}
+    .create-modal,.creator-modal,.order-modal{border-radius:20px;border-color:#dfe4ec;box-shadow:0 28px 86px rgba(9,22,44,.22)}.proposal-head{background:#fff}.proposal-preview{background:#f3f6fb}.preview-card{border-color:#dfe4ec;background:#fff;box-shadow:0 14px 34px rgba(18,34,62,.08)}.form-field input,.form-field textarea,.form-field select{border-color:#d7dde7;background:#fff}.category-choice{background:#fff}.settings-panel{border-color:#dfe4ec;box-shadow:0 1px 2px rgba(18,34,62,.025)}
+    body[data-theme="dark"] .top{background:rgba(9,17,29,.96);border-color:#1e2a3d}body[data-theme="dark"] .market-tape,body[data-theme="dark"] .tape-control{background:#071426}body[data-theme="dark"] .ticker{background:#153d7e}body[data-theme="dark"] .ticker-copy span{color:#d1e0fb}body[data-theme="dark"] .sort-control,body[data-theme="dark"] .filter-trigger,body[data-theme="dark"] .cat-btn{background:#101a29;border-color:#253247}body[data-theme="dark"] .sort-btn.active,body[data-theme="dark"] .cat-btn.active{background:#dce7fb;border-color:#dce7fb;color:#0b1324}body[data-theme="dark"] .cat-btn.active svg{color:#2458b4}body[data-theme="dark"] .market,body[data-theme="dark"] .side-card{background:#101a29;border-color:#253247;box-shadow:0 1px 2px rgba(0,0,0,.12)}body[data-theme="dark"] .market:hover{border-color:#3d526f;box-shadow:0 18px 46px rgba(0,0,0,.3)}body[data-theme="dark"] .market-icon{background:#142844;border-color:#213c61;color:#91b7ff}body[data-theme="dark"] .prob-track{background:#233047}body[data-theme="dark"] .buy.yes{background:#12362d;border-color:#1d5848;color:#65ddb5}body[data-theme="dark"] .buy.no{background:#40242c;border-color:#663340;color:#ff8ca0}body[data-theme="dark"] .meta{border-color:#263449}body[data-theme="dark"] .creator{background:#142844;color:#a9c7ff}body[data-theme="dark"] .create-card{background:#163d79}body[data-theme="dark"] .drawer{background:#101a29;border-color:#2a374b}body[data-theme="dark"] .trade-box,body[data-theme="dark"] .resolution-card{background:#0b1421;border-color:#253247}body[data-theme="dark"] .trade-box .buy.selected{box-shadow:0 0 0 2px #0b1421,0 0 0 4px currentColor}body[data-theme="dark"] .field input{background:#0b1421;border-color:#334158}body[data-theme="dark"] .proposal-head{background:#101a29}body[data-theme="dark"] .proposal-preview{background:#0b1421}body[data-theme="dark"] .preview-card{background:#101a29;border-color:#2b394d}
+    @media(max-width:620px){main{padding-left:16px;padding-right:16px}.top-main{padding:0 16px}.market{min-height:300px;padding:18px}.market:after{left:18px;right:18px}.ticker{min-height:0;padding:18px}.page-head h1{font-size:31px}.drawer{left:0;right:0;top:auto;bottom:0;width:100%;max-height:92svh;border-radius:20px 20px 0 0;padding:20px 18px 26px}.drawer:before{content:"";display:block;width:38px;height:4px;border-radius:2px;background:#cbd3df;margin:-10px auto 14px}.trade-box{margin-top:20px}.ticker-stats{margin-top:14px}.ticker:after{right:-90px}.nav-actions .theme-toggle{display:none}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.market-tape .tape-track{animation:none!important}}
+    /* Palette refinement: neutral structure, cobalt signal, copper creator identity */
+    body{background:linear-gradient(180deg,#fafaf8 0,var(--bg) 520px)}.top{background:rgba(250,250,248,.95)}
+    .market-tape,.tape-control{background:#17191d;border-color:#30333a}.tape-item{color:#b8bbc2}.tape-item .up{color:#73d8b5}.tape-item .down{color:#ff8fa2}
+    .ticker{background:#24272d;box-shadow:0 12px 34px rgba(23,25,29,.12)}.ticker-tag{color:#f1b681;border-color:rgba(241,182,129,.44)}.ticker-copy span{color:#c9cbd0}.ticker-stat small{color:#b5b8bf}
+    .market-icon,.preview-icon,.receipt-icon{background:#f1f2f3;color:var(--blue-600);border-color:#e1e2e4}.creator{background:var(--creator-soft);color:var(--creator)}.creator:before{color:var(--creator)}
+    .side-title a{color:var(--creator)}.create-card{background:#24272d}.create-card p{color:#b9bbc1}
+    body[data-theme="dark"] .top{background:rgba(21,23,27,.96);border-color:#303238}body[data-theme="dark"] .market-tape,body[data-theme="dark"] .tape-control{background:#0e0f12;border-color:#292b30}body[data-theme="dark"] .ticker{background:#25282e}body[data-theme="dark"] .ticker-copy span{color:#ceccc6}body[data-theme="dark"] .ticker-stat small{color:#aaa8a2}
+    body[data-theme="dark"] .market,body[data-theme="dark"] .side-card{background:#191b20;border-color:#303238}body[data-theme="dark"] .market-icon,body[data-theme="dark"] .preview-icon,body[data-theme="dark"] .receipt-icon{background:#24272d;border-color:#353943;color:#8fa8e8}body[data-theme="dark"] .creator{background:var(--creator-soft);color:var(--creator)}body[data-theme="dark"] .create-card{background:#25282e}body[data-theme="dark"] .create-card p{color:#b9b7b1}
+    body[data-theme="dark"] .drawer,body[data-theme="dark"] .create-modal,body[data-theme="dark"] .creator-modal,body[data-theme="dark"] .order-modal{background:#191b20;border-color:#303238}body[data-theme="dark"] .trade-box,body[data-theme="dark"] .resolution-card,body[data-theme="dark"] .order-risk,body[data-theme="dark"] .order-receipt,body[data-theme="dark"] .proposal-preview{background:#15171a;border-color:#303238}body[data-theme="dark"] .field input,body[data-theme="dark"] .form-field input,body[data-theme="dark"] .form-field textarea,body[data-theme="dark"] .form-field select{background:#14161a;border-color:#3a3c42}
+    .avatar{padding:0;overflow:hidden}.avatar img{width:100%;height:100%;display:block;object-fit:cover}.avatar-large{display:block;object-fit:cover;border:1px solid var(--line);box-shadow:0 6px 18px rgba(23,25,29,.12)}
+    .rank>div{display:grid;grid-template-columns:34px minmax(0,1fr);grid-template-rows:auto auto;column-gap:9px;align-items:center}.creator-avatar{display:block;border-radius:50%;object-fit:cover;object-position:center;border:1px solid var(--line);background:var(--blue-50);box-shadow:0 2px 8px rgba(23,25,29,.1)}.rank-name{grid-column:2;grid-row:1}.rank small{grid-column:2;grid-row:2;margin:0}.creator-avatar{width:42px;height:42px;flex:0 0 auto}
+    body[data-theme="dark"] .rank-av,body[data-theme="dark"] .creator-avatar{border-color:#41444b}
+  
+/* Option D emerald accents on dark banners */
+.ticker-tag{border-color:rgba(16,185,129,.55);color:#34D399}
+.ticker-stat b{color:#34D399}
+.create-card [data-open-create]{background:#10B981;color:#04231a;border-color:#10B981;font-weight:600}
+.create-card [data-open-create]:hover{background:#0E9C6E}
+.propose-cta{background:#10B981 !important;color:#04231a !important}
+.propose-cta:hover{background:#0E9C6E !important}
+
+/* Refined, muted avatar colors for Top Creators (demo placeholders) */
+.rank:nth-child(1) .rank-av{background:#0E9C6E;color:#fff}
+.rank:nth-child(2) .rank-av{background:#4F5D8A;color:#fff}
+.rank:nth-child(3) .rank-av{background:#B08442;color:#fff}
+.rank:nth-child(4) .rank-av{background:#9E6079;color:#fff}
+/* Creator directory avatars — cycle the same refined palette */
+.creator-row-full:nth-child(5n+1) .creator-avatar{background:#0E9C6E;color:#fff}
+.creator-row-full:nth-child(5n+2) .creator-avatar{background:#4F5D8A;color:#fff}
+.creator-row-full:nth-child(5n+3) .creator-avatar{background:#B08442;color:#fff}
+.creator-row-full:nth-child(5n+4) .creator-avatar{background:#9E6079;color:#fff}
+.creator-row-full:nth-child(5n+5) .creator-avatar{background:#3D7A8C;color:#fff}
+.ticker-copy span{display:block !important;margin-top:5px !important;font-size:13px}</style>
+  <style>
+    .proposal-body{flex:1}
+    .create-layer.expanded .proposal-layout{min-height:100%}
+  </style>
+<style id="ag-wordmark">.logo .logo-mark{display:none!important}.logo{gap:0!important;font-size:31px!important;letter-spacing:-1px!important}@media(max-width:620px){.logo{font-size:23px!important}}</style>
+</head>
+<body data-view="markets">
+  <header class="top">
+    <div class="top-main">
+      <button class="logo" data-page="markets" aria-label="AuraGen markets"><span class="wordmark"><span class="wm-aura">Aura</span><span class="wm-gen">Gen</span></span></button>
+      <div class="search"><input id="search" placeholder="Search markets, creators, or categories" aria-label="Search markets, creators, or categories"><button class="search-clear" id="searchClear" aria-label="Clear search">×</button><span class="sr-only" id="searchStatus" role="status" aria-live="polite"></span></div>
+      <div class="nav-actions"><button class="quiet" data-page="how">How it works</button><button class="primary propose-cta" data-open-create>Propose Market</button><button class="theme-toggle" id="themeToggle" aria-label="Switch to dark theme" title="Switch theme"><svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg></button><button class="avatar" data-page="settings" aria-label="Open Randy&#39;s settings"><span class="profile-initial">R</span></button></div>
+    </div>
+    <div class="market-tape" aria-label="Live market movement"><div class="tape-track" id="marketTape"></div><button class="tape-control" id="tapePause" aria-label="Pause live market movement" aria-pressed="false"><svg class="tape-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg><svg class="tape-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 4 13 8-13 8z"/></svg></button></div>
+  </header>
+  <main class="site-page active" id="marketPage">
+    <section class="ticker">
+      <span class="ticker-tag">CREATOR EXCHANGE</span>
+      <div class="ticker-copy">You create it. The world trades it. <span>Creators receive a share of trading fees.</span></div>
+      <div class="ticker-stats"><div class="ticker-stat"><b>$28.9M</b><small>30d volume</small></div><div class="ticker-stat"><b id="openMarketCount">17</b><small>open markets</small></div><div class="ticker-stat"><b>40%</b><small>max share</small></div><div class="ticker-stat" style="align-self:center"><small style="border:1px solid currentColor;border-radius:4px;padding:2px 6px;opacity:.85">Sample data</small></div></div>
+    </section>
+    <div class="page-head"><div><h1>Markets</h1><p id="marketDescription">Trade on measurable outcomes, ranked by activity.</p></div><div class="tools"><div class="sort-control" role="group" aria-label="Sort markets"><button class="sort-btn active" data-sort="trending" aria-pressed="true">Trending</button><button class="sort-btn" data-sort="newest" aria-pressed="false">Newest</button></div><div class="filter-area"><button class="filter-trigger" id="filterTrigger" aria-expanded="false" aria-controls="filterPanel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M6 14v6"/></svg>Filters <span class="filter-count" id="filterCount">0</span></button><div class="filter-panel" id="filterPanel"><div class="filter-title"><span>Filter markets</span><button id="resetFilters">Reset</button></div><div class="filter-group"><div class="filter-label">Market source</div><div class="filter-options"><button class="filter-option active" data-filter="source" data-value="all">All</button><button class="filter-option" data-filter="source" data-value="creator">Creator</button><button class="filter-option" data-filter="source" data-value="official">AuraGen</button></div></div><div class="filter-group"><div class="filter-label">Closing year</div><div class="filter-options"><button class="filter-option active" data-filter="year" data-value="all">Any</button><button class="filter-option" data-filter="year" data-value="2026">2026</button><button class="filter-option" data-filter="year" data-value="2027">2027</button></div></div><div class="filter-group"><div class="filter-label">Saved</div><div class="filter-options"><button class="filter-option active" data-filter="saved" data-value="all">All markets</button><button class="filter-option" data-filter="saved" data-value="only">Saved only</button></div></div></div></div></div></div>
+    <div class="market-controls"><span class="control-label">Category</span><nav class="category-filter" id="categories" aria-label="Filter by category"></nav></div>
+    <div class="layout"><section class="markets" id="markets"></section><aside class="side">
+      <div class="side-card"><div class="side-title"><h2>Top creators <small style="font-size:10px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 5px;vertical-align:2px">Sample data</small></h2><button class="view-all" id="viewCreators">View all</button></div><div id="leaderboard"></div></div>
+      <div class="side-card create-card"><div class="side-title"><h2>Have a market idea?</h2></div><p>Define the question, closing date, and resolution source. AuraGen handles review and trading.</p><button data-open-create>Propose a market →</button></div>
+    </aside></div>
+    <div class="exclude-note"><span aria-hidden="true">🚫</span><span><b>Sports betting and election betting are excluded globally</b> — AuraGen is a creator-driven information exchange built for proactive regulatory compliance across jurisdictions.</span></div>
+  </main>
+
+  <main class="site-page how-page" id="howPage">
+    <section class="how-hero"><div><div class="eyebrow">Prediction markets, made legible</div><h1>Turn uncertainty into a clear point of view.</h1><p>AuraGen lets you trade on measurable outcomes. Every price shows what the market believes, and every outcome is tied to a source before trading begins.</p><div class="hero-actions"><button class="primary" data-page="markets">Explore markets</button><button class="secondary-cta" data-open-create>Propose a market</button></div></div><div class="hero-market"><div class="hero-market-top"><div class="market-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 18V8M4 18h16"/><path d="m7 14 4-4 3 2 5-6"/></svg></div><div><div class="market-cat">Economy · closes Dec 9</div><h2>Fed hikes rates again at the Dec 9 meeting?</h2></div></div><div class="hero-market-prob">80<small>% chance of Yes</small></div><div class="buttons"><button class="buy yes" data-example-side="yes">Yes 80¢</button><button class="buy no" data-example-side="no">No 20¢</button></div><div class="hero-source"><span class="source-check">✓</span><span>Resolves from the Federal Reserve’s published target range</span></div></div></section>
+    <section class="trust-strip" aria-label="AuraGen market safeguards"><div class="trust-item"><b>Clear question</b><span>One measurable Yes or No outcome</span></div><div class="trust-item"><b>Named source</b><span>Published before trading begins</span></div><div class="trust-item"><b>Visible creator</b><span>Identity and incentives stay attached</span></div><div class="trust-item"><b>Fixed deadline</b><span>Everyone sees when trading ends</span></div></section>
+    <section><div class="section-intro"><div class="eyebrow">Three simple steps</div><h2>Make a forecast without learning a new language.</h2><p>The interface keeps the mechanics visible: what you believe, what it costs, and what settles the outcome.</p></div><div class="process-grid"><article class="process-card"><span class="process-number">01</span><h3>Find a question you understand.</h3><p>Browse by topic, creator, or closing date. Each card gives you the current probability before you open the details.</p><div class="process-detail">Example: “Will inflation fall below 2.5% by December?”</div></article><article class="process-card"><span class="process-number">02</span><h3>Choose Yes or No.</h3><p>A 62¢ Yes contract reflects a 62% market-implied probability. Your cost and maximum payout update before review.</p><div class="process-detail">100 Yes contracts at 62¢ cost $62 and pay $100 if correct.</div></article><article class="process-card"><span class="process-number">03</span><h3>Follow the outcome.</h3><p>Prices move as new information arrives. At the deadline, the named source determines whether Yes or No wins.</p><div class="process-detail">The resolution receipt remains visible throughout the market.</div></article></div></section>
+    <section class="price-story"><div><div class="eyebrow" style="color:var(--blue-200)">How to read a price</div><h2>Price is the crowd’s current probability.</h2><p>A Yes price of 62¢ means the market currently estimates a 62% chance of that outcome. It is a live consensus, not a guarantee.</p></div><div class="price-scale"><div class="scale-labels"><span>More likely No</span><span>More likely Yes</span></div><div class="scale-bar"><span class="scale-marker"></span></div><div class="scale-result"><b>62% Yes</b><span>+2.8 points today</span></div></div></section>
+    <section class="resolution-block"><div><div class="eyebrow">Resolution you can inspect</div><h2>The rules are part of the product, not fine print.</h2><p>Before trading opens, AuraGen shows what counts as Yes, when the market closes, which source settles it, and how edge cases are handled.</p><button class="secondary-cta" data-open-create style="height:42px;padding:0 14px;border-radius:9px;font-weight:700">See the proposal flow</button></div><div class="receipt-card"><div class="receipt-row"><span class="receipt-icon">✓</span><div><b>Resolution criteria</b><span>Resolves Yes if the target range is raised above 3.75%–4.00% at the December 9, 2026 meeting.</span></div></div><div class="receipt-row"><span class="receipt-icon">⌂</span><div><b>Primary source</b><span>Federal Reserve press releases and policy implementation notes.</span></div></div><div class="receipt-row"><span class="receipt-icon">◷</span><div><b>Trading closes</b><span>December 9, 2026 at 2:00 PM Eastern Time.</span></div></div></div></section>
+    <section class="creator-cta"><div><h2>Have a question worth forecasting?</h2><p>Propose the question, demand, deadline, rules, and source. AuraGen reviews it before trading opens.</p></div><button data-open-create>Propose a market →</button></section>
+    <section class="faq"><h2>Questions people ask first</h2><details><summary>Do I need to understand trading?</summary><p>No. Start with the question and probability. The order panel shows your exact cost and maximum payout before anything is confirmed.</p></details><details><summary>Who decides the outcome?</summary><p>The market’s published resolution source decides it. AuraGen shows that source and the full criteria before trading begins.</p></details><details><summary>Can anyone publish a market immediately?</summary><p>No. People can propose markets, but AuraGen reviews clarity, demand, timing, and resolution rules before opening one for trading.</p></details></section>
+  </main>
+
+  <main class="site-page settings-page" id="settingsPage">
+    <div class="settings-heading"><span class="avatar-large" id="settingsAvatar">R</span><div><h1>Settings</h1><p>Manage your account and how AuraGen works for you.</p></div></div>
+    <div class="settings-shell"><nav class="settings-nav" aria-label="Settings sections"><button class="settings-tab active" data-settings-tab="account">Account</button><button class="settings-tab" data-settings-tab="preferences">Preferences</button><button class="settings-tab" data-settings-tab="notifications">Notifications</button><button class="settings-tab" data-settings-tab="wellbeing">Trading wellbeing</button></nav><div>
+      <section class="settings-panel active" data-settings-panel="account"><header class="settings-panel-head"><h2>Account</h2><p>The identity shown on your proposals and saved markets.</p></header><div class="settings-content"><label class="setting-field">Display name<input id="displayName" value="Randy"><small>This name appears on proposals you submit.</small></label><label class="setting-field">Email<input id="accountEmail" type="email" value="randy@example.com"><small>Used for proposal updates and important account notices.</small></label><label class="setting-field">Public handle<input id="publicHandle" value="@randy"><small>Your public creator profile URL would use this handle.</small></label></div><footer class="settings-foot"><button class="save-settings" data-save-settings>Save account</button></footer></section>
+      <section class="settings-panel" data-settings-panel="preferences"><header class="settings-panel-head"><h2>Preferences</h2><p>Choose the default market view, appearance, and interface density.</p></header><div class="settings-content"><label class="setting-field">Appearance<select id="appearanceSelect"><option value="system">Use system setting</option><option value="light">Light</option><option value="dark">Dark</option></select><small>System follows your device’s light or dark appearance.</small></label><label class="setting-field">Default market order<select id="defaultSort"><option value="trending">Trending</option><option value="newest">Newest</option></select></label><div class="setting-row"><div><b>Compact market cards</b><p>Show more markets on screen with tighter spacing.</p></div><label class="switch"><input id="compactToggle" type="checkbox"><span></span></label></div><div class="setting-row"><div><b>Live market tape</b><p>Show the moving probability banner below the main navigation.</p></div><label class="switch"><input id="tapeToggle" type="checkbox" checked><span></span></label></div></div><footer class="settings-foot"><button class="save-settings" data-save-preferences>Save preferences</button></footer></section>
+      <section class="settings-panel" data-settings-panel="notifications"><header class="settings-panel-head"><h2>Notifications</h2><p>Decide which meaningful changes should reach you.</p></header><div class="settings-content"><div class="setting-row"><div><b>Saved market movement</b><p>Notify me when a saved market moves by 5 points or more.</p></div><label class="switch"><input type="checkbox" checked><span></span></label></div><div class="setting-row"><div><b>Proposal status</b><p>Updates when a submitted market is reviewed or needs changes.</p></div><label class="switch"><input type="checkbox" checked><span></span></label></div><div class="setting-row"><div><b>Resolution reminders</b><p>A reminder 24 hours before a market I traded closes.</p></div><label class="switch"><input type="checkbox"><span></span></label></div></div><footer class="settings-foot"><button class="save-settings" data-save-settings>Save notifications</button></footer></section>
+      <section class="settings-panel" data-settings-panel="wellbeing"><header class="settings-panel-head"><h2>Trading wellbeing</h2><p>Set personal boundaries that stay separate from market activity.</p></header><div class="settings-content"><label class="setting-field">Monthly funding reminder<input id="fundingCapInput" type="number" min="0" step="25" value="250"><small>Orders that would push your monthly total past this amount will be blocked at review.</small></label><div class="setting-row"><div><b>Session reminder</b><p>Offer a neutral reminder after 30 minutes of continuous activity.</p></div><label class="switch"><input id="sessionReminderToggle" type="checkbox" checked><span></span></label></div><div class="setting-row"><div><b>Pause trading</b><p>Temporarily prevent new orders while keeping markets and positions visible.</p></div><label class="switch"><input id="pauseTradingToggle" type="checkbox"><span></span></label></div><div class="wellbeing-note"><b>These controls should never create urgency.</b><br>In a production product, limits, breaks, and account opt-outs should be easy to find, simple to change, and clearly confirmed.</div></div><footer class="settings-foot"><button class="save-settings" data-save-wellbeing>Save wellbeing settings</button></footer></section>
+    </div></div>
+  </main>
+
+  <footer class="site-footer">Planned infrastructure partners — Payments: <b>Stripe</b> + <b>Bridge</b> · <b>Plaid</b> &nbsp;|&nbsp; Custody: <b>Cross River Bank</b> (fiat) · <b>Circle National Trust</b> (USDC) &nbsp;|&nbsp; Compliance: <b>Stripe Identity</b> · <b>Stripe Radar</b> · <b>Chainalysis</b> KYT + Sanctions &nbsp;|&nbsp; Security: <b>Cloudflare</b> · <b>Snyk</b> · <b>Cobalt</b> · <b>HackerOne</b></footer>
+
+  <div class="creator-layer" id="creatorLayer"><div class="creator-scrim" data-close-creators></div><section class="creator-modal" role="dialog" aria-modal="true" aria-labelledby="creatorDirectoryTitle"><header class="creator-head"><div><div class="eyebrow">Creator exchange</div><h2 id="creatorDirectoryTitle">Top creators</h2><p>Compare subject expertise, activity, and market performance. Creators and earnings shown are sample data.</p></div><button class="creator-close glass-button" data-close-creators aria-label="Close creator directory">×</button></header><div class="creator-tools"><label class="creator-search"><span>⌕</span><input id="creatorSearch" placeholder="Search creators or specialties" aria-label="Search creators or specialties"></label><div class="creator-summary"><b>8</b><span>ranked creators</span></div></div><div class="creator-columns" aria-hidden="true"><span>Creator</span><span>Forecast record</span><span>Live</span><span>30d earnings</span></div><div class="creator-directory" id="creatorDirectory"></div></section></div>
+  <div class="drawer-wrap" id="drawer"><div class="scrim" data-close-drawer></div><aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle"><div class="drawer-head"><div class="market-icon" id="drawerIcon"></div><div><div class="market-cat" id="drawerCat"></div><h2 id="drawerTitle"></h2></div><button class="close glass-button" data-close-drawer aria-label="Close market details">×</button></div><div class="drawer-prob" id="drawerProb"></div><div class="drawer-label">Market-implied probability of Yes</div><div class="trade-box"><div class="outcome-heading"><b>Choose an outcome</b><span>Each contract pays $1 if correct</span></div><div class="buttons" role="radiogroup" aria-label="Choose Yes or No"><button class="buy yes" id="drawerYes" role="radio" aria-checked="true">Yes</button><button class="buy no" id="drawerNo" role="radio" aria-checked="false">No</button></div><label class="field">Contracts<input class="glass-button" id="contractInput" value="100" inputmode="numeric"></label><div class="summary"><span>Estimated cost</span><b id="cost"></b></div><div class="summary"><span>Maximum payout</span><b id="payout">$100.00</b></div><button class="order" id="reviewOrder">Review Yes order</button></div><div class="detail"><span>Trading volume</span><b id="volume"></b></div><div class="detail"><span>Available liquidity</span><b id="liquidity"></b></div><div class="detail"><span>Trading closes</span><b id="closeDate"></b></div><div class="detail"><span>Expected determination</span><b id="determineDate"></b></div><div class="detail"><span>Market creator</span><b id="creator"></b></div><section class="resolution-card" aria-labelledby="resolutionTitle"><h3 id="resolutionTitle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 12 4 4L19 6"/><circle cx="12" cy="12" r="9"/></svg>How this market resolves</h3><p id="drawerRule"></p><div class="resolution-source"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 12 4 4L19 6"/><circle cx="12" cy="12" r="9"/></svg><div><span>Primary source</span><b id="drawerSource"></b></div></div><div class="resolution-edge" id="drawerEdge"></div><button class="full-rules" id="fullRules">View full rules</button></section></aside></div>
+
+  <div class="create-layer" id="createLayer"><div class="modal-scrim" data-close-create></div><section class="create-modal" id="createModal" role="dialog" aria-modal="true" aria-labelledby="proposalTitle"><header class="proposal-head"><div class="proposal-title-row"><div><h2 id="proposalTitle">Propose a market</h2><p>AuraGen reviews each proposal before trading opens.</p></div><div class="proposal-window-actions"><button class="proposal-expand glass-button" id="proposalExpand" aria-label="Expand proposal to fullscreen" aria-pressed="false" title="Expand workspace"><svg class="expand-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4M13 3h4v4M7 17H3v-4M13 17h4v-4"/></svg><svg class="collapse-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7h4V3M17 7h-4V3M3 13h4v4M17 13h-4v4"/></svg></button><button class="proposal-close glass-button" data-close-create aria-label="Close proposal">×</button></div></div><div class="steps" aria-label="Proposal progress"><div class="step active" data-step-indicator="1"><span class="step-dot">1</span><span>Question</span></div><div class="step" data-step-indicator="2"><span class="step-dot">2</span><span>Resolution</span></div><div class="step" data-step-indicator="3"><span class="step-dot">3</span><span>Review</span></div></div></header><div class="proposal-body"><div class="proposal-layout" id="proposalLayout"><div class="proposal-form">
+    <div class="form-step active" data-form-step="1"><h3>Start with a question people can settle.</h3><p class="form-intro">A strong market is specific, time-bound, and understandable without extra context.</p><div class="form-field" id="questionField"><label for="marketQuestion"><span>Market question</span><span class="optional"><span id="questionCount">0</span>/120</span></label><input id="marketQuestion" maxlength="120" placeholder="Will the Fed cut rates before December 31, 2026?"><div class="help">Write a binary question that can resolve Yes or No.</div><div class="field-error">Add a clear question with at least 15 characters.</div></div><div class="form-field"><div class="field-label">Category</div><div class="category-options" id="proposalCategories"></div></div><div class="form-field" id="demandField"><label for="marketDemand">Why would people trade this?</label><textarea id="marketDemand" placeholder="Explain who cares about this outcome and why the timing matters."></textarea><div class="help">This helps reviewers assess whether the market will attract useful activity.</div><div class="field-error">Give reviewers a little more context about demand.</div></div></div>
+    <div class="form-step" data-form-step="2"><h3>Make the outcome unambiguous.</h3><p class="form-intro">The title attracts attention; the resolution rules determine who gets paid.</p><div class="two-col"><div class="form-field" id="dateField"><label for="marketDate">Trading closes</label><input id="marketDate" type="date"><div class="field-error">Choose a future closing date.</div></div><div class="form-field"><label for="marketTimezone">Time zone</label><select id="marketTimezone"><option>America/Los_Angeles</option><option>America/New_York</option><option>UTC</option></select></div></div><div class="form-field"><label for="marketDetermination"><span>Expected determination</span><span class="optional">Recommended</span></label><input id="marketDetermination" type="datetime-local"><div class="help">Tell traders when the authoritative result is expected, which may be later than the trading close.</div></div><div class="form-field" id="rulesField"><label for="marketRules">Resolution criteria</label><textarea id="marketRules" placeholder="Resolves Yes if the Federal Reserve lowers its target range at any scheduled or unscheduled meeting on or before the closing date."></textarea><div class="help">Say exactly what counts as Yes and what counts as No. Include whether thresholds such as “before” or “at least” are inclusive.</div><div class="field-error">Add at least 40 characters describing the resolution rule.</div></div><div class="form-field" id="sourceField"><label for="marketSource">Primary resolution source</label><input id="marketSource" type="url" placeholder="https://www.federalreserve.gov/..."><div class="help">Use the official publication or authoritative dataset that settles the outcome.</div><div class="field-error">Add a valid source URL.</div></div><div class="form-field"><label for="fallbackSource"><span>Fallback source</span><span class="optional">Optional</span></label><input id="fallbackSource" type="url" placeholder="A second source if the primary source is unavailable"></div><div class="form-field"><label for="edgeCases"><span>Edge cases</span><span class="optional">Optional</span></label><textarea id="edgeCases" placeholder="What happens if the announcement is delayed, corrected, or the event is cancelled?"></textarea></div><div class="resolution-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Reviewers may suggest clearer wording, but a live market’s fundamental intent should not change after trading begins.</span></div></div>
+    <div class="form-step" data-form-step="3"><h3>Review what traders will rely on.</h3><p class="form-intro">AuraGen checks clarity, demand, category fit, and the resolution source before publishing.</p><div class="review-list"><div class="review-row"><span>Question</span><b id="reviewQuestion"></b></div><div class="review-row"><span>Category</span><b id="reviewCategory"></b></div><div class="review-row"><span>Trading closes</span><b id="reviewClose"></b></div><div class="review-row"><span>Expected determination</span><b id="reviewDetermination"></b></div><div class="review-row"><span>Resolves by</span><b id="reviewSource"></b></div><div class="review-row"><span>Creator share</span><b id="reviewShare"></b></div></div><label class="review-check" id="reviewCheck"><input id="proposalAck" type="checkbox"><span>I confirm that the question and rules describe the same outcome, and that the resolution sources are publicly accessible.</span></label></div>
+  </div><aside class="proposal-preview"><h3>Live preview</h3><div class="preview-card"><div class="preview-top"><div class="preview-icon" id="previewIcon"></div><div><div class="preview-cat" id="previewCat">Economy · proposal</div><div class="preview-question preview-placeholder" id="previewQuestion">Your market question will appear here.</div></div></div><div class="preview-outcomes"><div class="preview-outcome y">Yes</div><div class="preview-outcome n">No</div></div><div class="preview-meta"><span>Awaiting review</span><span>Created by Randy</span></div></div><div class="preview-tip"><b>Preview your market</b>Check how your question will appear to traders before you submit it.</div></aside></div><div class="proposal-success" id="proposalSuccess"><div class="success-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 12 4 4L19 6"/></svg></div><h3>Proposal submitted for review</h3><p>Your market is not live yet. Most proposals receive an initial review within two business days. If wording or sources need work, AuraGen will send a clear revision request in your proposal activity.</p></div></div><footer class="proposal-foot"><span class="draft-state" id="draftState">Draft saved in this session</span><div class="proposal-actions"><button class="back-btn" id="proposalBack">Back</button><button class="next-btn" id="proposalNext">Continue</button></div></footer></section></div>
+  <div class="order-layer" id="orderLayer"><div class="order-scrim" data-close-order></div><section class="order-modal" role="dialog" aria-modal="true" aria-labelledby="orderReviewTitle"><div id="orderContent"><header class="order-head"><h2 id="orderReviewTitle">Review order</h2><button class="order-close glass-button" data-close-order aria-label="Close order review">×</button></header><div class="order-body"><div class="order-market"><div class="market-icon" id="orderMarketIcon"></div><div><b id="orderMarketTitle"></b><span id="orderMarketMeta"></span><span class="order-side" id="orderSide"></span></div></div><div class="order-breakdown"><div class="order-line"><span>Contracts</span><b id="orderContracts"></b></div><div class="order-line"><span>Estimated price per contract</span><b id="orderPrice"></b></div><div class="order-line"><span>Estimated trading fee</span><b id="orderFee"></b></div><div class="order-line total loss"><span>Total cost / maximum loss</span><b id="orderTotal"></b></div><div class="order-line"><span>Maximum payout</span><b id="orderPayout"></b></div><div class="order-line profit"><span>Maximum profit after fee</span><b id="orderProfit"></b></div><div class="order-line"><span>Market closes</span><b id="orderClose"></b></div></div><div class="order-risk"><b>Know what can happen</b>If your selected outcome is wrong, these contracts pay $0. The displayed price is an estimate, not a guaranteed fill.</div><div class="order-fill-note">Large orders may fill across multiple prices or only fill partially when liquidity is limited.</div><div class="order-cap-warning" id="orderCapWarning" role="alert"></div><div class="order-actions"><button class="edit-order" data-close-order>Edit order</button><button class="place-order" id="placeOrder">Place demo order</button></div></div></div><div class="order-success" id="orderSuccess"><div class="success-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 12 4 4L19 6"/></svg></div><h3>Demo order submitted</h3><p>This prototype did not place a real trade. A production experience would now show whether the order was filled, partially filled, or still pending and add it to your activity.</p><div class="order-receipt"><span>Demo receipt</span><b id="orderReceiptId">AG-DEMO-0001</b></div><button class="done-order" id="doneOrder">Done</button></div></section></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    const iconPaths={all:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>',economy:'<path d="M4 18V8M4 18h16"/><path d="m7 14 4-4 3 2 5-6"/>',crypto:'<circle cx="12" cy="12" r="8"/><path d="M9 8h4.5a2 2 0 0 1 0 4H9m0 0h5a2 2 0 0 1 0 4H9m2-10v12m3-12v2m0 8v2"/>',technology:'<rect x="7" y="7" width="10" height="10" rx="2"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3M10 10h4v4h-4z"/>',policy:'<path d="m4 9 8-5 8 5M5 10h14M7 10v7m5-7v7m5-7v7M4 20h16M5 17h14"/>',culture:'<rect x="4" y="7" width="16" height="12" rx="2"/><path d="m4 11 16-4M8 6l2 3m4-5 2 3M9 14l4 2-4 2z"/>',climate:'<path d="M12 3v8m0 0a4 4 0 1 0 4 4c0-1.5-.8-2.8-2-3.5V5a2 2 0 0 0-4 0v6.5A4 4 0 0 0 12 19"/><path d="M12 14v2"/>',rates:'<path d="M4 6h16M7 10h10M9 14h6M11 18h2"/><path d="m16 16 3 3 3-3"/>',cinema:'<rect x="4" y="7" width="16" height="12" rx="2"/><path d="m4 11 16-4M8 6l2 3m4-5 2 3M9 14l4 2-4 2z"/>',ai:'<rect x="6" y="6" width="12" height="12" rx="3"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3"/><path d="m10 14 2-5 2 5m-3.3-1.5h2.6"/>',wearable:'<path d="M3 11h3l1-3h4l1 3m0 0 1-3h4l1 3h3M6 11a3 3 0 0 0 6 0m0 0a3 3 0 0 0 6 0"/>',gold:'<path d="m6 8 2-4h8l2 4-3 10H9L6 8Z"/><path d="M6 8h12M9 18l3-10 3 10"/>',stocks:'<path d="M4 19V5m0 14h16"/><path d="m7 15 4-5 3 3 5-7"/><path d="M15 6h4v4"/>'};
+    const svgIcon=name=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${iconPaths[name]||iconPaths.all}</svg>`;
+    const data=[
+      {id:1,cat:'Economy',icon:'rates',title:'Fed hikes rates again at the Dec 9 meeting?',p:80,vol:'$1.2M',liq:'$386K',volN:1200,date:'Dec 9, 2026',creator:'MacroDesk',share:'30%',source:'creator',created:1,trend:97},
+      {id:3,cat:'Crypto',icon:'crypto',title:'Bitcoin hits $100K by the end of Q1 2027?',p:18,vol:'$2.1M',liq:'$630K',volN:2100,date:'Mar 31, 2027',creator:'ChainWatch',share:'30%',source:'creator',created:7,trend:85},
+      {id:4,cat:'Business',icon:'stocks',title:'Anthropic closes IPO day above $2 trillion?',p:35,vol:'$3.1M',liq:'$924K',volN:3100,date:'Dec 31, 2026',creator:'AIForecast',share:'40%',source:'creator',created:6,trend:93},
+      {id:5,cat:'Technology',icon:'wearable',title:'Apple ships smart glasses by end of 2027?',p:45,vol:'$2.4M',liq:'$712K',volN:2400,date:'Dec 31, 2027',creator:'TechScout',share:'30%',source:'creator',created:5,trend:76},
+      {id:6,cat:'Science',icon:'climate',title:'Is 2026 the hottest year on record?',p:50,vol:'$4.7M',liq:'$1.4M',volN:4700,date:'Dec 31, 2026',creator:'ClimateSignal',share:'30%',source:'creator',created:4,trend:88},
+      {id:7,cat:'Economy',icon:'gold',title:'Gold back above $4,500 by Q1 2027?',p:28,vol:'$210K',liq:'$58K',volN:210,date:'Mar 31, 2027',creator:'AuraGen',share:'Official',source:'official',created:3,trend:62},
+      {id:8,cat:'Geopolitics',icon:'policy',title:'Russia–Ukraine full ceasefire by Q1 2027?',p:18,vol:'$495K',liq:'$148K',volN:495,date:'Mar 31, 2027',creator:'PolicyWatch',share:'30%',source:'creator',created:19,trend:80},
+      {id:9,cat:'Business',icon:'stocks',title:'S&P 500 closes above 8,000 in 2026?',p:12,vol:'$5.2M',liq:'$1.6M',volN:5200,date:'Dec 31, 2026',creator:'AuraGen',share:'Official',source:'official',created:1,trend:82},
+      {id:10,cat:'Crypto',icon:'crypto',title:'Ethereum above $2,500 before 2027?',p:50,vol:'$1.8M',liq:'$540K',volN:1800,date:'Dec 31, 2026',creator:'LedgerLens',share:'30%',source:'creator',created:15,trend:79},
+      {id:11,cat:'Culture',icon:'cinema',title:'Avengers: Doomsday out-opens Dune 3?',p:90,vol:'$1.2M',liq:'$360K',volN:1200,date:'Dec 18, 2026',creator:'BoxOfficeIQ',share:'30%',source:'creator',created:14,trend:74},
+      {id:12,cat:'Science',icon:'climate',title:'Record-strength El Ni\u00f1o this winter?',p:72,vol:'$940K',liq:'$282K',volN:940,date:'Mar 31, 2027',creator:'ClimateSignal',share:'30%',source:'creator',created:20,trend:81},
+      {id:13,cat:'Geopolitics',icon:'policy',title:'US government shuts down before 2027?',p:25,vol:'$760K',liq:'$228K',volN:760,date:'Dec 31, 2026',creator:'CivicForecast',share:'30%',source:'creator',created:21,trend:78},
+      {id:14,cat:'Technology',icon:'ai',title:'Home humanoid robot delivered in 2026?',p:45,vol:'$1.1M',liq:'$330K',volN:1100,date:'Dec 31, 2026',creator:'TechScout',share:'30%',source:'creator',created:11,trend:75},
+      {id:15,cat:'Economy',icon:'economy',title:'US jobless rate under 4.5% all of 2026?',p:85,vol:'$2.7M',liq:'$810K',volN:2700,date:'Dec 31, 2026',creator:'MacroDesk',share:'30%',source:'creator',created:10,trend:87},
+      {id:16,cat:'Economy',icon:'economy',title:'US CPI inflation under 3.5% in December?',p:38,vol:'$680K',liq:'$204K',volN:680,date:'Dec 31, 2026',creator:'InflationLab',share:'25%',source:'creator',created:16,trend:77},
+      {id:17,cat:'Economy',icon:'economy',title:'Brent oil below $90 before 2027?',p:30,vol:'$340K',liq:'$102K',volN:340,date:'Dec 31, 2026',creator:'AuraGen',share:'Official',source:'official',created:22,trend:83},
+      {id:18,cat:'Crypto',icon:'crypto',title:'Solana above $150 by the end of Q1 2027?',p:12,vol:'$1.8M',liq:'$540K',volN:1800,date:'Mar 31, 2027',creator:'DeFiPulse',share:'35%',source:'creator',created:18,trend:84}
+    ];
+    const resolutionDetails={
+      1:{rule:'Resolves Yes if the FOMC raises the federal funds target range above 3.75%\u20134.00% at the meeting concluding December 9, 2026.',source:'Federal Reserve FOMC statement',determine:'Within 24 hours of the official release',edge:'An unscheduled hike announced between now and December 9 also counts. A hold or a cut resolves No.'},
+      
+      3:{rule:'Resolves Yes if the CME CF Bitcoin Reference Rate is at or above $100,000 at any daily publication on or before March 31, 2027.',source:'CME CF Bitcoin Reference Rate',determine:'By 6:00 PM ET on the next business day',edge:'Brief exchange-specific prints do not count; the named reference rate controls.'},
+      4:{rule:'Resolves Yes if Anthropic\u2019s market capitalization at the official close of its first day of trading on a U.S. exchange is above $2 trillion (official closing price \u00d7 shares outstanding after the offering, per the final prospectus).',source:'Nasdaq official closing price and Anthropic\u2019s final SEC prospectus',determine:'After the first-day official close is published',edge:'Resolves No if Anthropic has not started trading by December 31, 2026. The IPO pricing valuation alone does not count; the first-day close controls.'},
+      5:{rule:'Resolves Yes if Apple makes an Apple-branded glasses product, with or without a built-in display, available for US consumers to buy and receive on or before December 31, 2027.',source:'Apple Newsroom and the US Apple Store',determine:'Within 24 hours of first US retail availability',edge:'An announcement or pre-order alone does not count. Vision Pro and other headsets do not count.'},
+      6:{rule:'Resolves Yes if NOAA ranks calendar year 2026 as the single warmest year on record for global surface temperature.',source:'NOAA NCEI Global Climate Report',determine:'After NOAA publishes its annual report, usually mid-January',edge:'If NOAA lists 2026 as tied with or behind 2024, the market resolves No. Other datasets do not count.'},
+      7:{rule:'Resolves Yes if the LBMA Gold Price PM benchmark is above $4,500 per troy ounce on any publication day on or before March 31, 2027.',source:'LBMA Gold Price PM benchmark',determine:'By the next benchmark publication day',edge:'Intraday retail quotes and futures prices do not count. A benchmark of exactly $4,500.00 resolves No.'},
+      8:{rule:'Resolves Yes if the governments of Russia and Ukraine both publicly confirm a ceasefire covering the entire front line that takes effect on or before March 31, 2027.',source:'Official Russian and Ukrainian government statements, confirmed by Reuters or AP',determine:'Within 24 hours of both confirmations',edge:'Localized, humanitarian, energy-only, or holiday truces do not count, and neither does a ceasefire announced by only one side.'},
+      9:{rule:'Resolves Yes if the official S&P 500 closing level is above 8,000 on any trading day on or before December 31, 2026.',source:'S&P Dow Jones Indices official close',determine:'After the official close is published',edge:'Intraday levels do not count. A close of exactly 8,000.00 resolves No because the question says above.'},
+      10:{rule:'Resolves Yes if the CME CF Ether-Dollar Reference Rate is above $2,500 at any daily publication on or before December 31, 2026.',source:'CME CF Ether-Dollar Reference Rate',determine:'By the next business day',edge:'Exchange-specific spikes and unverified prints do not count; the named reference rate controls.'},
+      11:{rule:'Resolves Yes if Avengers: Doomsday earns more than Dune: Part Three in its domestic (U.S. and Canada) Friday-to-Sunday opening weekend, Dec 18 to 20, 2026, including Thursday previews.',source:'Studio-reported weekend actuals, as compiled by Box Office Mojo',determine:'After weekend actuals are published, usually Monday Dec 21, 2026',edge:'Uses actuals, not Sunday estimates. If either film moves off Dec 18, 2026, the market resolves N/A and positions are refunded.'},
+      12:{rule:'Resolves Yes if any 3-month Oceanic Ni\u00f1o Index (ONI) value for the 2026\u201327 El Ni\u00f1o is above +2.6\u00b0C, the record set in 2015\u201316, in NOAA CPC releases published on or before April 10, 2027.',source:'NOAA Climate Prediction Center ONI table',determine:'After CPC posts the January\u2013March 2027 ONI value in early April',edge:'A value of exactly +2.6\u00b0C resolves No. Weekly or monthly Ni\u00f1o-3.4 readings do not count; only the 3-month ONI does.'},
+      13:{rule:'Resolves Yes if a lapse in appropriations causes any federal department or agency to begin shutdown procedures on or before December 31, 2026. Current stopgap funding runs through December 11, 2026.',source:'OMB and agency shutdown notices, Congress.gov',determine:'Within 24 hours of a lapse',edge:'A brief lapse that OMB says required no shutdown procedures resolves No.'},
+      14:{rule:'Resolves Yes if a manufacturer confirms delivery of a general-purpose humanoid robot to a paying US consumer at their home on or before December 31, 2026.',source:'Manufacturer announcement confirmed by independent news reporting',determine:'Within 48 hours of verified delivery',edge:'Deposits, waitlists, enterprise pilots, employees, and beta testers do not count. Remote-assisted operation after delivery still counts.'},
+      15:{rule:'Resolves Yes if the first-published US unemployment rate is below 4.5% for every month from January through December 2026.',source:'US Bureau of Labor Statistics',determine:'After the December 2026 employment report',edge:'The first published value for each month controls unless BLS marks it erroneous. A rate of exactly 4.5% resolves No.'},
+      16:{rule:'Resolves Yes if the year-over-year all-items CPI-U change for December 2026 is below 3.5% in its first release.',source:'US Bureau of Labor Statistics CPI release',determine:'After the December 2026 CPI release in mid-January',edge:'A value of exactly 3.5% resolves No because the question says under.'},
+      17:{rule:'Resolves Yes if the ICE Brent front-month futures settlement price is below $90.00 per barrel on any trading day on or before December 31, 2026.',source:'ICE Futures Europe daily settlement prices',determine:'After the daily settlement is published',edge:'Intraday prices do not count. A settlement of exactly $90.00 resolves No.'},
+      18:{rule:'Resolves Yes if the SOL/USD price is above $150 on a major exchange on or before March 31, 2027.',source:'Coinbase and Kraken spot price feeds',determine:'Within 24 hours of the threshold being crossed',edge:'A single-exchange wick does not count; requires confirmation across at least two major exchanges.'}
+    };
+    function storedSaved(){try{return new Set(JSON.parse(localStorage.getItem('auragen-saved')||'[]'))}catch{return new Set()}}function persistSaved(){try{localStorage.setItem('auragen-saved',JSON.stringify([...saved]))}catch{}}
+    function storedPause(){try{return localStorage.getItem('auragen-pause-trading')==='1'}catch{return false}}function persistPause(v){try{localStorage.setItem('auragen-pause-trading',v?'1':'0')}catch{}}
+    function storedCap(){try{const raw=localStorage.getItem('auragen-funding-cap');if(raw===null)return parseFloat(fundingCapInput.value)||null;const v=parseFloat(raw);return Number.isFinite(v)&&v>0?v:null}catch{return parseFloat(fundingCapInput.value)||null}}function persistCap(v){try{v===null?localStorage.removeItem('auragen-funding-cap'):localStorage.setItem('auragen-funding-cap',String(v))}catch{}}
+    function storedSessionReminder(){try{const raw=localStorage.getItem('auragen-session-reminder');return raw===null?true:raw==='1'}catch{return true}}function persistSessionReminder(v){try{localStorage.setItem('auragen-session-reminder',v?'1':'0')}catch{}}
+    const catIcons={All:'all',Crypto:'crypto',Economy:'economy',Business:'stocks',Technology:'technology',Culture:'culture',Science:'climate',Geopolitics:'policy'};const cats=Object.keys(catIcons);let active='All',savedView=false,sortMode='trending',drawerMarket=null,drawerSide='yes',toastTimer,tradingPaused=storedPause(),fundingCap=storedCap();const saved=storedSaved(),filters={source:'all',year:'all',saved:'all'},focusReturn=new WeakMap();
+    const systemTheme=window.matchMedia('(prefers-color-scheme: dark)');function storedTheme(){try{return localStorage.getItem('auragen-theme')||'system'}catch{return'system'}}let themePreference=storedTheme();function applyThemePreference(preference,persist=false){themePreference=preference;const resolved=preference==='system'?(systemTheme.matches?'dark':'light'):preference;document.body.dataset.theme=resolved;appearanceSelect.value=preference;const next=resolved==='dark'?'light':'dark';themeToggle.setAttribute('aria-label',`Switch to ${next} theme`);themeToggle.title=`Switch to ${next} theme`;if(persist){try{localStorage.setItem('auragen-theme',preference)}catch{}}}applyThemePreference(themePreference);themeToggle.addEventListener('click',()=>applyThemePreference(document.body.dataset.theme==='dark'?'light':'dark',true));appearanceSelect.addEventListener('change',()=>applyThemePreference(appearanceSelect.value));systemTheme.addEventListener?.('change',()=>{if(themePreference==='system')applyThemePreference('system')});
+    const tapeSignals=[{id:1,label:'FED',delta:'+2.6'},{id:4,label:'ANT',delta:'+4.1'},{id:17,label:'OIL',delta:'+3.2'},{id:3,label:'BTC',delta:'-1.2'},{id:6,label:'°C',delta:'+1.8'},{id:8,label:'UA',delta:'+0.7'},{id:7,label:'AU',delta:'-0.9'},{id:9,label:'S&P',delta:'-1.6'}].map(s=>({...s,p:(data.find(m=>m.id===s.id)||{p:50}).p}));
+    function tapeGroup(isClone=false){return `<div class="tape-group" ${isClone?'aria-hidden="true"':''}>${tapeSignals.map(s=>`<button class="tape-item" data-tape-id="${s.id}" ${isClone?'tabindex="-1"':''}><span>${s.label}</span><b>${s.p}% YES</b><span class="${s.delta.startsWith('+')?'up':'down'}">${s.delta}</span></button>`).join('')}</div>`}marketTape.innerHTML=tapeGroup()+tapeGroup(true);tapePause.addEventListener('click',()=>{const paused=tapePause.parentElement.classList.toggle('paused');tapePause.setAttribute('aria-pressed',paused);tapePause.setAttribute('aria-label',paused?'Play live market movement':'Pause live market movement')});
+    const categories=document.querySelector('#categories'),markets=document.querySelector('#markets'),search=document.querySelector('#search');
+    function renderCats(){categories.innerHTML=cats.map(c=>`<button class="cat-btn ${!savedView&&c===active?'active':''}" data-cat="${c}" aria-pressed="${!savedView&&c===active}">${svgIcon(catIcons[c])}${c}</button>`).join('')+`<button class="cat-btn saved-destination ${savedView?'active':''}" data-saved-view aria-pressed="${savedView}">${svgIcon('star')}Saved <span class="saved-count">${saved.size}</span></button>`}
+    function filteredMarkets(){const q=search.value.trim().toLowerCase();return data.filter(m=>{const searchable=`${m.title} ${m.cat} ${m.creator} ${m.date}`.toLowerCase();return(!savedView||saved.has(m.id))&&(active==='All'||m.cat===active)&&(!q||searchable.includes(q))&&(filters.source==='all'||m.source===filters.source)&&(filters.year==='all'||m.date.endsWith(filters.year))&&(filters.saved==='all'||saved.has(m.id))}).sort((a,b)=>sortMode==='newest'?b.created-a.created:b.trend-a.trend)}
+    function chanceWord(p){if(p>=80)return'Very likely';if(p>=60)return'Likely';if(p>=40)return'Toss-up';if(p>=20)return'Unlikely';return'Long shot'}function chanceTone(p){return p>=60?'positive':p<40?'negative':'neutral-tone'}
+    function render(){const list=filteredMarkets(),q=search.value.trim();search.parentElement.classList.toggle('has-value',!!q);searchStatus.textContent=q?`${list.length} market${list.length===1?'':'s'} found for ${q}`:'';marketDescription.textContent=savedView?`${list.length} saved market${list.length===1?'':'s'}`:q?`${list.length} result${list.length===1?'':'s'} for “${q}”`:sortMode==='newest'?'Recently proposed markets, newest first.':'Trade on measurable outcomes, ranked by activity.';markets.innerHTML=list.map(m=>`<article class="market" data-id="${m.id}"><div class="market-top"><button class="market-open" data-open-market aria-label="Open market details: ${m.title}"><div class="market-icon">${svgIcon(m.icon)}</div><div><div class="market-cat">${m.cat} · closes ${m.date.replace(', 2026','').replace(', 2027','')}</div><div class="market-title">${m.title}</div></div></button><button class="star ${saved.has(m.id)?'saved':''}" aria-label="${saved.has(m.id)?'Remove from saved':'Save market'}" aria-pressed="${saved.has(m.id)}">${svgIcon('star')}</button></div><div class="price-row"><div class="prob">${m.p}<small>%</small></div><div class="prob-chance"><span>Market-implied Yes</span><b class="${chanceTone(m.p)}">${chanceWord(m.p)}</b></div></div><div class="prob-track" aria-hidden="true"><i style="width:${m.p}%"></i></div><div class="buttons"><button class="buy yes" data-side="yes"${tradingPaused?' disabled title="Trading paused — resume in Settings"':''}>Yes ${m.p}¢</button><button class="buy no" data-side="no"${tradingPaused?' disabled title="Trading paused — resume in Settings"':''}>No ${100-m.p}¢</button></div><div class="meta"><span>Vol <b>${m.vol}</b> · Liq <b>${m.liq}</b></span><span class="creator">${m.creator} · ${m.share}</span></div></article>`).join('')||`<div class="empty"><b>${savedView&&!saved.size?'No saved markets yet.':'No markets match this view.'}</b><br>${savedView&&!saved.size?'Use the star on any card to build a watchlist.':'Clear the search or reset the filters to see more markets.'}<div class="empty-actions">${q?'<button class="empty-clear" data-empty-clear>Clear search</button>':''}<button class="empty-reset" data-empty-reset>Reset filters</button></div></div>`}
+    function applyTradingPause(){document.querySelectorAll('.buy').forEach(btn=>{btn.disabled=tradingPaused;if(tradingPaused){btn.title='Trading paused — resume in Settings'}else{btn.removeAttribute('title')}});pauseTradingToggle.checked=tradingPaused}
+    iconPaths.star='<path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"/>';
+    function showToast(message){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1800)}
+    function setBodyLock(){document.body.style.overflow=drawer.classList.contains('open')||createLayer.classList.contains('open')||creatorLayer.classList.contains('open')||orderLayer.classList.contains('open')?'hidden':''}
+    function rememberFocus(layer){focusReturn.set(layer,document.activeElement)}function restoreFocus(layer){const target=focusReturn.get(layer);if(target?.focus)setTimeout(()=>target.focus(),0)}
+    function updateTrade(){if(!drawerMarket)return;const contracts=Math.max(1,Number(contractInput.value)||0),price=drawerSide==='yes'?drawerMarket.p:100-drawerMarket.p;cost.textContent=`$${(contracts*price/100+Math.max(.01,contracts*0.07*(price/100)*(1-price/100))).toFixed(2)} incl. fee`;payout.textContent=`$${contracts.toFixed(2)}`;reviewOrder.textContent=`Review ${drawerSide==='yes'?'Yes':'No'} order`}
+    function selectDrawerSide(side){drawerSide=side;drawerYes.classList.toggle('selected',side==='yes');drawerNo.classList.toggle('selected',side==='no');drawerYes.setAttribute('aria-checked',side==='yes');drawerNo.setAttribute('aria-checked',side==='no');updateTrade()}
+    function openDrawer(m,side='yes'){rememberFocus(drawer);drawerMarket=m;const rules=resolutionDetails[m.id];drawer.classList.add('open');drawerIcon.innerHTML=svgIcon(m.icon);drawerCat.textContent=m.cat;drawerTitle.textContent=m.title;drawerProb.innerHTML=`${m.p}<small>%</small>`;drawerYes.textContent=`Yes · ${m.p}¢`;drawerNo.textContent=`No · ${100-m.p}¢`;volume.textContent=m.vol;liquidity.textContent=m.liq;closeDate.textContent=m.date;determineDate.textContent=rules.determine;creator.textContent=m.creator;drawerRule.textContent=rules.rule;drawerSource.textContent=rules.source;drawerEdge.textContent=`Edge case: ${rules.edge}`;selectDrawerSide(side);setBodyLock();setTimeout(()=>drawer.querySelector('.close').focus(),280)}
+    function closeDrawer(){drawer.classList.remove('open');setBodyLock();restoreFocus(drawer)}
+    function updateFilterUI(){let count=0;['source','year','saved'].forEach(k=>{if(filters[k]!=='all')count++});filterCount.textContent=count;filterTrigger.classList.toggle('active',count>0);document.querySelectorAll('.filter-option').forEach(b=>b.classList.toggle('active',filters[b.dataset.filter]===b.dataset.value));render()}
+    categories.addEventListener('click',e=>{const savedButton=e.target.closest('[data-saved-view]'),b=e.target.closest('[data-cat]');if(savedButton){savedView=true;active='All';renderCats();render()}else if(b){savedView=false;active=b.dataset.cat;renderCats();render()}});search.addEventListener('input',render);searchClear.addEventListener('click',()=>{search.value='';render();search.focus()});marketTape.addEventListener('click',e=>{const item=e.target.closest('[data-tape-id]');if(item)openDrawer(data.find(m=>m.id===+item.dataset.tapeId))});
+    function showPage(name){closeDrawer();closeCreate();creatorLayer.classList.remove('open');orderLayer.classList.remove('open');document.querySelectorAll('.site-page').forEach(page=>page.classList.toggle('active',page.id===`${name==='markets'?'market':name}Page`));document.body.dataset.view=name;document.querySelector('[data-page="how"]').classList.toggle('active',name==='how');document.querySelector('[data-page="settings"]').classList.toggle('active',name==='settings');setBodyLock();window.scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('[data-page]').forEach(button=>button.addEventListener('click',()=>showPage(button.dataset.page)));
+    document.querySelectorAll('.sort-btn').forEach(b=>b.addEventListener('click',()=>{sortMode=b.dataset.sort;document.querySelectorAll('.sort-btn').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',x===b)});render()}));
+    filterTrigger.addEventListener('click',()=>{const open=filterPanel.classList.toggle('open');filterTrigger.setAttribute('aria-expanded',open)});filterPanel.addEventListener('click',e=>{const b=e.target.closest('.filter-option');if(b){filters[b.dataset.filter]=b.dataset.value;updateFilterUI()}});resetFilters.addEventListener('click',()=>{Object.assign(filters,{source:'all',year:'all',saved:'all'});updateFilterUI()});
+    markets.addEventListener('click',e=>{if(e.target.closest('[data-empty-clear]')){search.value='';render();search.focus();return}if(e.target.closest('[data-empty-reset]')){Object.assign(filters,{source:'all',year:'all',saved:'all'});savedView=false;active='All';updateFilterUI();renderCats();return}const card=e.target.closest('.market');if(!card)return;const m=data.find(x=>x.id===+card.dataset.id),star=e.target.closest('.star'),buy=e.target.closest('[data-side]');if(star){saved.has(m.id)?saved.delete(m.id):saved.add(m.id);persistSaved();showToast(saved.has(m.id)?'Market saved':'Removed from saved');renderCats();render();return}openDrawer(m,buy?.dataset.side||'yes')});
+    document.querySelectorAll('[data-close-drawer]').forEach(el=>el.addEventListener('click',closeDrawer));drawerYes.addEventListener('click',()=>selectDrawerSide('yes'));drawerNo.addEventListener('click',()=>selectDrawerSide('no'));contractInput.addEventListener('input',updateTrade);fullRules.addEventListener('click',()=>showToast('Full rulebook would open here'));
+    leaderboard.innerHTML=[['MacroDesk','$12.8K'],['AIForecast','$9.4K'],['ChainWatch','$7.1K'],['ClimateSignal','$5.8K']].map((r,i)=>`<div class="rank"><span class="rank-num">0${i+1}</span><div><span class="rank-av">${r[0].replace(/[^A-Z]/g,'').slice(0,2)||r[0].slice(0,2).toUpperCase()}</span><span class="rank-name">${r[0]}</span><small>${8-i} live markets</small></div><b class="rank-money">${r[1]}</b></div>`).join('');
+    const creatorProfiles=[['MacroDesk','Economy & rates','71% resolved in range',8,'$12.8K'],['AIForecast','AI & technology','68% resolved in range',7,'$9.4K'],['ChainWatch','Digital assets','66% resolved in range',6,'$7.1K'],['ClimateSignal','Climate science','74% resolved in range',5,'$5.8K'],['TechScout','Consumer technology','63% resolved in range',5,'$4.9K'],['PolicyWatch','Public policy','65% resolved in range',4,'$4.2K'],['BoxOfficeIQ','Film & culture','69% resolved in range',3,'$3.7K'],['CivicForecast','Law & regulation','64% resolved in range',3,'$3.1K']];
+    function renderCreatorDirectory(){const q=creatorSearch.value.trim().toLowerCase(),rows=creatorProfiles.filter(r=>`${r[0]} ${r[1]}`.toLowerCase().includes(q));document.querySelector('.creator-summary b').textContent=rows.length;creatorDirectory.innerHTML=rows.map((r,i)=>`<article class="creator-row-full"><div class="creator-identity"><span class="creator-avatar">${r[0].replace(/[^A-Z]/g,'').slice(0,2)||r[0].slice(0,2).toUpperCase()}</span><div><b>${r[0]}</b><small>${r[1]} · rank ${String(i+1).padStart(2,'0')}</small></div></div><div class="creator-stat"><b>${r[2].split(' ')[0]}</b><small>${r[2].slice(r[2].indexOf(' ')+1)}</small></div><div class="creator-stat"><b>${r[3]}</b><small>markets</small></div><div class="creator-earnings">${r[4]}</div></article>`).join('')||'<div class="creator-empty">No creators match that search.</div>'}
+    function openCreators(){rememberFocus(creatorLayer);renderCreatorDirectory();creatorLayer.classList.add('open');setBodyLock();setTimeout(()=>creatorSearch.focus(),250)}function closeCreators(){creatorLayer.classList.remove('open');setBodyLock();restoreFocus(creatorLayer)}viewCreators.addEventListener('click',openCreators);creatorSearch.addEventListener('input',renderCreatorDirectory);document.querySelectorAll('[data-close-creators]').forEach(el=>el.addEventListener('click',closeCreators));
+    document.querySelectorAll('[data-settings-tab]').forEach(tab=>tab.addEventListener('click',()=>{document.querySelectorAll('[data-settings-tab]').forEach(x=>x.classList.toggle('active',x===tab));document.querySelectorAll('[data-settings-panel]').forEach(panel=>panel.classList.toggle('active',panel.dataset.settingsPanel===tab.dataset.settingsTab))}));
+    document.querySelectorAll('[data-save-settings]').forEach(button=>button.addEventListener('click',()=>{const name=displayName.value.trim()||'Randy';document.querySelector('.avatar').setAttribute('aria-label',"Open "+name+"'s settings");settingsAvatar.alt=name+"'s profile photo";showToast('Settings saved')}));document.querySelector('[data-save-preferences]').addEventListener('click',()=>{sortMode=defaultSort.value;applyThemePreference(appearanceSelect.value,true);document.querySelectorAll('.sort-btn').forEach(button=>{const selected=button.dataset.sort===sortMode;button.classList.toggle('active',selected);button.setAttribute('aria-pressed',selected)});document.body.classList.toggle('compact-markets',compactToggle.checked);document.body.classList.toggle('hide-tape',!tapeToggle.checked);render();showToast('Preferences saved')});
+    document.querySelector('[data-save-wellbeing]').addEventListener('click',()=>{tradingPaused=pauseTradingToggle.checked;persistPause(tradingPaused);const capValue=parseFloat(fundingCapInput.value);fundingCap=Number.isFinite(capValue)&&capValue>0?capValue:null;persistCap(fundingCap);persistSessionReminder(sessionReminderToggle.checked);applyTradingPause();render();showToast(tradingPaused?'Trading paused — Buy buttons are disabled until you resume':'Wellbeing settings saved')});
+    document.querySelectorAll('[data-example-side]').forEach(button=>button.addEventListener('click',()=>openDrawer(data[0],button.dataset.exampleSide)));
+    function openOrderReview(){if(!drawerMarket)return;rememberFocus(orderLayer);const contracts=Math.max(1,Number(contractInput.value)||1),price=drawerSide==='yes'?drawerMarket.p:100-drawerMarket.p,p=price/100,subtotal=contracts*price/100,fee=Math.max(.01,contracts*0.07*p*(1-p)),total=subtotal+fee,profit=Math.max(0,contracts-total);orderContent.style.display='block';orderSuccess.classList.remove('show');orderMarketIcon.innerHTML=svgIcon(drawerMarket.icon);orderMarketTitle.textContent=drawerMarket.title;orderMarketMeta.textContent=`${drawerMarket.cat} · resolves ${drawerMarket.date}`;orderSide.textContent=`${drawerSide==='yes'?'Yes':'No'} at an estimated ${price}¢`;orderSide.className=`order-side ${drawerSide}`;orderContracts.textContent=contracts;orderPrice.textContent=`${price}¢`;orderFee.textContent=`$${fee.toFixed(2)}`;orderTotal.textContent=`$${total.toFixed(2)}`;orderPayout.textContent=`$${contracts.toFixed(2)}`;orderProfit.textContent=`$${profit.toFixed(2)}`;orderClose.textContent=drawerMarket.date;placeOrder.textContent=`Place demo order · $${total.toFixed(2)}`;const capExceeded=fundingCap!==null&&total>fundingCap;orderCapWarning.classList.toggle('show',capExceeded);orderCapWarning.textContent=capExceeded?`This order's total cost of $${total.toFixed(2)} exceeds your monthly funding cap of $${fundingCap.toFixed(2)}. Raise your cap in Settings → Trading wellbeing, or reduce the contract count.`:'';placeOrder.disabled=capExceeded||tradingPaused;drawer.querySelector('aside').inert=true;drawer.querySelector('aside').setAttribute('aria-hidden','true');orderLayer.classList.add('open');setBodyLock();setTimeout(()=>orderLayer.querySelector('.order-close').focus(),240)}function closeOrder(){orderLayer.classList.remove('open');drawer.querySelector('aside').inert=false;drawer.querySelector('aside').removeAttribute('aria-hidden');setBodyLock();restoreFocus(orderLayer)}document.querySelector('.order').addEventListener('click',openOrderReview);document.querySelectorAll('[data-close-order]').forEach(el=>el.addEventListener('click',closeOrder));placeOrder.addEventListener('click',()=>{if(placeOrder.disabled||tradingPaused)return;orderContent.style.display='none';orderSuccess.classList.add('show');orderReceiptId.textContent=`AG-DEMO-${String(Date.now()).slice(-6)}`;setTimeout(()=>doneOrder.focus(),0)});doneOrder.addEventListener('click',()=>{closeOrder();closeDrawer();showToast('Demo order added to your activity')});
+
+    let proposalStep=1,proposalCategory='Economy',proposalComplete=false;const tomorrow=new Date(Date.now()+86400000).toISOString().slice(0,10);marketDate.min=tomorrow;marketDate.value='2026-12-31';marketDetermination.value='2027-01-01T12:00';
+    proposalCategories.innerHTML=cats.filter(c=>c!=='All').map(c=>`<button type="button" class="category-choice ${c===proposalCategory?'active':''}" data-proposal-cat="${c}">${svgIcon(catIcons[c])}<span>${c}</span></button>`).join('');
+    function syncPreview(){const q=marketQuestion.value.trim();questionCount.textContent=marketQuestion.value.length;previewQuestion.textContent=q||'Your market question will appear here.';previewQuestion.classList.toggle('preview-placeholder',!q);previewCat.textContent=`${proposalCategory} · proposal`;previewIcon.innerHTML=svgIcon(catIcons[proposalCategory]);draftState.textContent='Draft saved in this session'}
+    function updateSteps(back=false){document.querySelectorAll('[data-form-step]').forEach(p=>{p.classList.toggle('active',+p.dataset.formStep===proposalStep);p.classList.toggle('back',back)});document.querySelectorAll('[data-step-indicator]').forEach(s=>{const n=+s.dataset.stepIndicator;s.classList.toggle('active',n===proposalStep);s.classList.toggle('done',n<proposalStep);s.querySelector('.step-dot').textContent=n<proposalStep?'✓':n});proposalBack.style.visibility=proposalStep===1?'hidden':'visible';proposalNext.textContent=proposalStep===3?'Submit proposal':'Continue';if(proposalStep===3)updateReview()}
+    function validUrl(value){try{const u=new URL(value);return ['http:','https:'].includes(u.protocol)}catch{return false}}
+    function validateStep(){if(proposalStep===1){const qOk=marketQuestion.value.trim().length>=15,dOk=marketDemand.value.trim().length>=20;questionField.classList.toggle('invalid',!qOk);demandField.classList.toggle('invalid',!dOk);return qOk&&dOk}if(proposalStep===2){const dOk=marketDate.value>=tomorrow,rOk=marketRules.value.trim().length>=40,sOk=validUrl(marketSource.value);dateField.classList.toggle('invalid',!dOk);rulesField.classList.toggle('invalid',!rOk);sourceField.classList.toggle('invalid',!sOk);return dOk&&rOk&&sOk}if(proposalStep===3){reviewCheck.style.outline=proposalAck.checked?'':'2px solid var(--no)';return proposalAck.checked}return true}
+    function updateReview(){reviewQuestion.textContent=marketQuestion.value.trim();reviewCategory.textContent=proposalCategory;reviewClose.textContent=`${marketDate.value} · ${marketTimezone.value}`;reviewDetermination.textContent=marketDetermination.value?`${marketDetermination.value.replace('T',' ')} · ${marketTimezone.value}`:'Not specified';reviewSource.textContent=marketSource.value;const catShares=data.filter(m=>m.cat===proposalCategory&&m.source==='creator').map(m=>parseInt(m.share,10)).filter(n=>!isNaN(n)),shareLo=catShares.length?Math.min(...catShares):25,shareHi=catShares.length?Math.max(...catShares):40;reviewShare.textContent=shareLo===shareHi?`${shareLo}% of AuraGen trading fees if approved`:`${shareLo}–${shareHi}% of AuraGen trading fees if approved (typical range for ${proposalCategory} creators)`}
+    function resetProposal(){proposalStep=1;proposalComplete=false;proposalLayout.style.display='grid';proposalSuccess.classList.remove('show');proposalNext.textContent='Continue';proposalNext.style.display='inline-block';proposalBack.style.display='inline-block';draftState.style.display='inline';proposalAck.checked=false;reviewCheck.style.outline='';document.querySelector('.steps').style.opacity='1';document.querySelectorAll('.form-field').forEach(f=>f.classList.remove('invalid'));updateSteps();syncPreview()}
+    let proposalResetTimer;function setProposalExpanded(expanded){createLayer.classList.toggle('expanded',expanded);proposalExpand.setAttribute('aria-pressed',expanded);proposalExpand.setAttribute('aria-label',expanded?'Return proposal to windowed view':'Expand proposal to fullscreen');proposalExpand.title=expanded?'Collapse workspace':'Expand workspace'}
+    function openCreate(){clearTimeout(proposalResetTimer);rememberFocus(createLayer);closeDrawer();resetProposal();setProposalExpanded(false);createLayer.classList.add('open');setBodyLock();setTimeout(()=>marketQuestion.focus(),280)}
+    function closeCreate(){createLayer.classList.remove('open');setBodyLock();restoreFocus(createLayer);proposalResetTimer=setTimeout(()=>setProposalExpanded(false),460)}
+    proposalExpand.addEventListener('click',()=>setProposalExpanded(!createLayer.classList.contains('expanded')));document.querySelectorAll('[data-open-create]').forEach(b=>b.addEventListener('click',openCreate));document.querySelectorAll('[data-close-create]').forEach(b=>b.addEventListener('click',closeCreate));
+    proposalCategories.addEventListener('click',e=>{const b=e.target.closest('[data-proposal-cat]');if(b){proposalCategory=b.dataset.proposalCat;document.querySelectorAll('.category-choice').forEach(x=>x.classList.toggle('active',x===b));syncPreview()}});[marketQuestion,marketDemand,marketDate,marketTimezone,marketDetermination,marketRules,marketSource,fallbackSource,edgeCases].forEach(el=>el.addEventListener('input',syncPreview));
+    proposalNext.addEventListener('click',()=>{if(proposalComplete){closeCreate();return}if(!validateStep())return;if(proposalStep<3){proposalStep++;updateSteps();return}proposalComplete=true;proposalLayout.style.display='none';proposalSuccess.classList.add('show');document.querySelector('.steps').style.opacity='.45';proposalBack.style.display='none';draftState.style.display='none';proposalNext.textContent='Done';showToast('Proposal submitted for review')});proposalBack.addEventListener('click',()=>{if(proposalStep>1){proposalStep--;updateSteps(true)}});
+    function activeDialog(){if(orderLayer.classList.contains('open'))return orderLayer.querySelector('.order-modal');if(creatorLayer.classList.contains('open'))return creatorLayer.querySelector('.creator-modal');if(createLayer.classList.contains('open'))return createLayer.querySelector('.create-modal');if(drawer.classList.contains('open'))return drawer.querySelector('aside');return null}function trapDialogFocus(e){const dialog=activeDialog();if(!dialog||e.key!=='Tab')return;const items=[...dialog.querySelectorAll('button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[href],[tabindex]:not([tabindex="-1"])')].filter(el=>!el.inert&&el.offsetParent!==null);if(!items.length)return;const first=items[0],last=items[items.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}
+    document.addEventListener('click',e=>{if(!filterPanel.contains(e.target)&&!filterTrigger.contains(e.target)){filterPanel.classList.remove('open');filterTrigger.setAttribute('aria-expanded','false')}});document.addEventListener('keydown',e=>{trapDialogFocus(e);if(e.key==='/'&&document.body.dataset.view==='markets'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();search.focus()}if(e.key==='Escape'){if(orderLayer.classList.contains('open'))closeOrder();else if(creatorLayer.classList.contains('open'))closeCreators();else if(createLayer.classList.contains('open'))closeCreate();else if(drawer.classList.contains('open'))closeDrawer();else{filterPanel.classList.remove('open');filterTrigger.setAttribute('aria-expanded','false')}}});
+    sessionReminderToggle.checked=storedSessionReminder();fundingCapInput.value=fundingCap!==null?fundingCap:'';applyTradingPause();
+    renderCats();render();syncPreview();updateSteps();document.getElementById('openMarketCount').textContent=data.length;
+
+
+/* ================================================================
+   AURAGEN LMSR AMM LAYER v3  (demo)
+   Every market is a binary LMSR pool:
+     C(q) = b·ln(e^(qY/b) + e^(qN/b))      cost function
+     p_yes = e^(qY/b) / (e^(qY/b) + e^(qN/b))   (softmax)
+     buy n  → pay  C(q + n) − C(q)          sell n → receive C(q) − C(q − n)
+     worst-case pool loss = b·ln(1/p0) for the outcome that wins
+   Money is handled in whole cents: buyers pay the AMM cost rounded UP,
+   sellers receive proceeds rounded DOWN, so rounding never pushes the
+   pool past its loss bound. Contracts are whole numbers.
+   Fee = ceil-to-cent(7% × contracts × P × (1−P)), P = average fill
+   price of the trade. The fee sits outside the pool; the creator's
+   tier share is carved out of it and AuraGen keeps the rest.
+================================================================ */
+(function(){
+"use strict";
+
+const SANDBOX=false;
+const FEE_RATE=0.07;
+
+// Sandbox only: the wellbeing pause and funding cap are switched off so test trades are
+// never blocked. The demo keeps Eddie's pause and funding cap behaviour.
+if(SANDBOX){
+  try { tradingPaused = false; } catch(e) {}
+  try { window.applyTradingPause = function(){}; } catch(e) {}
+}
+
+// ── LMSR ENGINE ──────────────────────────────────────────────────
+// Both functions are overflow-safe: the cost function subtracts the
+// max before exponentiating, and the binary softmax is written as a
+// logistic so huge one-sided pools give 0/1 instead of NaN.
+function lCost(qY,qN,b){const a=qY/b,c=qN/b,m=Math.max(a,c);return b*(m+Math.log(Math.exp(a-m)+Math.exp(c-m)));}
+function lPrice(qY,qN,b){return 1/(1+Math.exp((qN-qY)/b));}
+function initQ(p,b){return{qY:b*Math.log(p/(1-p)),qN:0};}
+const pct=v=>Math.min(99,Math.max(1,Math.round(v*100)));
+const up=x=>Math.ceil(x*100-1e-7)/100;
+const down=x=>Math.floor(x*100+1e-7)/100;
+const cents=x=>Math.round(x*100)/100;
+const fmt=n=>'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtSigned=n=>(n>=0?'+':'−')+fmt(n);
+function feeFor(n,avgP){return Math.max(0.01,up(FEE_RATE*n*avgP*(1-avgP)));}
+
+// Pool depth comes from the liquidity shown on each card: the pool's
+// worst-case loss is b·ln(1/min(p,1−p)), so b is sized so that the
+// displayed liquidity is exactly that reserve.
+function liqN(s){const m=String(s||'').match(/([\d.]+)\s*([KM]?)/i);if(!m)return 0;return parseFloat(m[1])*(m[2].toUpperCase()==='M'?1e6:m[2].toUpperCase()==='K'?1e3:1);}
+function bFor(m){const p=Math.min(Math.max(m.p/100,0.01),0.99);const L=liqN(m.liq);return L>0?L/Math.log(1/Math.min(p,1-p)):150;}
+function newPool(p,b){
+  p=Math.min(Math.max(p,0.01),0.99);
+  const{qY,qN}=initQ(p,b);
+  return{b,qY,qN,q0Y:qY,q0N:qN,baseP:p,hist:[p],resolved:null,
+         cash:0,fees:0,creatorFees:0,vol:0,trades:0,settledPnl:null};
+}
+// Worst-case subsidy the pool can lose, fixed at creation.
+function maxSubsidy(pool){return pool.b*Math.log(1/Math.min(pool.baseP,1-pool.baseP));}
+// What the pool would lose right now if each side won.
+function exposure(pool){
+  const outY=pool.qY-pool.q0Y,outN=pool.qN-pool.q0N;
+  return{ifYes:outY-pool.cash,ifNo:outN-pool.cash};
+}
+
+function quoteBuy(pool,side,n){
+  const nY=side==='yes'?pool.qY+n:pool.qY,nN=side==='no'?pool.qN+n:pool.qN;
+  const raw=lCost(nY,nN,pool.b)-lCost(pool.qY,pool.qN,pool.b);
+  const cost=up(raw),avg=raw/n,fee=feeFor(n,avg);
+  const p0=lPrice(pool.qY,pool.qN,pool.b),p1=lPrice(nY,nN,pool.b);
+  return{n,cost,avg,fee,total:cents(cost+fee),nY,nN,
+         pBefore:side==='yes'?p0:1-p0,pAfter:side==='yes'?p1:1-p1};
+}
+function quoteSell(pool,side,n){
+  const nY=side==='yes'?pool.qY-n:pool.qY,nN=side==='no'?pool.qN-n:pool.qN;
+  const raw=Math.max(0,lCost(pool.qY,pool.qN,pool.b)-lCost(nY,nN,pool.b));
+  const gross=down(raw),avg=n>0?raw/n:0,fee=Math.min(gross,feeFor(n,avg));
+  return{n,gross,avg,fee,net:cents(gross-fee),nY,nN};
+}
+
+// ── STATE ─────────────────────────────────────────────────────────
+const SK=SANDBOX?'aug_lab_amm_v4':'aug_demo_amm_v4';
+const START_BAL=10000;
+function fresh(){
+  const pools={};
+  data.forEach(m=>{pools[m.id]=newPool(m.p/100,bFor(m));});
+  return{v:3,bal:START_BAL,pos:{},cms:[],pools};
+}
+let S;
+try{
+  S=JSON.parse(localStorage.getItem(SK)||'null');
+  if(!S||S.v!==3||!S.pools||typeof S.bal!=='number')S=fresh();
+  data.forEach(m=>{if(!S.pools[m.id])S.pools[m.id]=newPool(m.p/100,bFor(m));});
+}catch(e){S=fresh();}
+function saveS(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
+
+// Creator share of fees: proposals use the tier shown at submission,
+// listed creator markets use their card's share, house markets pay none.
+function creatorShare(mid){
+  const cm=S.cms.find(c=>String(c.id)===String(mid));
+  if(cm)return cm.shareNum;
+  const m=data.find(d=>String(d.id)===String(mid));
+  return m&&m.source==='creator'?(parseInt(m.share,10)||0):0;
+}
+function bookFee(pool,mid,fee){
+  const cut=down(fee*creatorShare(mid)/100);
+  pool.fees=cents(pool.fees+fee);
+  pool.creatorFees=cents(pool.creatorFees+cut);
+}
+function getPos(mid){
+  if(!S.pos[mid])S.pos[mid]={yes:0,no:0,basisYes:0,basisNo:0};
+  return S.pos[mid];
+}
+const basisKey=side=>side==='yes'?'basisYes':'basisNo';
+
+// ── TRADES ────────────────────────────────────────────────────────
+function executeBuy(mid,side,n){
+  const pool=S.pools[mid];if(!pool||pool.resolved)return null;
+  const q=quoteBuy(pool,side,n);
+  if(q.total>S.bal+1e-9)return null;
+  pool.qY=q.nY;pool.qN=q.nN;
+  pool.hist.push(lPrice(pool.qY,pool.qN,pool.b));
+  pool.cash=cents(pool.cash+q.cost);
+  pool.vol=cents(pool.vol+q.cost);pool.trades++;
+  bookFee(pool,mid,q.fee);
+  S.bal=cents(S.bal-q.total);
+  const pos=getPos(mid);
+  pos[side]+=n;
+  pos[basisKey(side)]=cents(pos[basisKey(side)]+q.total);
+  saveS();
+  return q;
+}
+function executeSell(mid,side,n){
+  const pool=S.pools[mid];if(!pool||pool.resolved)return null;
+  const pos=S.pos[mid];if(!pos)return null;
+  const held=pos[side]||0;
+  n=Math.min(Math.floor(n),held);
+  if(n<1)return null;
+  const q=quoteSell(pool,side,n);
+  // Cost basis released is this side's average cost × contracts sold.
+  const basisSold=cents(pos[basisKey(side)]*(n/held));
+  pool.qY=q.nY;pool.qN=q.nN;
+  pool.hist.push(lPrice(pool.qY,pool.qN,pool.b));
+  pool.cash=cents(pool.cash-q.gross);
+  pool.vol=cents(pool.vol+q.gross);pool.trades++;
+  bookFee(pool,mid,q.fee);
+  S.bal=cents(S.bal+q.net);
+  pos[side]=held-n;
+  pos[basisKey(side)]=cents(pos[basisKey(side)]-basisSold);
+  if(pos.yes<1&&pos.no<1)delete S.pos[mid];
+  saveS();
+  return Object.assign(q,{realized:cents(q.net-basisSold)});
+}
+function settlePool(mid,outcome){
+  const pool=S.pools[mid];if(!pool||pool.resolved)return null;
+  pool.resolved=outcome;
+  // Every outstanding winning contract pays $1 from the pool.
+  const owed=outcome==='yes'?pool.qY-pool.q0Y:pool.qN-pool.q0N;
+  pool.settledPnl=cents(pool.cash-owed);
+  const pos=S.pos[mid];
+  let payout=0,realized=0;
+  if(pos){
+    payout=outcome==='yes'?pos.yes:pos.no;
+    realized=cents(payout-pos.basisYes-pos.basisNo);
+    delete S.pos[mid];
+  }
+  S.bal=cents(S.bal+payout);
+  saveS();
+  return{payout,realized,poolPnl:pool.settledPnl};
+}
+function reopenPool(mid){
+  const old=S.pools[mid];
+  const m=data.find(d=>String(d.id)===String(mid));
+  const p=m?m.p/100:(old?old.baseP:0.5);
+  const b=m?bFor(m):(old?old.b:300);
+  S.pools[mid]=newPool(p,b);
+  delete S.pos[mid];
+  saveS();
+}
+
+// Expose the engine for testing and for Steve's review.
+window.AuraAMM={lCost,lPrice,quoteBuy,quoteSell,maxSubsidy,exposure,executeBuy,executeSell,settlePool,reopenPool,feeFor,state:()=>S};
+
+// ── NAV: BALANCE + PANELS ─────────────────────────────────────────
+const na=document.querySelector('.nav-actions');
+const chip=document.createElement('div');
+chip.style.cssText='display:flex;align-items:center;gap:8px;background:var(--blue-50);border:1px solid var(--blue-100);border-radius:7px;padding:5px 11px;font-size:12.5px;';
+chip.innerHTML='<span style="color:var(--muted);">'+(SANDBOX?'Balance':'Demo balance')+'</span><b id="sbBal" style="font-family:IBM Plex Mono,monospace;font-weight:700;"></b>';
+if(na)na.prepend(chip);
+function updateChip(){const el=document.getElementById('sbBal');if(el)el.textContent=fmt(S.bal);}
+updateChip();
+
+const panels=[];
+function makePanel(id,label,width,render){
+  const btn=document.createElement('button');
+  btn.className='quiet';btn.textContent=label;btn.style.marginRight='4px';
+  if(na)na.insertBefore(btn,na.firstChild);
+  const el=document.createElement('div');
+  el.id=id;
+  el.style.cssText='display:none;position:fixed;top:'+'64px'+';right:16px;width:min('+width+'px,calc(100% - 32px));max-height:74vh;overflow-y:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);z-index:9991;padding:20px;';
+  document.body.appendChild(el);
+  btn.onclick=()=>{const show=el.style.display==='none';panels.forEach(p=>p.el.style.display='none');el.style.display=show?'block':'none';if(show)render();};
+  el.addEventListener('click',e=>{if(e.target.closest('[data-panel-close]'))el.style.display='none';});
+  panels.push({el,render});
+  return el;
+}
+const panelHead=t=>`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><b style="font-size:15px;">${t}</b><button data-panel-close style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);">×</button></div>`;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// ── CARD PRICES ───────────────────────────────────────────────────
+// Every write is guarded so it only fires when the value changes: the
+// cards live under #markets, which a subtree MutationObserver watches,
+// and unguarded writes would re-trigger it forever.
+function patchCardPrice(card,pool,showRes){
+  const p=pct(lPrice(pool.qY,pool.qN,pool.b)),res=showRes?pool.resolved:null;
+  const yb=card.querySelector('.buy.yes'),nb=card.querySelector('.buy.no');
+  const yesTxt=res?'Resolved '+res.toUpperCase():'Yes '+p+'¢';
+  const noTxt=res?'Resolved '+res.toUpperCase():'No '+(100-p)+'¢';
+  if(yb){if(yb.textContent!==yesTxt)yb.textContent=yesTxt;if(res&&!yb.disabled)yb.disabled=true;}
+  if(nb){if(nb.textContent!==noTxt)nb.textContent=noTxt;if(res&&!nb.disabled)nb.disabled=true;}
+  if(!res&&SANDBOX){if(yb&&yb.disabled)yb.disabled=false;if(nb&&nb.disabled)nb.disabled=false;}
+  const pr=card.querySelector('.prob');
+  if(pr){
+    const sm=pr.querySelector('small');
+    const cur=pr.firstChild&&pr.firstChild.nodeType===3?pr.firstChild.textContent:null;
+    if(cur!==String(p)){pr.textContent=String(p);if(sm)pr.appendChild(sm);}
+  }
+  const bar=card.querySelector('.prob-track i');
+  if(bar&&bar.style.width!==p+'%')bar.style.width=p+'%';
+  return res;
+}
+function patchCards(){
+  document.querySelectorAll('.market[data-id]').forEach(card=>{
+    const id=+card.dataset.id;const pool=S.pools[id];if(!pool)return;
+    const res=patchCardPrice(card,pool,SANDBOX);
+    if(SANDBOX)patchSandboxCard(card,id,res);
+  });
+  document.querySelectorAll('.market[data-lab-id]').forEach(card=>{
+    const pool=S.pools[card.dataset.labId];if(pool)patchCardPrice(card,pool,SANDBOX);
+  });
+}
+const mkEl=document.getElementById('markets');
+if(mkEl)new MutationObserver(()=>requestAnimationFrame(patchCards)).observe(mkEl,{childList:true,subtree:true});
+
+// ── DRAWER ────────────────────────────────────────────────────────
+let curMid=null,curSide='yes';
+const ci=document.getElementById('contractInput');
+function contracts(){return Math.max(1,Math.floor(Number(ci&&ci.value)||1));}
+if(ci)ci.addEventListener('blur',()=>{ci.value=String(contracts());patchDrawerEstimate();});
+
+const _origOpen=window.openDrawer;
+window.openDrawer=function(m,side){
+  curMid=m.id;curSide=side||'yes';
+  const old=document.getElementById('sbCreatorNote');if(old)old.remove();
+  if(ci)ci.value='100';
+  _origOpen.call(this,m,side||'yes');
+  requestAnimationFrame(()=>patchDrawerContent(m));
+};
+const _origSide=window.selectDrawerSide;
+if(typeof _origSide==='function'){
+  window.selectDrawerSide=function(side){
+    curSide=side;
+    _origSide.call(this,side);
+    patchDrawerEstimate();
+  };
+}
+
+function patchDrawerContent(m){
+  if(!m)return;
+  const pool=S.pools[m.id];if(!pool)return;
+  const p=pct(lPrice(pool.qY,pool.qN,pool.b));
+  const res=pool.resolved;
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('drawerYes',`Yes · ${p}¢`);set('drawerNo',`No · ${100-p}¢`);
+  const probEl=document.getElementById('drawerProb');if(probEl)probEl.innerHTML=`${p}<small>%</small>`;
+  if(SANDBOX)patchStrip(res);
+  const reviewBtn=document.querySelector('.order');
+  if(reviewBtn)reviewBtn.disabled=!!res;
+  showPosInfo(m.id,pool);
+  showPoolInfo(m.id,pool);
+  patchDrawerEstimate();
+}
+
+// Drawer "Estimated cost" = AMM cost + fee, the same total the order
+// review shows and the balance is charged.
+function patchDrawerEstimate(){
+  if(curMid===null)return;
+  const pool=S.pools[curMid];if(!pool)return;
+  const n=contracts(),q=quoteBuy(pool,curSide,n);
+  const c=document.getElementById('cost');if(c)c.textContent=fmt(q.total)+' incl. fee';
+  const pay=document.getElementById('payout');if(pay)pay.textContent=fmt(n);
+}
+if(ci)ci.addEventListener('input',patchDrawerEstimate);
+
+function showPoolInfo(mid,pool){
+  let el=document.getElementById('ammPoolInfo');
+  if(!el){
+    el=document.createElement('div');el.id='ammPoolInfo';
+    el.style.cssText='margin:12px 0 0;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:12px;color:var(--muted);line-height:1.6;';
+    const tb=document.querySelector('.drawer .trade-box');if(tb)tb.after(el);
+  }
+  const row=(k,v)=>`<div style="display:flex;justify-content:space-between;"><span>${k}</span><b style="font-family:IBM Plex Mono,monospace;color:var(--ink);font-weight:600;">${v}</b></div>`;
+  const ex=exposure(pool);
+  let html=`<b style="display:block;color:var(--ink);font-size:12.5px;margin-bottom:4px;">Priced by AuraGen's LMSR market maker</b>`+
+    row('Liquidity parameter b',Math.round(pool.b).toLocaleString('en-US'))+
+    row('Max pool subsidy',fmt(maxSubsidy(pool)));
+  if(SANDBOX){
+    html+=row('Pool cash in',fmt(pool.cash))+
+      (pool.resolved?row('Pool P&amp;L at settlement',fmtSigned(pool.settledPnl)):
+        row('Pool result if Yes / No',fmtSigned(-ex.ifYes)+' / '+fmtSigned(-ex.ifNo)))+
+      row('Fees collected',fmt(pool.fees))+
+      row('Creator share ('+creatorShare(mid)+'%)',fmt(pool.creatorFees))+
+      row('AuraGen share',fmt(cents(pool.fees-pool.creatorFees)));
+  }else{
+    html+=`<div style="margin-top:4px;">Prices move as people trade. Large orders fill across a range of prices.</div>`;
+  }
+  el.innerHTML=html;
+}
+
+function showPosInfo(mid,pool){
+  const old=document.getElementById('sbPosInfo');if(old)old.remove();
+  const pos=S.pos[mid];if(!pos||(pos.yes<1&&pos.no<1))return;
+  const el=document.createElement('div');
+  el.id='sbPosInfo';
+  el.style.cssText='margin:0 0 12px;padding:12px;background:var(--blue-50);border:1px solid var(--blue-100);border-radius:10px;font-size:12.5px;';
+  el.innerHTML=`<b style="display:block;margin-bottom:2px;color:var(--ink);font-size:13.5px;">Your position · sell any time</b>
+    <div style="color:var(--muted);font-size:11.5px;">Sells back to the market maker at the live price, after the trading fee.</div>
+    ${positionRows(mid,pool,pos)}`;
+  const dh=document.querySelector('.drawer .drawer-head');if(dh)dh.after(el);
+}
+
+function positionRows(mid,pool,pos,withTitle){
+  const out=[];
+  ['yes','no'].forEach(side=>{
+    const sh=pos[side]||0;if(sh<1)return;
+    const q=quoteSell(pool,side,sh),basis=pos[basisKey(side)],pnl=cents(q.net-basis);
+    const sideCol=side==='yes'?'var(--yes)':'var(--no)',pnlCol=pnl>=0?'var(--yes)':'var(--no)';
+    const btn=(n,label,dark)=>`<button data-sell-mid="${esc(mid)}" data-sell-side="${side}" data-sell-n="${n}" style="flex:1;${dark?'background:var(--ink,#111);color:#fff;border:none;':'background:#fff;color:var(--ink);border:1px solid var(--line);'}border-radius:7px;padding:8px;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;">${label}</button>`;
+    out.push(`
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--blue-100);">
+        ${withTitle?`<div style="font-size:12.5px;font-weight:600;margin-bottom:4px;line-height:1.35;color:var(--ink);">${esc(withTitle)}</div>`:''}
+        <div style="display:flex;justify-content:space-between;align-items:baseline;">
+          <span style="font-weight:700;color:${sideCol};">${sh.toLocaleString('en-US')} ${side.toUpperCase()} · avg ${(basis/sh*100).toFixed(1)}¢</span>
+          <span style="font-family:IBM Plex Mono,monospace;">Sell now ${fmt(q.net)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;color:var(--muted);margin-top:2px;font-size:11.5px;">
+          <span>Paid ${fmt(basis)}</span>
+          <span style="color:${pnlCol};font-weight:600;">${fmtSigned(pnl)} ${pnl>=0?'profit':'loss'}</span>
+        </div>
+        ${pool.resolved?'':`<div style="display:flex;gap:6px;margin-top:8px;">${sh>=2?btn(Math.floor(sh/2),'Sell half',false):''}${btn(sh,'Sell all',true)}</div>`}
+      </div>`);
+  });
+  return out.join('');
+}
+
+// One delegated handler for every Sell button (drawer and positions panel).
+document.addEventListener('click',function(e){
+  const b=e.target.closest('[data-sell-mid]');if(!b)return;
+  e.stopPropagation();e.preventDefault();
+  const key=b.dataset.sellMid;
+  const r=executeSell(key,b.dataset.sellSide,+b.dataset.sellN);
+  if(!r){showToast('Nothing to sell');return;}
+  refreshAfterTrade(key);
+  showToast(`Sold ${r.n} ${b.dataset.sellSide.toUpperCase()} at avg ${(r.avg*100).toFixed(1)}¢ · ${fmt(r.net)} credited · ${fmtSigned(r.realized)}`);
+},true);
+
+// ── ORDER REVIEW ──────────────────────────────────────────────────
+const placeBtn=document.getElementById('placeOrder');
+const orderLayerEl=document.querySelector('.order-layer');
+function capValue(){if(SANDBOX)return null;try{return fundingCap;}catch(e){return null;}}
+function paused(){if(SANDBOX)return false;try{return !!tradingPaused;}catch(e){return false;}}
+function orderBlock(q){
+  const cap=capValue();
+  if(paused())return'Trading paused — resume in Settings';
+  if(cap!==null&&cap!==undefined&&q.total>cap)return'cap';
+  if(q.total>S.bal)return`Insufficient balance (${fmt(S.bal)} available)`;
+  return null;
+}
+if(orderLayerEl){
+  new MutationObserver(()=>{
+    if(orderLayerEl.classList.contains('open'))requestAnimationFrame(patchOrderDisplay);
+  }).observe(orderLayerEl,{attributes:true,attributeFilter:['class']});
+}
+function patchOrderDisplay(){
+  if(curMid===null)return;
+  const pool=S.pools[curMid];if(!pool)return;
+  const n=contracts(),q=quoteBuy(pool,curSide,n);
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('orderContracts',n.toLocaleString('en-US'));
+  set('orderPrice',(q.avg*100).toFixed(1)+'¢ avg');
+  set('orderFee',fmt(q.fee));
+  set('orderTotal',fmt(q.total));
+  set('orderPayout',fmt(n));
+  set('orderProfit',fmt(Math.max(0,cents(n-q.total))));
+  set('orderSide',pct(q.pBefore)===pct(q.pAfter)?`${curSide==='yes'?'Yes':'No'} at about ${pct(q.pBefore)}¢`:`${curSide==='yes'?'Yes':'No'} · fills from ${pct(q.pBefore)}¢ to ${pct(q.pAfter)}¢`);
+  let note=document.getElementById('sbImpact');
+  if(!note){
+    note=document.createElement('div');
+    note.id='sbImpact';note.style.cssText='font-size:11.5px;padding:4px 0;color:#8B6F1A;';
+    const rows=document.querySelectorAll('.order-line');
+    if(rows.length)rows[rows.length-1].after(note);
+  }
+  note.textContent=`Price impact +${((q.pAfter-q.pBefore)*100).toFixed(2)}¢ → ${curSide.toUpperCase()} moves to ${pct(q.pAfter)}¢ after this order`;
+  // Funding cap is checked against the real AMM total, not the old flat price.
+  const block=orderBlock(q),cap=capValue();
+  const warn=document.getElementById('orderCapWarning');
+  if(warn){
+    const capHit=block==='cap';
+    warn.classList.toggle('show',capHit);
+    warn.textContent=capHit?`This order's total cost of ${fmt(q.total)} exceeds your monthly funding cap of ${fmt(cap)}. Raise your cap in Settings → Trading wellbeing, or reduce the contract count.`:'';
+  }
+  if(placeBtn&&!pool.resolved){
+    placeBtn.disabled=!!block;
+    placeBtn.textContent=block&&block!=='cap'?block:`Place order · ${fmt(q.total)}`;
+  }
+}
+
+// Eddie's handler (registered first) swaps in the success screen; this
+// one books the trade and rewrites the receipt with the real fill.
+if(placeBtn){
+  placeBtn.addEventListener('click',function(){
+    if(curMid===null)return;
+    const pool=S.pools[curMid];if(!pool||pool.resolved)return;
+    if(placeBtn.disabled)return;
+    const n=contracts(),q0=quoteBuy(pool,curSide,n);
+    if(orderBlock(q0))return;
+    const q=executeBuy(curMid,curSide,n);
+    if(!q)return;
+    refreshAfterTrade(curMid);
+    const receipt=document.getElementById('orderReceiptId');
+    if(receipt)receipt.textContent=(SANDBOX?'AG-LAB-':'AG-DEMO-')+Date.now().toString().slice(-6);
+    const succ=document.getElementById('orderSuccess');
+    if(succ){
+      const h=succ.querySelector('h3'),pEl=succ.querySelector('p');
+      if(h)h.textContent='Order filled';
+      if(pEl)pEl.textContent=`Bought ${n.toLocaleString('en-US')} ${curSide.toUpperCase()} at an average ${(q.avg*100).toFixed(1)}¢ for ${fmt(q.total)} including a ${fmt(q.fee)} fee. ${curSide.toUpperCase()} now trades at ${pct(q.pAfter)}¢. ${SANDBOX?'Test funds only.':'Demo funds only — no real money moved.'}`;
+    }
+  });
+}
+
+function refreshAfterTrade(mid){
+  updateChip();patchCards();
+  panels.forEach(p=>{if(p.el.style.display!=='none')p.render();});
+  const dw=document.querySelector('.drawer-wrap');
+  if(dw&&dw.classList.contains('open')&&String(curMid)===String(mid)){
+    patchDrawerContent(data.find(d=>String(d.id)===String(mid))||{id:mid});
+    if(orderLayerEl&&orderLayerEl.classList.contains('open'))patchOrderDisplay();
+  }
+}
+
+function marketTitle(mid){
+  const m=data.find(d=>String(d.id)===String(mid));
+  if(m)return m.title;
+  const cm=S.cms.find(c=>String(c.id)===String(mid));
+  return cm?cm.title:'Market '+mid;
+}
+
+// ── POSITIONS PANEL ───────────────────────────────────────────────
+const posPanel=makePanel('sbPosPanel','My Positions',380,renderPositions);
+function renderPositions(){
+  let rows='',totVal=0,totBasis=0;
+  Object.keys(S.pos).forEach(mid=>{
+    const pos=S.pos[mid],pool=S.pools[mid];if(!pos||!pool)return;
+    ['yes','no'].forEach(side=>{
+      if((pos[side]||0)<1)return;
+      totVal+=quoteSell(pool,side,pos[side]).net;totBasis+=pos[basisKey(side)];
+    });
+    rows+=`<div style="margin-bottom:10px;padding:4px 12px 12px;background:var(--blue-50);border-radius:10px;font-size:12px;">${positionRows(mid,pool,pos,marketTitle(mid))}</div>`;
+  });
+  const pnl=cents(totVal-totBasis);
+  posPanel.innerHTML=panelHead('My Positions')+
+    (rows?`<div style="font-size:12px;color:var(--muted);margin-bottom:12px;">Sell value now <b style="font-family:IBM Plex Mono,monospace;color:var(--ink);">${fmt(totVal)}</b> · Paid <b style="font-family:IBM Plex Mono,monospace;">${fmt(totBasis)}</b> · <span style="color:${pnl>=0?'var(--yes)':'var(--no)'};font-weight:700;">${fmtSigned(pnl)}</span></div>`+rows
+      :'<p style="font-size:12.5px;color:var(--muted);text-align:center;padding:16px 0;">No open positions. Buy YES or NO on any market, then sell here any time before it resolves.</p>')+
+    (SANDBOX?'':'<div style="text-align:center;margin-top:10px;"><button id="demoReset" style="background:none;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;font:inherit;font-size:12px;">Reset demo prices and balance</button></div>');
+  const rb=document.getElementById('demoReset');
+  if(rb)rb.onclick=()=>{if(!confirm('Reset the demo? Prices, balance and positions go back to the start.'))return;resetAll();};
+}
+
+function resetAll(){
+  try{localStorage.removeItem(SK);}catch(e){}
+  S=fresh();saveS();
+  curMid=null;curSide='yes';lastQ='';
+  document.querySelectorAll('[data-lab-id]').forEach(c=>c.remove());
+  const dw=document.querySelector('.drawer-wrap');if(dw&&dw.classList.contains('open')&&typeof closeDrawer==='function')closeDrawer();
+  updateChip();patchCards();
+  panels.forEach(p=>{if(p.el.style.display!=='none')p.render();});
+  showToast(SANDBOX?'Sandbox reset — $10,000 fresh start':'Demo reset');
+}
+
+// ================================================================
+//  SANDBOX-ONLY TOOLS: banner, settle/reopen, creator markets, ledger
+// ================================================================
+let lastQ='';
+let patchSandboxCard=()=>{},patchStrip=()=>{};
+if(SANDBOX){
+  const banner=document.createElement('div');
+  banner.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9999;background:#F5A623;color:#2a1800;text-align:center;font:700 12px/34px "Instrument Sans",sans-serif;';
+  banner.style.whiteSpace='nowrap';banner.style.overflow='hidden';
+  banner.innerHTML='<style>@media(max-width:760px){.sb-wide{display:none}}</style>⚠ <strong>SANDBOX<span class="sb-wide"> — TEST FUNDS ONLY</span></strong><span class="sb-wide"> · No real money · Sample market data · LMSR AMM · Buy &amp; Sell</span> · <span id="sbReopenAll" style="cursor:pointer;text-decoration:underline;margin-left:8px;">Reopen all<span class="sb-wide"> resolved markets</span></span> · <span id="sbReset" style="cursor:pointer;text-decoration:underline;margin-left:6px;">Reset<span class="sb-wide"> simulation</span></span>';
+  document.body.prepend(banner);
+  document.body.style.paddingTop='34px';
+  // Eddie's header is sticky at top:0, so push it below the banner.
+  const hdr=document.querySelector('.top');if(hdr)hdr.style.top='34px';
+  panels.forEach(p=>p.el.style.top='76px');
+
+  function settle(id,outcome){
+    const pool=S.pools[id];if(!pool||pool.resolved)return;
+    if(!confirm('Settle this market as '+outcome.toUpperCase()+'? Trading stops until reopened.'))return;
+    const r=settlePool(id,outcome);
+    refreshAfterTrade(id);
+    showToast('Settled '+outcome.toUpperCase()+(r.payout>0?` · ${fmt(r.payout)} paid out (${fmtSigned(r.realized)})`:'')+` · pool ${fmtSigned(r.poolPnl)}`);
+  }
+  function reopen(id){
+    const pool=S.pools[id];if(!pool||!pool.resolved)return;
+    if(!confirm('Reopen this market? Only its pool resets — balance and other positions untouched.'))return;
+    reopenPool(id);
+    refreshAfterTrade(id);
+    showToast('Market reopened — you can trade again');
+  }
+
+  patchSandboxCard=function(card,id,res){
+    let ribbon=card.querySelector('.sb-resolved-ribbon');
+    if(res){
+      if(!ribbon){
+        ribbon=document.createElement('div');ribbon.className='sb-resolved-ribbon';
+        ribbon.style.cssText='position:absolute;top:10px;right:10px;background:#F5A623;color:#2a1800;font:800 10px "Instrument Sans",sans-serif;letter-spacing:.04em;padding:4px 10px;border-radius:20px;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.15);';
+        card.style.position='relative';card.appendChild(ribbon);ribbon.dataset.sbOutcome='';
+      }
+      if(ribbon.dataset.sbOutcome!==res){ribbon.textContent='SANDBOX RESOLVED '+res.toUpperCase();ribbon.dataset.sbOutcome=res;}
+      if(card.style.opacity!=='0.72')card.style.opacity='0.72';
+    }else{
+      if(ribbon)ribbon.remove();
+      if(card.style.opacity!=='')card.style.opacity='';
+    }
+    let mini=card.querySelector('.sb-mini');
+    const stateKey=res?('res:'+res):'open';
+    if(!mini){
+      mini=document.createElement('div');mini.className='sb-mini';
+      mini.style.cssText='display:flex;gap:5px;margin-top:8px;padding-top:8px;border-top:1px dashed #f5a62355;';
+      card.appendChild(mini);mini.dataset.sbState='';
+    }
+    if(mini.dataset.sbState!==stateKey){
+      const st='flex:1;border:none;border-radius:6px;padding:6px;font:700 10.5px \'Instrument Sans\',sans-serif;cursor:pointer;';
+      mini.innerHTML=res?
+        `<button data-mini-reopen="${id}" style="${st}background:#F5A623;color:#2a1800;">↺ Reopen (sandbox)</button>`:
+        `<button data-mini-settle="${id},yes" style="${st}background:var(--yes-soft);color:var(--yes);">Settle YES</button><button data-mini-settle="${id},no" style="${st}background:var(--no-soft);color:var(--no);">Settle NO</button>`;
+      mini.dataset.sbState=stateKey;
+    }
+  };
+
+  // Capture phase so Eddie's #markets delegation never sees these clicks.
+  document.addEventListener('click',function(e){
+    const r=e.target.closest('[data-mini-reopen]');
+    if(r){e.stopPropagation();e.preventDefault();const id=r.dataset.miniReopen;reopen(isNaN(+id)?id:+id);return;}
+    const s=e.target.closest('[data-mini-settle]');
+    if(s){e.stopPropagation();e.preventDefault();const[idRaw,outcome]=s.dataset.miniSettle.split(',');settle(isNaN(+idRaw)?idRaw:+idRaw,outcome);}
+  },true);
+
+  // If a .buy button is somehow still disabled when clicked, re-enable it.
+  document.addEventListener('pointerdown',function(e){
+    const btn=e.target.closest('.buy.yes,.buy.no');
+    if(!btn||!btn.disabled)return;
+    const card=btn.closest('.market[data-id]');if(!card)return;
+    const pool=S.pools[+card.dataset.id];
+    if(pool&&!pool.resolved)btn.disabled=false;
+  },true);
+
+  // Settle / reopen strip, shown while the drawer is open.
+  const sbStrip=document.createElement('div');
+  sbStrip.id='sbStrip';
+  sbStrip.style.cssText='position:fixed;right:10px;bottom:10px;width:min(450px,calc(100% - 20px));padding:14px 18px;background:#fef9ec;border:1px solid #f5a62388;border-radius:16px;z-index:82;display:none;box-shadow:0 4px 16px rgba(0,0,0,.08);';
+  sbStrip.innerHTML=`
+    <div style="font-size:10.5px;font-weight:700;color:#7a5500;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">🧪 Sandbox controls</div>
+    <div id="sbSettleRow" style="display:flex;gap:8px;">
+      <button id="sbSettleYes" style="flex:1;background:var(--yes-soft);color:var(--yes);border:1.5px solid var(--yes);border-radius:8px;padding:11px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit;">Settle YES</button>
+      <button id="sbSettleNo" style="flex:1;background:var(--no-soft);color:var(--no);border:1.5px solid var(--no);border-radius:8px;padding:11px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit;">Settle NO</button>
+    </div>
+    <div id="sbReopenRow" style="display:none;">
+      <p style="font-size:12px;color:#7a5500;margin-bottom:8px;margin-top:0;">Market resolved. Reopen to trade again — only this pool resets.</p>
+      <button id="sbReopenBtn" style="width:100%;background:#F5A623;color:#2a1800;border:none;border-radius:8px;padding:11px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit;">↺ Reopen this market</button>
+    </div>`;
+  document.body.appendChild(sbStrip);
+  document.getElementById('sbSettleYes').addEventListener('click',()=>{if(curMid!==null)settle(curMid,'yes');});
+  document.getElementById('sbSettleNo').addEventListener('click',()=>{if(curMid!==null)settle(curMid,'no');});
+  document.getElementById('sbReopenBtn').addEventListener('click',()=>{if(curMid!==null)reopen(curMid);});
+  patchStrip=function(res){
+    const sr=document.getElementById('sbSettleRow'),rr=document.getElementById('sbReopenRow');
+    if(sr)sr.style.display=res?'none':'flex';
+    if(rr)rr.style.display=res?'block':'none';
+  };
+  const drawerWrap=document.querySelector('.drawer-wrap');
+  if(drawerWrap){
+    new MutationObserver(()=>{sbStrip.style.display=drawerWrap.classList.contains('open')?'block':'none';})
+      .observe(drawerWrap,{attributes:true,attributeFilter:['class']});
+  }
+
+  document.getElementById('sbReopenAll').addEventListener('click',()=>{
+    const ids=Object.keys(S.pools).filter(k=>S.pools[k].resolved);
+    if(!ids.length){showToast('No resolved markets to reopen');return;}
+    if(!confirm('Reopen all '+ids.length+' resolved market(s)? Balance and open positions are untouched.'))return;
+    ids.forEach(id=>reopenPool(S.cms.find(c=>c.id===id)?id:(isNaN(+id)?id:+id)));
+    refreshAfterTrade(null);
+    showToast(ids.length+' market(s) reopened — balance untouched');
+  });
+  document.getElementById('sbReset').addEventListener('click',()=>{
+    if(!confirm('Reset sandbox? Clears balance, all positions, and creator markets.'))return;
+    resetAll();
+  });
+
+}
+
+// ── CREATOR MARKETS (proposals become live AMM pools) ────────────
+// Both modes. The demo labels them as demo-approved, since live
+// markets only open after AuraGen review.
+{
+  const earPanel=makePanel('sbEarPanel','Creator Earnings',310,renderEarnings);
+  earPanel.style.top=SANDBOX?'76px':'64px';
+  function renderEarnings(){
+    let tot=0;
+    const list=S.cms.map(c=>{
+      const pool=S.pools[c.id]||{creatorFees:0,trades:0,vol:0};tot+=pool.creatorFees;
+      return`<div style="margin-bottom:10px;padding:10px;background:var(--blue-50);border-radius:8px;"><div style="font-size:12.5px;font-weight:600;margin-bottom:4px;">${esc(c.title)}</div><div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--muted);">${esc(c.cat)} · ${c.shareNum}% share · ${pool.trades} trades</span><b style="font-family:IBM Plex Mono,monospace;color:var(--yes);">${fmt(pool.creatorFees)}</b></div></div>`;
+    }).join('');
+    earPanel.innerHTML=panelHead('Creator Earnings')+
+      (list||'<p style="font-size:12.5px;color:var(--muted);text-align:center;padding:10px 0;">No creator markets yet. Use Propose Market to start earning.</p>')+
+      `<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="color:var(--muted);">Total earned</span><b style="font-family:IBM Plex Mono,monospace;color:var(--yes);">${fmt(tot)}</b></div><div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Markets proposed</span><b style="font-family:IBM Plex Mono,monospace;">${S.cms.length}</b></div></div>`+
+      '<p style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5;">Fee per trade = 7% × contracts × P × (1−P) at the average fill price, rounded up to the cent. You earn your share% of it.</p>';
+  }
+
+  const createLayerEl=document.querySelector('.create-layer');
+  if(createLayerEl){
+    new MutationObserver(()=>{
+      const suc=document.querySelector('.proposal-success');
+      if(suc&&suc.classList.contains('show'))requestAnimationFrame(captureProposal);
+    }).observe(createLayerEl,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+  }
+  function captureProposal(){
+    const qEl=document.getElementById('marketQuestion');
+    const q=qEl&&qEl.value.trim();if(!q||q===lastQ)return;lastQ=q;
+    const catEl=document.querySelector('.category-choice.active span');
+    const cat=catEl?catEl.textContent:'Economy';
+    const shareEl=document.getElementById('reviewShare');
+    const shareNum=parseInt(((shareEl&&shareEl.textContent)||'30').match(/(\d+)/)?.[1]||'30',10);
+    const mid='cm'+Date.now();
+    S.pools[mid]=newPool(0.5,300);
+    S.cms.push({id:mid,title:q,cat,shareNum,share:`${shareNum}%`});
+    saveS();addCreatorCard(mid);
+  }
+  const iconMap={Crypto:'crypto',Economy:'economy',Business:'stocks',Technology:'technology',Culture:'culture',Science:'climate',Geopolitics:'policy'};
+  function addCreatorCard(mid){
+    const cm=S.cms.find(c=>c.id===mid);const mEl=document.getElementById('markets');if(!mEl||!cm)return;
+    const card=document.createElement('article');
+    card.className='market';card.dataset.labId=mid;
+    const p=pct(lPrice(S.pools[mid].qY,S.pools[mid].qN,S.pools[mid].b));
+    card.innerHTML=`
+      <div class="market-top"><button class="market-open" aria-label="Open market: ${esc(cm.title)}"><div class="market-icon">${svgIcon(iconMap[cm.cat]||'all')}</div><div><div class="market-cat">${esc(cm.cat)} · YOUR MARKET${SANDBOX?' 🌱':' · DEMO'}</div><div class="market-title">${esc(cm.title)}</div></div></button></div>
+      <div class="price-row"><div class="prob">${p}<small>%</small></div><div class="prob-chance"><span>Market-implied Yes</span><b>Toss-up</b></div></div>
+      <div class="prob-track" aria-hidden="true"><i style="width:${p}%"></i></div>
+      <div class="buttons"><button class="buy yes" data-side="yes">Yes ${p}¢</button><button class="buy no" data-side="no">No ${100-p}¢</button></div>
+      <div class="meta"><span>LMSR pool · b 300</span><span class="creator">You · ${cm.shareNum}% share</span></div>`;
+    card.querySelectorAll('.buy').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();openCreatorDrawer(mid,btn.dataset.side);}));
+    card.querySelector('.market-open').addEventListener('click',e=>{e.stopPropagation();openCreatorDrawer(mid,'yes');});
+    mEl.prepend(card);
+  }
+  function openCreatorDrawer(mid,side){
+    const cm=S.cms.find(c=>c.id===mid);const pool=S.pools[mid];if(!cm||!pool)return;
+    const p=pct(lPrice(pool.qY,pool.qN,pool.b));
+    // Give Eddie's code a market object so Review order works for creator markets.
+    const m={id:mid,cat:cm.cat,icon:iconMap[cm.cat]||'all',title:cm.title,p,vol:'Simulated',liq:fmt(maxSubsidy(pool)),date:'Open-ended',creator:'You',share:cm.share,source:'creator'};
+    curMid=mid;curSide=side||'yes';
+    try{drawerMarket=m;}catch(e){}
+    if(ci)ci.value='100';
+    const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+    const setH=(id,v)=>{const el=document.getElementById(id);if(el)el.innerHTML=v;};
+    setH('drawerIcon',svgIcon(m.icon));
+    set('drawerCat',`${cm.cat} · Your creator market`);
+    set('drawerTitle',cm.title);
+    set('volume','Simulated');set('liquidity',m.liq+' max subsidy');
+    set('closeDate','Open-ended');set('creator','You');
+    set('drawerRule',`Your proposed market. You earn ${cm.shareNum}% of every trading fee.`);
+    set('drawerSource',SANDBOX?'Simulated AMM sandbox':'Demo market');
+    set('drawerEdge','N/A');set('determineDate','To be set at launch');
+    const dw=document.querySelector('.drawer-wrap');
+    if(dw){dw.classList.add('open');try{setBodyLock();}catch(e){document.body.style.overflow='hidden';}}
+    if(typeof _origSide==='function')window.selectDrawerSide(curSide);
+    const old=document.getElementById('sbCreatorNote');if(old)old.remove();
+    const note=document.createElement('div');
+    note.id='sbCreatorNote';
+    note.style.cssText='margin:0 0 12px;padding:10px;background:var(--creator-soft,#f5e9df);border-radius:8px;font-size:12px;color:#7a3d0f;';
+    note.innerHTML=`<b>Your creator market</b> — you earn ${cm.shareNum}% of every fee. Trade to see earnings grow.${SANDBOX?'':' In the live product, a proposal opens for trading only after AuraGen approves it.'}`;
+    const dh=document.querySelector('.drawer .drawer-head');if(dh)dh.after(note);
+    patchDrawerContent({id:mid});
+  }
+  // Restore creator cards saved from an earlier visit.
+  S.cms.forEach(c=>{if(S.pools[c.id])addCreatorCard(c.id);});
+
+}
+
+// ── AMM LEDGER (sandbox only): pool cash, P&L and fee split ───────
+if(SANDBOX){
+  const ledPanel=makePanel('sbLedPanel','AMM Ledger',440,renderLedger);
+  ledPanel.style.top='76px';
+  function renderLedger(){
+    let rows='',t={fees:0,cre:0,cash:0,pnl:0,worst:0,sub:0,vol:0};
+    Object.keys(S.pools).forEach(mid=>{
+      const pool=S.pools[mid];if(!pool.trades&&!pool.resolved)return;
+      const ex=exposure(pool),worst=Math.max(ex.ifYes,ex.ifNo);
+      t.fees+=pool.fees;t.cre+=pool.creatorFees;t.cash+=pool.cash;t.vol+=pool.vol;t.sub+=maxSubsidy(pool);
+      if(pool.resolved)t.pnl+=pool.settledPnl;else t.worst+=Math.max(0,worst);
+      rows+=`<tr><td style="padding:6px 6px 6px 0;max-width:150px;">${esc(marketTitle(mid))}${pool.resolved?` <b style="color:#8B6F1A;">· ${pool.resolved.toUpperCase()}</b>`:''}</td><td style="text-align:right;">${pool.trades}</td><td style="text-align:right;">${fmt(pool.fees)}</td><td style="text-align:right;">${fmt(pool.creatorFees)}</td><td style="text-align:right;color:${pool.resolved?(pool.settledPnl>=0?'var(--yes)':'var(--no)'):'var(--muted)'};">${pool.resolved?fmtSigned(pool.settledPnl):(worst>0?'−'+fmt(worst)+' max':'$0.00')}</td></tr>`;
+    });
+    const line=(k,v)=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:var(--muted);">${k}</span><b style="font-family:IBM Plex Mono,monospace;">${v}</b></div>`;
+    ledPanel.innerHTML=panelHead('AMM Ledger')+
+      `<div style="font-size:12.5px;margin-bottom:12px;">`+
+      line('Trading volume (ex-fee)',fmt(t.vol))+
+      line('Fees collected',fmt(t.fees))+
+      line('→ Creators',fmt(t.cre))+
+      line('→ AuraGen',fmt(cents(t.fees-t.cre)))+
+      line('Pool P&amp;L on settled markets',fmtSigned(cents(t.pnl)))+
+      line('Worst-case loss on open markets',fmt(t.worst))+
+      `</div>`+
+      (rows?`<table style="width:100%;border-collapse:collapse;font-size:11.5px;font-family:inherit;"><thead><tr style="color:var(--muted);text-align:right;"><th style="text-align:left;font-weight:600;">Market</th><th style="font-weight:600;">Trades</th><th style="font-weight:600;">Fees</th><th style="font-weight:600;">Creator</th><th style="font-weight:600;">Pool P&amp;L</th></tr></thead><tbody>${rows}</tbody></table>`
+        :'<p style="font-size:12.5px;color:var(--muted);text-align:center;padding:10px 0;">No trades yet.</p>')+
+      '<p style="font-size:11px;color:var(--muted);margin-top:12px;line-height:1.5;">Pool P&amp;L = cash the pool took in minus $1 per winning contract outstanding. LMSR caps the pool\'s loss at b·ln(1/p₀) per market; fees are tracked separately and are not used to cover it.</p>';
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+// patchCards runs only when something changes: on load, when Eddie's
+// #markets list re-renders, and after our own trades. No timers.
+requestAnimationFrame(patchCards);
+setTimeout(patchCards,300);
+
+})();
+
+  </script>
+<div id="protoBadge" style="position:fixed;left:12px;bottom:12px;z-index:9998;background:#17191d;color:#fff;font:600 11px/1 Inter,system-ui,sans-serif;letter-spacing:.02em;padding:7px 10px;border-radius:999px;opacity:.88;pointer-events:none">Prototype · sample data</div></body>
+</html>
