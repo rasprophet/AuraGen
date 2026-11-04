@@ -58,8 +58,8 @@ await pg.click('[data-cat="All"]');
 await pg.click('[data-sort="newest"]');await pg.waitForTimeout(150);
 c=await cards();check('Newest sort puts GTA VI (created 24) first',c[0]==='3',c.slice(0,3).join());
 await pg.click('[data-sort="trending"]');await pg.waitForTimeout(150);
-c=await cards();check('Trending sort puts Fed (trend 97) first',c[0]==='1',c.slice(0,3).join());
-check('crypto market in Trending top 3 (Bitcoin $80K second)',c[1]==='2',c.slice(0,3).join());
+c=await cards();check('Trending top row: Bitcoin $80K, Anthropic, GTA VI',c.slice(0,3).join()==='2,4,3',c.slice(0,3).join());
+check('Fed (80%) not in top row',c.indexOf('1')>=3,c.slice(0,4).join());
 
 // ---------- 5. filters ----------
 await pg.click('#filterTrigger');await pg.waitForTimeout(250);
