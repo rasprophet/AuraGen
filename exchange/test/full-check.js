@@ -22,8 +22,8 @@ const closeAll=async()=>{for(let i=0;i<4;i++){await pg.keyboard.press('Escape');
 const vis=sel=>ev(s=>{const e=document.querySelector(s);if(!e)return false;const r=e.getBoundingClientRect();const cs=getComputedStyle(e);return r.width>0&&r.height>0&&cs.visibility!=='hidden'&&cs.opacity!=='0'},sel);
 
 // ---------- 1. initial load ----------
-check('17 market cards render',(await cards()).length===17);
-check('open-market count shows 17',(await ev(()=>openMarketCount.textContent))==='17');
+check('18 market cards render',(await cards()).length===18);
+check('open-market count shows 18',(await ev(()=>openMarketCount.textContent))==='18');
 check('balance chip starts at $10,000',(await bal())===10000);
 check('sandbox banner '+(SB?'present':'absent'),(await ev(()=>!!document.getElementById('sbReset')))===SB);
 const navBtns=await ev(()=>[...document.querySelectorAll('.nav-actions button')].map(b=>b.textContent.trim()).filter(Boolean));
@@ -38,9 +38,9 @@ c=await cards();check('search by creator (MacroDesk → 2)',c.length===2,c.join(
 await pg.fill('#search','zzzzqq');await pg.waitForTimeout(150);
 check('no-result empty state',await ev(()=>!!document.querySelector('.empty')));
 await pg.click('[data-empty-clear]');await pg.waitForTimeout(150);
-check('empty-state Clear search restores list',(await cards()).length===17);
+check('empty-state Clear search restores list',(await cards()).length===18);
 await pg.fill('#search','gold');await pg.click('#searchClear');await pg.waitForTimeout(150);
-check('× clear button clears search',(await ev(()=>search.value))===''&&(await cards()).length===17);
+check('× clear button clears search',(await ev(()=>search.value))===''&&(await cards()).length===18);
 await pg.click('body',{position:{x:5,y:600}});await pg.keyboard.press('/');
 check('"/" focuses search',await ev(()=>document.activeElement.id==='search'));
 await pg.keyboard.press('Escape');await ev(()=>document.activeElement.blur());
@@ -56,9 +56,10 @@ await pg.click('[data-cat="All"]');
 
 // ---------- 4. sort ----------
 await pg.click('[data-sort="newest"]');await pg.waitForTimeout(150);
-c=await cards();check('Newest sort puts Brent (created 22) first',c[0]==='17',c.slice(0,3).join());
+c=await cards();check('Newest sort puts Bitcoin $80K (created 23) first',c[0]==='2',c.slice(0,3).join());
 await pg.click('[data-sort="trending"]');await pg.waitForTimeout(150);
 c=await cards();check('Trending sort puts Fed (trend 97) first',c[0]==='1',c.slice(0,3).join());
+check('crypto market in Trending top 3 (Bitcoin $80K second)',c[1]==='2',c.slice(0,3).join());
 
 // ---------- 5. filters ----------
 await pg.click('#filterTrigger');await pg.waitForTimeout(250);
@@ -71,7 +72,7 @@ await pg.click('.filter-option[data-filter="year"][data-value="2027"]');await pg
 const d27=await ev(()=>[...document.querySelectorAll('#markets .market')].map(c=>c.querySelector('.market-cat').textContent));
 check(`2027 filter → ${d27.length} markets`,d27.length===6,d27.join(' | '));
 await pg.click('#resetFilters');await pg.waitForTimeout(150);
-check('Reset filters restores 17',(await cards()).length===17);
+check('Reset filters restores 18',(await cards()).length===18);
 await pg.click('body',{position:{x:5,y:600}});await pg.waitForTimeout(250);
 check('click outside closes filter panel',!(await ev(()=>filterPanel.classList.contains('open'))));
 
@@ -247,7 +248,7 @@ await pg.click('[data-save-preferences]');await pg.waitForTimeout(200);
 check('preferences: dark theme applied',await ev(()=>document.body.dataset.theme==='dark'));
 check('preferences: compact + hide tape applied',await ev(()=>document.body.classList.contains('compact-markets')&&document.body.classList.contains('hide-tape')));
 await pg.click('[data-page="markets"]');await pg.waitForTimeout(400);
-c=await cards();check('preferences: default sort newest applied',c[0]==='17'||c[0].startsWith('cm'),c[0]);
+c=await cards();check('preferences: default sort newest applied',c[0]==='2'||c[0].startsWith('cm'),c[0]);
 await pg.screenshot({path:shot+'-dark.png'});
 const darkContrast=await ev(()=>{const s=getComputedStyle(document.body);return [s.backgroundColor,s.color]});
 check('dark mode body colors set '+darkContrast.join(' / '),darkContrast[0]!==darkContrast[1]);
