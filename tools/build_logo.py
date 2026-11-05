@@ -114,6 +114,29 @@ _tl, _tr = opening(A, a_bar[1] + _e, ax0, ax1)      # in the counter, above the 
 _bl, _br = opening(A, a_bar[0] - _e, ax0, ax1)      # in the opening, below the bar
 abar_pts = [T(_tl, a_bar[1] + _e), T(_tr, a_bar[1] + _e), T(_br, a_bar[0] - _e), T(_bl, a_bar[0] - _e)]
 abar_poly = ' '.join('%.1f,%.1f' % xy for xy in abar_pts)
+
+# Optional: thicken the A crossbar by AG_A_BAR_THICKEN px on each side,
+# filling between the slanted inner leg edges so it merges with the legs.
+thick_px = float(os.environ.get('AG_A_BAR_THICKEN', 0))
+a_thick = ''
+a_top_svg, a_bot_svg = a_bar_y
+if thick_px > 0:
+    t = thick_px / s; pad = 1.0 / s
+    tl, tr = opening(A, a_bar[1] + t, ax0, ax1)
+    bl, br = opening(A, a_bar[0] - t, ax0, ax1)
+    pts = [T(tl - pad, a_bar[1] + t), T(tr + pad, a_bar[1] + t), T(br + pad, a_bar[0] - t), T(bl - pad, a_bar[0] - t)]
+    a_thick = '<polygon class="aura" points="%s"/>' % ' '.join('%.1f,%.1f' % xy for xy in pts)
+    a_top_svg, a_bot_svg = T(0, a_bar[1] + t)[1], T(0, a_bar[0] - t)[1]
+
+# Optional: tilt the halo (back higher, front lower, as if seen slightly from
+# above) just enough that both bars sit inside the ring's opening.
+if os.environ.get('AG_TILT', '0') == '1':
+    top = min(a_top_svg, g_bar_y[0]); bot = max(a_bot_svg, g_bar_y[1])
+    cy = (top + bot) / 2
+    need = (bot - top) / 2 + sw / 2 + float(os.environ.get('AG_TILT_GAP', 3))
+    xs_check = [a_l, a_r, gb0, (gb0 + x_right) / 2]
+    fs = [max(0.2, (1 - ((x - cx) / rx) ** 2) ** 0.5) for x in xs_check]
+    ry = min(40, max(need / f for f in fs))
 gbar_clip = (gb0 - 1, g_bar_y[0] - 1, x_right - gb0 + 2, g_bar_y[1] - g_bar_y[0] + 2)
 
 def svg(aura_css, tile=False):
@@ -206,6 +229,7 @@ def svg(aura_css, tile=False):
   <!-- G first so the A sits on top where they join -->
   <path fill="url(#gen-green)" d="{dG}"/>
   <path class="aura" d="{dA}"/>
+  {a_thick}
 
   <!-- Halo: front half (slightly lightened over the midlines) -->
   <g mask="url(#midline-lighten)">
@@ -225,4 +249,4 @@ light = '    .aura { fill: #0E1A36; }'
 dark = '    .aura { fill: #F4F6FA; }'
 for suffix, css, tile in [('', auto, False), ('-light', light, False), ('-dark', dark, False), ('-tile', dark, True)]:
     open(os.path.join(outdir, f'{prefix}{suffix}.svg'), 'w').write(svg(css, tile))
-print(f'a_bar={a_bar_y} g_bar={g_bar_y} mid={mid:.1f} cy={cy:.1f} sw={sw:.1f} scale={s:.4f}')
+print(f'ry={ry:.1f} a_bar={a_bar_y} g_bar={g_bar_y} mid={mid:.1f} cy={cy:.1f} sw={sw:.1f} scale={s:.4f}')
