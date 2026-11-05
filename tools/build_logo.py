@@ -104,6 +104,9 @@ band_top = min(a_bar_y[0], g_bar_y[0], mid - sw / 2) - 3
 band_bot = max(a_bar_y[1], g_bar_y[1], mid + sw / 2) + 3
 mA = (a_l, band_top, a_r - a_l, band_bot - band_top)
 mG = (gb0, band_top, x_right - gb0, band_bot - band_top)
+RING_IN_FRONT = os.environ.get('AG_RING_IN_FRONT', '0') == '1'
+# AG_SOLID_GOLD=1: one even gold instead of the darker-edged gradient
+RING_STROKE = '#F5BE1E' if os.environ.get('AG_SOLID_GOLD', '0') == '1' else 'url(#gold)'
 MIDLINE_SEE_THROUGH = float(os.environ.get('AG_SEE_THROUGH', 0.45))
 # Redraw the G's bar over the halo so the G never reads as a C
 G_BAR_ON_TOP = os.environ.get('AG_G_BAR_ON_TOP', '0') == '1'
@@ -145,6 +148,34 @@ def svg(aura_css, tile=False):
     bg = '<rect width="420" height="420" rx="72" fill="#0E1A22"/>\n  ' if tile else ''
     shift = ' transform="translate(0 60)"' if tile else ''
     r = lambda t: 'x="%.1f" y="%.1f" width="%.1f" height="%.1f"' % t
+    letters = f'''  <!-- G first so the A sits on top where they join -->
+  <path fill="url(#gen-green)" d="{dG}"/>
+  <path class="aura" d="{dA}"/>
+  {a_thick}'''
+    ring = '''    <use href="#ring" class="base"/>
+    <use href="#ring" class="glint"/>'''
+    if RING_IN_FRONT:
+        body = f'''{letters}
+
+  <!-- Halo: one solid gold ring, in front of the letters all the way round.
+       Its glow radiates outward but is kept off the inside so the crossbars stay clean. -->
+  <g mask="url(#no-inner-glow)"><g filter="url(#glow)">
+{ring}
+  </g></g>'''
+    else:
+        body = f'''  <!-- Halo: back half -->
+  <g filter="url(#glow)"><g clip-path="url(#back-half)">
+{ring}
+  </g></g>
+
+{letters}
+
+  <!-- Halo: front half (slightly lightened over the midlines) -->
+  <g mask="url(#midline-lighten)">
+    <g filter="url(#glow)"><g clip-path="url(#front-half)">
+{ring}
+    </g></g>
+  </g>'''
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}" width="{W}" height="{H}" role="img" aria-labelledby="t">
   <title id="t">AuraGen</title>
   <defs>
@@ -203,6 +234,10 @@ def svg(aura_css, tile=False):
       </g>
     </mask>
 
+    <mask id="no-inner-glow" maskUnits="userSpaceOnUse" x="-60" y="-60" width="540" height="420">
+      <rect x="-60" y="-60" width="540" height="420" fill="#fff"/>
+      <ellipse cx="{cx:.1f}" cy="{cy:.1f}" rx="{rx - sw / 2 - 0.5:.1f}" ry="{max(1, ry - sw / 2 - 0.5):.1f}" fill="#000"/>
+    </mask>
     <clipPath id="g-bar"><rect {r(gbar_clip)}/></clipPath>
     <clipPath id="a-bar"><polygon points="{abar_poly}"/></clipPath>
 
@@ -212,7 +247,7 @@ def svg(aura_css, tile=False):
 
   <style>
 {aura_css}
-    .base  {{ fill: none; stroke: url(#gold); stroke-width: {sw:.0f}; }}
+    .base  {{ fill: none; stroke: {RING_STROKE}; stroke-width: {sw:.0f}; }}
     .glint {{ fill: none; stroke: #FFD84A; stroke-width: {sw:.0f}; stroke-linecap: round;
              stroke-dasharray: 16 34; animation: spin 3s linear infinite; }}
     @keyframes spin {{ to {{ stroke-dashoffset: -100; }} }}
@@ -220,24 +255,7 @@ def svg(aura_css, tile=False):
   </style>
 
   {bg}<g{shift}>
-  <!-- Halo: back half -->
-  <g filter="url(#glow)"><g clip-path="url(#back-half)">
-    <use href="#ring" class="base"/>
-    <use href="#ring" class="glint"/>
-  </g></g>
-
-  <!-- G first so the A sits on top where they join -->
-  <path fill="url(#gen-green)" d="{dG}"/>
-  <path class="aura" d="{dA}"/>
-  {a_thick}
-
-  <!-- Halo: front half (slightly lightened over the midlines) -->
-  <g mask="url(#midline-lighten)">
-    <g filter="url(#glow)"><g clip-path="url(#front-half)">
-      <use href="#ring" class="base"/>
-      <use href="#ring" class="glint"/>
-    </g></g>
-  </g>
+{body}
   {'<!-- A crossbar sits on top of the halo -->' + chr(10) + '  <path class="aura" clip-path="url(#a-bar)" d="' + dA + '"/>' if A_BAR_ON_TOP else ''}
   {'<!-- G bar sits on top of the halo so the G stays legible -->' + chr(10) + '  <path fill="url(#gen-green)" clip-path="url(#g-bar)" d="' + dG + '"/>' if G_BAR_ON_TOP else ''}
   </g>
