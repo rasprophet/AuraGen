@@ -143,6 +143,7 @@ if TILTED:
     xs_check = [a_l, a_r, gb0, (gb0 + x_right) / 2]
     fs = [max(0.2, (1 - ((x - cx) / rx) ** 2) ** 0.5) for x in xs_check]
     ry = min(40, max(need / f for f in fs))
+    ry *= float(os.environ.get('AG_TILT_SCALE', 1))   # e.g. 1.25 = 25% more tilt
 gbar_clip = (gb0 - 1, g_bar_y[0] - 1, x_right - gb0 + 2, g_bar_y[1] - g_bar_y[0] + 2)
 
 def svg(aura_css, tile=False):
