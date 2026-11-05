@@ -104,6 +104,8 @@ band_top = min(a_bar_y[0], g_bar_y[0], mid - sw / 2) - 3
 band_bot = max(a_bar_y[1], g_bar_y[1], mid + sw / 2) + 3
 mA = (a_l, band_top, a_r - a_l, band_bot - band_top)
 mG = (gb0, band_top, x_right - gb0, band_bot - band_top)
+# AG_SOFT_SHEEN=1: the spinning highlight is a soft, blurred sheen instead of hard-edged segments
+SHEEN_CSS = ' filter: url(#sheen); opacity: .75;' if os.environ.get('AG_SOFT_SHEEN', '0') == '1' else ''
 RING_IN_FRONT = os.environ.get('AG_RING_IN_FRONT', '0') == '1'
 # AG_SOLID_GOLD=1: one even gold instead of the darker-edged gradient
 RING_STROKE = '#F5BE1E' if os.environ.get('AG_SOLID_GOLD', '0') == '1' else 'url(#gold)'
@@ -133,7 +135,8 @@ if thick_px > 0:
 
 # Optional: tilt the halo (back higher, front lower, as if seen slightly from
 # above) just enough that both bars sit inside the ring's opening.
-if os.environ.get('AG_TILT', '0') == '1':
+TILTED = os.environ.get('AG_TILT', '0') == '1'
+if TILTED:
     top = min(a_top_svg, g_bar_y[0]); bot = max(a_bot_svg, g_bar_y[1])
     cy = (top + bot) / 2
     need = (bot - top) / 2 + sw / 2 + float(os.environ.get('AG_TILT_GAP', 3))
@@ -163,7 +166,21 @@ def svg(aura_css, tile=False):
 {ring}
   </g></g>'''
     else:
-        body = f'''  <!-- Halo: back half -->
+        if TILTED:
+            body = f'''  <!-- Halo light: the whole ring glows from behind the letters -->
+  <g filter="url(#glow)">
+{ring}
+  </g>
+
+{letters}
+
+  <!-- Halo: front half crosses in front of the letters, with a tight glow only
+       (kept off the inside of the ring so the crossbars stay clean) -->
+  <g mask="url(#no-inner-glow)"><g filter="url(#glow-front)"><g clip-path="url(#front-half)">
+{ring}
+  </g></g></g>'''
+        else:
+            body = f'''  <!-- Halo: back half (passes behind the letters) -->
   <g filter="url(#glow)"><g clip-path="url(#back-half)">
 {ring}
   </g></g>
@@ -217,6 +234,24 @@ def svg(aura_css, tile=False):
       </feMerge>
     </filter>
 
+    <filter id="glow-front" filterUnits="userSpaceOnUse" x="-60" y="-60" width="540" height="420">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="f1"/>
+      <feFlood flood-color="#FFE27A"/>
+      <feComposite in2="f1" operator="in" result="fcore"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="f2"/>
+      <feFlood flood-color="#FFC21A" flood-opacity="0.8"/>
+      <feComposite in2="f2" operator="in" result="fbloom"/>
+      <feMerge>
+        <feMergeNode in="fbloom"/>
+        <feMergeNode in="fcore"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="sheen" x="-10%" y="-100%" width="120%" height="300%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+
     <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="1.2"/>
     </filter>
@@ -248,7 +283,7 @@ def svg(aura_css, tile=False):
   <style>
 {aura_css}
     .base  {{ fill: none; stroke: {RING_STROKE}; stroke-width: {sw:.0f}; }}
-    .glint {{ fill: none; stroke: #FFD84A; stroke-width: {sw:.0f}; stroke-linecap: round;
+    .glint {{ fill: none; stroke: #FFD84A;{SHEEN_CSS} stroke-width: {sw:.0f}; stroke-linecap: round;
              stroke-dasharray: 16 34; animation: spin 3s linear infinite; }}
     @keyframes spin {{ to {{ stroke-dashoffset: -100; }} }}
     @media (prefers-reduced-motion: reduce) {{ .glint {{ animation: none; }} }}
